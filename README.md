@@ -13,7 +13,6 @@ Welcome to my **Chess Monorepo**! This project is an online chess game where you
   - [Running the Application](#running-the-application)
     - [Server](#server-1)
     - [Client](#client-1)
-  - [Contributing](#contributing)
   - [License](#license)
 
 ## Project Overview
@@ -36,9 +35,11 @@ This is a web-based chess game that allows two players to compete by sharing a g
 
 Here’s how I’ve organized the project:
 
-/server - Backend server code (Gleam + Wisp)
-/client - Frontend client code (Gleam + Lustre + Vite)
-/shared - Shared modules between client and server (if any)
+```
+server/ - Backend server code (Gleam + Wisp)
+client/ - Frontend client code (Gleam + Lustre + Vite)
+shared/ - Shared modules between client and server
+```
 
 
 ## Running the Application
@@ -50,16 +51,6 @@ The server handles all the chess game logic, including game creation and state m
 ### Client
 
 The client renders the chessboard and allows users to interact with the game. It’s built using Gleam with Lustre for the frontend and Vite for bundling.
-
-## Contributing
-
-I’m always open to contributions! Whether it’s fixing bugs, adding features, or offering suggestions, feel free to jump in.
-
-Here’s how you can contribute:
-
-1. **Fork** the repository.
-2. Create a new branch for your feature: `git checkout -b feature/your-feature`.
-3. Push your changes and open a **pull request**. 🚀
 
 ## License
 
