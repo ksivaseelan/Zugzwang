@@ -48,9 +48,17 @@ shared/ - Shared modules between client and server
 
 The server handles all the chess game logic, including game creation and state management. It’s built using Gleam, with Wisp handling the framework and Mist serving as the HTTP webserver.
 
+```
+gleam run
+```
+
 ### Client
 
 The client renders the chessboard and allows users to interact with the game. It’s built using Gleam with Lustre for the frontend and Vite for bundling.
+
+```
+npm run dev
+```
 
 ## License
 
