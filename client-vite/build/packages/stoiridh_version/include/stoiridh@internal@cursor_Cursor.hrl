@@ -1,0 +1,1 @@
+-record(cursor, {version_part :: stoiridh@internal@types:version_part()}).

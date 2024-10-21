@@ -1,0 +1,12 @@
+{application, stoiridh_version, [
+    {vsn, "0.2.0"},
+    {applications, [gleam_stdlib,
+                    gleeunit]},
+    {description, "Semantic Versioning 2.0.0"},
+    {modules, [stoiridh@internal@cursor,
+               stoiridh@internal@int,
+               stoiridh@internal@types,
+               stoiridh@version,
+               stoiridh@version@constraint]},
+    {registered, []}
+]}.

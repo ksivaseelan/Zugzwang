@@ -1,0 +1,11 @@
+{application, decipher, [
+    {vsn, "1.2.1"},
+    {applications, [birl,
+                    gleam_json,
+                    gleam_stdlib,
+                    gleeunit,
+                    stoiridh_version]},
+    {description, "A collection of handy gleam/dynamic decoders."},
+    {modules, [decipher]},
+    {registered, []}
+]}.
