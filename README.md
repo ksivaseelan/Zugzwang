@@ -23,8 +23,8 @@ This is a web-based chess game that allows two players to compete by sharing a g
 
 ### Server
 - **Language:** [Gleam](https://gleam.run)
-- **Framework:** [Wisp](https://github.com/gleam-wisp/wisp)
-- **HTTP Webserver:** [Mist](https://github.com/rawhat/mist)
+- **Web Framework:** [Wisp](https://github.com/gleam-wisp/wisp)
+- **HTTP Server:** [Mist](https://github.com/rawhat/mist)
 
 ### Client
 - **Language:** [Gleam](https://gleam.run)
