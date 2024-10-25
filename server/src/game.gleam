@@ -74,6 +74,3 @@ pub fn make_move(pid: Pid, from_square: Int, to_square: Int) {
   move
 }
 
-pub fn main() {
- 
-}

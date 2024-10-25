@@ -1,0 +1,12 @@
+### Home page
+GET http://localhost:6969 HTTP/1.1
+
+###Create game
+POST http://localhost:6969/create/black HTTP/1.1
+
+
+
+
+### Join game
+POST http://localhost:6969/join/278C1F4833DB4700978F7D8CA87010F9 HTTP/1.1
+

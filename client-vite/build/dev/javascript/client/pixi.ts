@@ -1,4 +1,4 @@
-import { Application, Assets, Sprite, Texture } from "pixi.js";
+import { Application, Assets, Sprite, Container, Point } from "pixi.js";
 
 export async function main() {
   const app = new Application();
@@ -11,6 +11,9 @@ export async function main() {
   board.x = app.screen.width / 2;
   board.y = app.screen.height / 2;
   app.stage.addChild(board);
+
+  const piecesContainer = new Container();
+  const squareSize = board.width / 8;
 
   const initialPositions = [
     { row: 0, col: 0, piece: "pieces/black-rook.png" },
@@ -47,8 +50,6 @@ export async function main() {
     { row: 7, col: 7, piece: "pieces/white-rook.png" },
   ];
 
-  const squareSize = board.width / 8;
-
   for (const pos of initialPositions) {
     await Assets.load(pos.piece);
     const sprite = await Sprite.from(pos.piece);
@@ -63,20 +64,23 @@ export async function main() {
     app.stage.addChild(sprite);
   }
 
-  let dragTarget = null;
+  let dragTarget: Sprite | null = null;
 
   app.stage.eventMode = "static";
   app.stage.hitArea = app.screen;
   app.stage.on("pointerup", onDragEnd);
   app.stage.on("pointerupoutside", onDragEnd);
 
+  let isDragging = false;
+
   function onDragMove(event) {
-    if (dragTarget) {
-      dragTarget.parent.toLocal(event.global, null, dragTarget.position);
+    if (dragTarget && isDragging) {
+      dragTarget.parent.toLocal(event.global, undefined, dragTarget.position);
     }
   }
 
   function onDragStart() {
+    isDragging = true;
     // Store a reference to the data
     // * The reason for this is because of multitouch *
     // * We want to track the movement of this particular touch *
@@ -86,9 +90,18 @@ export async function main() {
   }
 
   function onDragEnd() {
+    isDragging = false;
     if (dragTarget) {
       app.stage.off("pointermove", onDragMove);
       dragTarget.alpha = 1;
+
+      // Calculate the grid position the piece should snap to
+      const gridX = Math.floor(dragTarget.x / squareSize);
+      const gridY = Math.floor(dragTarget.y / squareSize);
+
+      // Snap the piece to the center of the grid position
+      dragTarget.x = (gridX + 0.5) * squareSize;
+      dragTarget.y = (gridY + 0.5) * squareSize;
       dragTarget = null;
     }
   }
