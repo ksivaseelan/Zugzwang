@@ -1,20 +1,20 @@
-# chess
+# learning_mist
 
-[![Package Version](https://img.shields.io/hexpm/v/chess)](https://hex.pm/packages/chess)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/chess/)
+[![Package Version](https://img.shields.io/hexpm/v/learning_mist)](https://hex.pm/packages/learning_mist)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/learning_mist/)
 
 ```sh
-gleam add chess@1
+gleam add learning_mist@1
 ```
 ```gleam
-import chess
+import learning_mist
 
 pub fn main() {
   // TODO: An example of the project in use
 }
 ```
 
-Further documentation can be found at <https://hexdocs.pm/chess>.
+Further documentation can be found at <https://hexdocs.pm/learning_mist>.
 
 ## Development
 

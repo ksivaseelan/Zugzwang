@@ -1,6 +1,5 @@
-name = "server"
+name = "learning_mist"
 version = "1.0.0"
-target = "erlang"
 
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
@@ -15,18 +14,10 @@ target = "erlang"
 
 [dependencies]
 gleam_stdlib = ">= 0.34.0 and < 2.0.0"
-binbo = ">= 4.0.3 and < 5.0.0"
-gleam_erlang = ">= 0.27.0 and < 1.0.0"
-wisp = ">= 1.1.0 and < 2.0.0"
-mist = ">= 2.0.0 and < 3.0.0"
+gleam_erlang = ">= 0.30.0 and < 1.0.0"
 gleam_http = ">= 3.7.0 and < 4.0.0"
-gleam_json = ">= 1.0.1 and < 2.0.0"
-youid = ">= 1.2.0 and < 2.0.0"
-cors_builder = ">= 2.0.1 and < 3.0.0"
-wisp_kv_sessions = ">= 0.0.3 and < 1.0.0"
-gleam_otp = ">= 0.12.1 and < 1.0.0"
-logging = ">= 1.3.0 and < 2.0.0"
-birl = ">= 1.7.1 and < 2.0.0"
+gleam_otp = ">= 0.14.0 and < 1.0.0"
+mist = ">= 3.0.0 and < 4.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
