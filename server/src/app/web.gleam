@@ -1,4 +1,3 @@
-import bravo/uset.{type USet}
 import cors_builder as cors
 import gleam/http
 import wisp
@@ -42,9 +41,4 @@ pub fn middleware(
 
   // Handle the request!
   handle_request(req)
-}
-
-//Uset room tuple is #(room, pid, color, players)
-pub type Context {
-  Context(room_table: USet(#(String, String, String, String)))
 }

@@ -4,7 +4,6 @@
 packages = [
   { name = "binbo", version = "4.0.3", build_tools = ["rebar3"], requirements = ["uef"], otp_app = "binbo", source = "hex", outer_checksum = "3029775A3AFAA3377A9FFAC4973A3CFC7AA51C1F4B1CEEBD2E546AD0161FE1BB" },
   { name = "birl", version = "1.7.1", build_tools = ["gleam"], requirements = ["gleam_stdlib", "ranger"], otp_app = "birl", source = "hex", outer_checksum = "5C66647D62BCB11FE327E7A6024907C4A17954EF22865FE0940B54A852446D01" },
-  { name = "bravo", version = "4.0.1", build_tools = ["gleam"], requirements = ["gleam_erlang", "gleam_stdlib"], otp_app = "bravo", source = "hex", outer_checksum = "D450DCD5A896ADDE442A93A7D6B5B2785374579A35416819E29E024887C2A872" },
   { name = "cors_builder", version = "2.0.1", build_tools = ["gleam"], requirements = ["gleam_http", "gleam_stdlib", "mist", "wisp"], otp_app = "cors_builder", source = "hex", outer_checksum = "7D53FBFB31689F25F88FC61171247E862696B2189A395E099D17106B3EF5C76D" },
   { name = "directories", version = "1.1.0", build_tools = ["gleam"], requirements = ["envoy", "gleam_stdlib", "platform", "simplifile"], otp_app = "directories", source = "hex", outer_checksum = "BDA521A4EB9EE3A7894F0DC863797878E91FF5C7826F7084B2E731E208BDB076" },
   { name = "envoy", version = "1.0.1", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "envoy", source = "hex", outer_checksum = "CFAACCCFC47654F7E8B75E614746ED924C65BD08B1DE21101548AC314A8B6A41" },
@@ -30,18 +29,22 @@ packages = [
   { name = "thoas", version = "1.2.1", build_tools = ["rebar3"], requirements = [], otp_app = "thoas", source = "hex", outer_checksum = "E38697EDFFD6E91BD12CEA41B155115282630075C2A727E7A6B2947F5408B86A" },
   { name = "uef", version = "2.6.0", build_tools = ["rebar3"], requirements = [], otp_app = "uef", source = "hex", outer_checksum = "1585CBA305DC7C0A3F75AEAB15937B324184673D2922148B432EDF9BEBA73D62" },
   { name = "wisp", version = "1.1.0", build_tools = ["gleam"], requirements = ["directories", "exception", "gleam_crypto", "gleam_erlang", "gleam_http", "gleam_json", "gleam_stdlib", "logging", "marceau", "mist", "simplifile"], otp_app = "wisp", source = "hex", outer_checksum = "5B25E37E08A94039668D2ACF7B2D2A665BEAF4B48EFA8613010B4E3164137664" },
+  { name = "wisp_kv_sessions", version = "0.0.3", build_tools = ["gleam"], requirements = ["birl", "gleam_crypto", "gleam_erlang", "gleam_http", "gleam_json", "gleam_otp", "gleam_stdlib", "wisp"], otp_app = "wisp_kv_sessions", source = "hex", outer_checksum = "0B915CA3A41473380C5B881724C51EC1AA3543C952D9B35711183F28D28F6D6E" },
   { name = "youid", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_crypto", "gleam_erlang", "gleam_stdlib"], otp_app = "youid", source = "hex", outer_checksum = "EF0F693004E221155EE5909C6D3C945DD14F7117DBA882887CF5F45BE399B8CA" },
 ]
 
 [requirements]
 binbo = { version = ">= 4.0.3 and < 5.0.0" }
-bravo = { version = ">= 4.0.1 and < 5.0.0" }
+birl = { version = ">= 1.7.1 and < 2.0.0" }
 cors_builder = { version = ">= 2.0.1 and < 3.0.0" }
 gleam_erlang = { version = ">= 0.27.0 and < 1.0.0" }
 gleam_http = { version = ">= 3.7.0 and < 4.0.0" }
 gleam_json = { version = ">= 1.0.1 and < 2.0.0" }
+gleam_otp = { version = ">= 0.12.1 and < 1.0.0" }
 gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
 gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
+logging = { version = ">= 1.3.0 and < 2.0.0" }
 mist = { version = ">= 2.0.0 and < 3.0.0" }
 wisp = { version = ">= 1.1.0 and < 2.0.0" }
+wisp_kv_sessions = { version = ">= 0.0.3 and < 1.0.0" }
 youid = { version = ">= 1.2.0 and < 2.0.0" }
