@@ -4,48 +4,48 @@
 -export([continue/1, with_selector/2, to_erlang_start_result/1, start_spec/1, start/2, send/2, call/3]).
 -export_type([message/1, next/2, init_result/2, self/2, spec/2, start_error/0, start_init_message/1]).
 
--type message(GJG) :: {message, GJG} |
+-type message(GJW) :: {message, GJW} |
     {system, gleam@otp@system:system_message()} |
     {unexpected, gleam@dynamic:dynamic_()}.
 
--type next(GJH, GJI) :: {continue,
-        GJI,
-        gleam@option:option(gleam@erlang@process:selector(GJH))} |
+-type next(GJX, GJY) :: {continue,
+        GJY,
+        gleam@option:option(gleam@erlang@process:selector(GJX))} |
     {stop, gleam@erlang@process:exit_reason()}.
 
--type init_result(GJJ, GJK) :: {ready, GJJ, gleam@erlang@process:selector(GJK)} |
+-type init_result(GJZ, GKA) :: {ready, GJZ, gleam@erlang@process:selector(GKA)} |
     {failed, binary()}.
 
--type self(GJL, GJM) :: {self,
+-type self(GKB, GKC) :: {self,
         gleam@otp@system:mode(),
         gleam@erlang@process:pid_(),
-        GJL,
-        gleam@erlang@process:subject(GJM),
-        gleam@erlang@process:selector(message(GJM)),
+        GKB,
+        gleam@erlang@process:subject(GKC),
+        gleam@erlang@process:selector(message(GKC)),
         gleam@otp@system:debug_state(),
-        fun((GJM, GJL) -> next(GJM, GJL))}.
+        fun((GKC, GKB) -> next(GKC, GKB))}.
 
--type spec(GJN, GJO) :: {spec,
-        fun(() -> init_result(GJN, GJO)),
+-type spec(GKD, GKE) :: {spec,
+        fun(() -> init_result(GKD, GKE)),
         integer(),
-        fun((GJO, GJN) -> next(GJO, GJN))}.
+        fun((GKE, GKD) -> next(GKE, GKD))}.
 
 -type start_error() :: init_timeout |
     {init_failed, gleam@erlang@process:exit_reason()} |
     {init_crashed, gleam@dynamic:dynamic_()}.
 
--type start_init_message(GJP) :: {ack,
-        {ok, gleam@erlang@process:subject(GJP)} |
+-type start_init_message(GKF) :: {ack,
+        {ok, gleam@erlang@process:subject(GKF)} |
             {error, gleam@erlang@process:exit_reason()}} |
     {mon, gleam@erlang@process:process_down()}.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 178).
--spec continue(GJW) -> next(any(), GJW).
+-spec continue(GKM) -> next(any(), GKM).
 continue(State) ->
     {continue, State, none}.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 186).
--spec with_selector(next(GKA, GKB), gleam@erlang@process:selector(GKA)) -> next(GKA, GKB).
+-spec with_selector(next(GKQ, GKR), gleam@erlang@process:selector(GKQ)) -> next(GKQ, GKR).
 with_selector(Value, Selector) ->
     case Value of
         {continue, State, _} ->
@@ -61,7 +61,7 @@ exit_process(Reason) ->
     Reason.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 295).
--spec selecting_system_messages(gleam@erlang@process:selector(message(GKM))) -> gleam@erlang@process:selector(message(GKM)).
+-spec selecting_system_messages(gleam@erlang@process:selector(message(GLC))) -> gleam@erlang@process:selector(message(GLC)).
 selecting_system_messages(Selector) ->
     _pipe = Selector,
     gleam@erlang@process:selecting_record3(
@@ -71,7 +71,7 @@ selecting_system_messages(Selector) ->
     ).
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 264).
--spec receive_message(self(any(), GKI)) -> message(GKI).
+-spec receive_message(self(any(), GKY)) -> message(GKY).
 receive_message(Self) ->
     Selector = case erlang:element(2, Self) of
         suspended ->
@@ -100,13 +100,13 @@ process_status_info(Self) ->
         erlang:element(3, Self),
         erlang:element(2, Self),
         erlang:element(7, Self),
-        gleam@dynamic:from(erlang:element(4, Self))}.
+        gleam_stdlib:identity(erlang:element(4, Self))}.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 415).
 -spec init_selector(
-    gleam@erlang@process:subject(GPA),
-    gleam@erlang@process:selector(GPA)
-) -> gleam@erlang@process:selector(message(GPA)).
+    gleam@erlang@process:subject(GQC),
+    gleam@erlang@process:selector(GQC)
+) -> gleam@erlang@process:selector(message(GQC)).
 init_selector(Subject, Selector) ->
     _pipe = gleam_erlang_ffi:new_selector(),
     _pipe@1 = gleam@erlang@process:selecting(
@@ -129,7 +129,7 @@ loop(Self) ->
         {system, System} ->
             case System of
                 {get_state, Callback} ->
-                    Callback(gleam@dynamic:from(erlang:element(4, Self))),
+                    Callback(gleam_stdlib:identity(erlang:element(4, Self))),
                     loop(Self);
 
                 {resume, Callback@1} ->
@@ -182,8 +182,8 @@ loop(Self) ->
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 374).
 -spec initialise_actor(
-    spec(any(), GLD),
-    gleam@erlang@process:subject({ok, gleam@erlang@process:subject(GLD)} |
+    spec(any(), GLT),
+    gleam@erlang@process:subject({ok, gleam@erlang@process:subject(GLT)} |
         {error, gleam@erlang@process:exit_reason()})
 ) -> gleam@erlang@process:exit_reason().
 initialise_actor(Spec, Ack) ->
@@ -218,11 +218,11 @@ to_erlang_start_result(Res) ->
             {ok, gleam@erlang@process:subject_owner(X)};
 
         {error, X@1} ->
-            {error, gleam@dynamic:from(X@1)}
+            {error, gleam_stdlib:identity(X@1)}
     end.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 466).
--spec start_spec(spec(any(), GLQ)) -> {ok, gleam@erlang@process:subject(GLQ)} |
+-spec start_spec(spec(any(), GMG)) -> {ok, gleam@erlang@process:subject(GMG)} |
     {error, start_error()}.
 start_spec(Spec) ->
     Ack_subject = gleam@erlang@process:new_subject(),
@@ -262,8 +262,8 @@ start_spec(Spec) ->
     Result.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 514).
--spec start(GLW, fun((GLX, GLW) -> next(GLX, GLW))) -> {ok,
-        gleam@erlang@process:subject(GLX)} |
+-spec start(GMM, fun((GMN, GMM) -> next(GMN, GMM))) -> {ok,
+        gleam@erlang@process:subject(GMN)} |
     {error, start_error()}.
 start(State, Loop) ->
     start_spec(
@@ -274,15 +274,15 @@ start(State, Loop) ->
     ).
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 529).
--spec send(gleam@erlang@process:subject(GMD), GMD) -> nil.
+-spec send(gleam@erlang@process:subject(GMT), GMT) -> nil.
 send(Subject, Msg) ->
     gleam@erlang@process:send(Subject, Msg).
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/actor.gleam", 542).
 -spec call(
-    gleam@erlang@process:subject(GMF),
-    fun((gleam@erlang@process:subject(GMH)) -> GMF),
+    gleam@erlang@process:subject(GMV),
+    fun((gleam@erlang@process:subject(GMX)) -> GMV),
     integer()
-) -> GMH.
+) -> GMX.
 call(Subject, Make_message, Timeout) ->
     gleam@erlang@process:call(Subject, Make_message, Timeout).

@@ -3,7 +3,8 @@
 
 -export([one_of/1, none_of/1, each/1]).
 
--spec one_of(list(MCK)) -> fun((MCK) -> {ok, MCK} | {error, snag:snag()}).
+-file("/home/runner/work/glint/glint/src/glint/constraint.gleam", 21).
+-spec one_of(list(MCF)) -> fun((MCF) -> {ok, MCF} | {error, snag:snag()}).
 one_of(Allowed) ->
     Allowed_set = gleam@set:from_list(Allowed),
     fun(Val) -> case gleam@set:contains(Allowed_set, Val) of
@@ -31,7 +32,8 @@ one_of(Allowed) ->
                 )
         end end.
 
--spec none_of(list(MCN)) -> fun((MCN) -> {ok, MCN} | {error, snag:snag()}).
+-file("/home/runner/work/glint/glint/src/glint/constraint.gleam", 52).
+-spec none_of(list(MCI)) -> fun((MCI) -> {ok, MCI} | {error, snag:snag()}).
 none_of(Disallowed) ->
     Disallowed_set = gleam@set:from_list(Disallowed),
     fun(Val) -> case gleam@set:contains(Disallowed_set, Val) of
@@ -59,8 +61,9 @@ none_of(Disallowed) ->
                 )
         end end.
 
--spec each(fun((MCQ) -> {ok, MCQ} | {error, snag:snag()})) -> fun((list(MCQ)) -> {ok,
-        list(MCQ)} |
+-file("/home/runner/work/glint/glint/src/glint/constraint.gleam", 102).
+-spec each(fun((MCL) -> {ok, MCL} | {error, snag:snag()})) -> fun((list(MCL)) -> {ok,
+        list(MCL)} |
     {error, snag:snag()}).
 each(Constraint) ->
     fun(_capture) -> gleam@list:try_map(_capture, Constraint) end.

@@ -1,9 +1,42 @@
-import { Application, Assets, Sprite, Container, Point } from "pixi.js";
+import {
+  Application,
+  Assets,
+  Sprite,
+  Container,
+  Point,
+  FederatedPointerEvent,
+} from "pixi.js";
 
 export async function main() {
   const app = new Application();
   await app.init({ width: 784, height: 784 });
   document.body.appendChild(app.canvas);
+
+  // --- WebSocket Connection ---
+  const socket = new WebSocket("ws://localhost:6969/ws");
+
+  socket.onopen = () => {
+    console.log("WebSocket connection opened");
+    // Send an initial message or perform other actions upon connection
+  };
+
+  socket.send("ping");
+
+  socket.onmessage = (event) => {
+    console.log("Message from server:", event.data);
+    // Handle incoming messages from the server
+    // Example: Update game state based on server data
+  };
+
+  socket.onclose = () => {
+    console.log("WebSocket connection closed");
+    // Handle connection closure (e.g., reconnect logic)
+  };
+
+  socket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+    // Handle WebSocket errors
+  };
 
   await Assets.load("board.png");
   const board = Sprite.from("board.png");
@@ -12,7 +45,6 @@ export async function main() {
   board.y = app.screen.height / 2;
   app.stage.addChild(board);
 
-  const piecesContainer = new Container();
   const squareSize = board.width / 8;
 
   const initialPositions = [
@@ -73,7 +105,7 @@ export async function main() {
 
   let isDragging = false;
 
-  function onDragMove(event) {
+  function onDragMove(event: FederatedPointerEvent) {
     if (dragTarget && isDragging) {
       dragTarget.parent.toLocal(event.global, undefined, dragTarget.position);
     }

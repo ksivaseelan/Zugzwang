@@ -91,6 +91,8 @@ export function extension_to_mime_type(extension) {
     return "audio/basic";
   } else if (extension === "avi") {
     return "video/x-msvideo";
+  } else if (extension === "avif") {
+    return "image/avif";
   } else if (extension === "aw") {
     return "application/applixware";
   } else if (extension === "azf") {
@@ -543,6 +545,8 @@ export function extension_to_mime_type(extension) {
     return "application/vnd.geometry-explorer";
   } else if (extension === "ggb") {
     return "application/vnd.geogebra.file";
+  } else if (extension === "ggs") {
+    return "application/vnd.geogebra.slides";
   } else if (extension === "ggt") {
     return "application/vnd.geogebra.tool";
   } else if (extension === "ghf") {
@@ -721,6 +725,8 @@ export function extension_to_mime_type(extension) {
     return "application/json";
   } else if (extension === "jsonml") {
     return "application/jsonml+json";
+  } else if (extension === "jxl") {
+    return "image/jxl";
   } else if (extension === "kar") {
     return "audio/midi";
   } else if (extension === "karbon") {
@@ -805,6 +811,10 @@ export function extension_to_mime_type(extension) {
     return "application/mp21";
   } else if (extension === "m2a") {
     return "audio/mpeg";
+  } else if (extension === "m2t") {
+    return "video/mp2t";
+  } else if (extension === "m2ts") {
+    return "video/mp2t";
   } else if (extension === "m2v") {
     return "video/mpeg";
   } else if (extension === "m3a") {
@@ -976,7 +986,7 @@ export function extension_to_mime_type(extension) {
   } else if (extension === "msty") {
     return "application/vnd.muvee.style";
   } else if (extension === "mts") {
-    return "model/vnd.mts";
+    return "video/mp2t";
   } else if (extension === "mus") {
     return "application/vnd.musician";
   } else if (extension === "musicxml") {
@@ -1089,6 +1099,8 @@ export function extension_to_mime_type(extension) {
     return "text/x-opml";
   } else if (extension === "oprc") {
     return "application/vnd.palm";
+  } else if (extension === "opus") {
+    return "audio/ogg";
   } else if (extension === "org") {
     return "application/vnd.lotus-organizer";
   } else if (extension === "osf") {
@@ -1599,6 +1611,8 @@ export function extension_to_mime_type(extension) {
     return "application/vnd.trueapp";
   } else if (extension === "trm") {
     return "application/x-msterminal";
+  } else if (extension === "ts") {
+    return "video/mp2t";
   } else if (extension === "tsd") {
     return "application/timestamped-data";
   } else if (extension === "tsv") {
@@ -1796,7 +1810,7 @@ export function extension_to_mime_type(extension) {
   } else if (extension === "wmx") {
     return "video/x-ms-wmx";
   } else if (extension === "wmz") {
-    return "application/x-ms-wmz";
+    return "application/x-msmetafile";
   } else if (extension === "woff") {
     return "font/woff";
   } else if (extension === "woff2") {
@@ -2402,6 +2416,8 @@ export function mime_type_to_extensions(mime_type) {
     return toList(["txd"]);
   } else if (mime_type === "application/vnd.geogebra.file") {
     return toList(["ggb"]);
+  } else if (mime_type === "application/vnd.geogebra.slides") {
+    return toList(["ggs"]);
   } else if (mime_type === "application/vnd.geogebra.tool") {
     return toList(["ggt"]);
   } else if (mime_type === "application/vnd.geometry-explorer") {
@@ -3183,7 +3199,7 @@ export function mime_type_to_extensions(mime_type) {
   } else if (mime_type === "audio/mpeg") {
     return toList(["mpga", "mp2", "mp2a", "mp3", "m2a", "m3a"]);
   } else if (mime_type === "audio/ogg") {
-    return toList(["oga", "ogg", "spx"]);
+    return toList(["oga", "ogg", "spx", "opus"]);
   } else if (mime_type === "audio/s3m") {
     return toList(["s3m"]);
   } else if (mime_type === "audio/silk") {
@@ -3258,6 +3274,8 @@ export function mime_type_to_extensions(mime_type) {
     return toList(["woff"]);
   } else if (mime_type === "font/woff2") {
     return toList(["woff2"]);
+  } else if (mime_type === "image/avif") {
+    return toList(["avif"]);
   } else if (mime_type === "image/bmp") {
     return toList(["bmp"]);
   } else if (mime_type === "image/cgm") {
@@ -3270,6 +3288,8 @@ export function mime_type_to_extensions(mime_type) {
     return toList(["ief"]);
   } else if (mime_type === "image/jpeg") {
     return toList(["jpeg", "jpg", "jpe"]);
+  } else if (mime_type === "image/jxl") {
+    return toList(["jxl"]);
   } else if (mime_type === "image/ktx") {
     return toList(["ktx"]);
   } else if (mime_type === "image/png") {
@@ -3364,8 +3384,6 @@ export function mime_type_to_extensions(mime_type) {
     return toList(["gdl"]);
   } else if (mime_type === "model/vnd.gtw") {
     return toList(["gtw"]);
-  } else if (mime_type === "model/vnd.mts") {
-    return toList(["mts"]);
   } else if (mime_type === "model/vnd.vtu") {
     return toList(["vtu"]);
   } else if (mime_type === "model/vrml") {
@@ -3474,6 +3492,8 @@ export function mime_type_to_extensions(mime_type) {
     return toList(["jpm", "jpgm"]);
   } else if (mime_type === "video/mj2") {
     return toList(["mj2", "mjp2"]);
+  } else if (mime_type === "video/mp2t") {
+    return toList(["ts", "m2t", "m2ts", "mts"]);
   } else if (mime_type === "video/mp4") {
     return toList(["mp4", "mp4v", "mpg4"]);
   } else if (mime_type === "video/mpeg") {

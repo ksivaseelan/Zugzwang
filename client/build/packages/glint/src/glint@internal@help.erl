@@ -31,6 +31,7 @@
         gleam@option:option(args_count()),
         list(binary())}.
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 13).
 -spec heading_style(binary(), gleam_community@colour:colour()) -> binary().
 heading_style(Heading, Colour) ->
     _pipe = Heading,
@@ -39,6 +40,7 @@ heading_style(Heading, Colour) ->
     _pipe@3 = gleam_community@ansi:italic(_pipe@2),
     gleam_community@ansi:hex(_pipe@3, gleam_community@colour:to_rgb_hex(Colour)).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 131).
 -spec args_count_to_usage_string(args_count()) -> binary().
 args_count_to_usage_string(Count) ->
     case Count of
@@ -57,6 +59,7 @@ args_count_to_usage_string(Count) ->
                 " or more arguments ]"/utf8>>
     end.
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 218).
 -spec flag_help_to_string(flag(), config()) -> binary().
 flag_help_to_string(Help, Config) ->
     <<<<(erlang:element(12, Config))/binary,
@@ -71,6 +74,7 @@ flag_help_to_string(Help, Config) ->
                     ">"/utf8>>
         end)/binary>>.
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 111).
 -spec flags_help_to_usage_strings(list(flag()), config()) -> list(binary()).
 flags_help_to_usage_strings(Help, Config) ->
     _pipe = Help,
@@ -80,6 +84,7 @@ flags_help_to_usage_strings(Help, Config) ->
     ),
     gleam@list:sort(_pipe@1, fun gleam@string:compare/2).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 119).
 -spec flags_help_to_usage_string(config(), list(flag())) -> binary().
 flags_help_to_usage_string(Config, Help) ->
     gleam@bool:guard(
@@ -95,6 +100,7 @@ flags_help_to_usage_string(Config, Help) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 285).
 -spec format_content(binary(), binary(), integer(), config()) -> {binary(),
     boolean()}.
 format_content(Left, Right, Left_length, Config) ->
@@ -135,9 +141,10 @@ format_content(Left, Right, Left_length, Config) ->
             Right_formatted/binary>>,
         Wrapped}.
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 258).
 -spec to_spaced_indented_string(
-    list(MFQ),
-    fun((MFQ) -> {binary(), binary()}),
+    list(MFL),
+    fun((MFL) -> {binary(), binary()}),
     integer(),
     config()
 ) -> binary().
@@ -164,6 +171,7 @@ to_spaced_indented_string(Data, F, Left_length, Config) ->
     _pipe@1 = gleam@list:sort(_pipe, fun gleam@string:compare/2),
     gleam@string:join(_pipe@1, Joiner).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 191).
 -spec flags_help_to_string(list(flag()), config()) -> binary().
 flags_help_to_string(Help, Config) ->
     gleam@bool:guard(
@@ -204,6 +212,7 @@ flags_help_to_string(Help, Config) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 231).
 -spec subcommands_help_to_string(list(metadata()), config()) -> binary().
 subcommands_help_to_string(Help, Config) ->
     gleam@bool:guard(
@@ -238,6 +247,7 @@ subcommands_help_to_string(Help, Config) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 142).
 -spec command_help_to_usage_string(command(), config()) -> binary().
 command_help_to_usage_string(Help, Config) ->
     App_name = case erlang:element(2, Config) of
@@ -311,6 +321,7 @@ command_help_to_usage_string(Help, Config) ->
                 erlang:element(8, Config)
             ))/binary>>/binary, Content/binary>>.
 
+-file("/home/runner/work/glint/glint/src/glint/internal/help.gleam", 84).
 -spec command_help_to_string(command(), config()) -> binary().
 command_help_to_string(Help, Config) ->
     Command = case erlang:element(2, erlang:element(2, Help)) of

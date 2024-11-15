@@ -1,9 +1,7 @@
 {application, gleam_otp, [
-    {vsn, "0.12.1"},
+    {vsn, "0.14.0"},
     {applications, [gleam_erlang,
-                    gleam_stdlib,
-                    gleeunit,
-                    logging]},
+                    gleam_stdlib]},
     {description, "Fault tolerant multicore Gleam programs with OTP"},
     {modules, [gleam@otp@actor,
                gleam@otp@intensity_tracker,

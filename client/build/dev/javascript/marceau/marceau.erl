@@ -3,6 +3,7 @@
 
 -export([extension_to_mime_type/1, mime_type_to_extensions/1]).
 
+-file("/Users/louis/src/gleam/marceau/src/marceau.gleam", 1).
 -spec extension_to_mime_type(binary()) -> binary().
 extension_to_mime_type(Extension) ->
     case Extension of
@@ -140,6 +141,9 @@ extension_to_mime_type(Extension) ->
 
         <<"avi"/utf8>> ->
             <<"video/x-msvideo"/utf8>>;
+
+        <<"avif"/utf8>> ->
+            <<"image/avif"/utf8>>;
 
         <<"aw"/utf8>> ->
             <<"application/applixware"/utf8>>;
@@ -819,6 +823,9 @@ extension_to_mime_type(Extension) ->
         <<"ggb"/utf8>> ->
             <<"application/vnd.geogebra.file"/utf8>>;
 
+        <<"ggs"/utf8>> ->
+            <<"application/vnd.geogebra.slides"/utf8>>;
+
         <<"ggt"/utf8>> ->
             <<"application/vnd.geogebra.tool"/utf8>>;
 
@@ -1086,6 +1093,9 @@ extension_to_mime_type(Extension) ->
         <<"jsonml"/utf8>> ->
             <<"application/jsonml+json"/utf8>>;
 
+        <<"jxl"/utf8>> ->
+            <<"image/jxl"/utf8>>;
+
         <<"kar"/utf8>> ->
             <<"audio/midi"/utf8>>;
 
@@ -1211,6 +1221,12 @@ extension_to_mime_type(Extension) ->
 
         <<"m2a"/utf8>> ->
             <<"audio/mpeg"/utf8>>;
+
+        <<"m2t"/utf8>> ->
+            <<"video/mp2t"/utf8>>;
+
+        <<"m2ts"/utf8>> ->
+            <<"video/mp2t"/utf8>>;
 
         <<"m2v"/utf8>> ->
             <<"video/mpeg"/utf8>>;
@@ -1468,7 +1484,7 @@ extension_to_mime_type(Extension) ->
             <<"application/vnd.muvee.style"/utf8>>;
 
         <<"mts"/utf8>> ->
-            <<"model/vnd.mts"/utf8>>;
+            <<"video/mp2t"/utf8>>;
 
         <<"mus"/utf8>> ->
             <<"application/vnd.musician"/utf8>>;
@@ -1637,6 +1653,9 @@ extension_to_mime_type(Extension) ->
 
         <<"oprc"/utf8>> ->
             <<"application/vnd.palm"/utf8>>;
+
+        <<"opus"/utf8>> ->
+            <<"audio/ogg"/utf8>>;
 
         <<"org"/utf8>> ->
             <<"application/vnd.lotus-organizer"/utf8>>;
@@ -2403,6 +2422,9 @@ extension_to_mime_type(Extension) ->
         <<"trm"/utf8>> ->
             <<"application/x-msterminal"/utf8>>;
 
+        <<"ts"/utf8>> ->
+            <<"video/mp2t"/utf8>>;
+
         <<"tsd"/utf8>> ->
             <<"application/timestamped-data"/utf8>>;
 
@@ -2698,7 +2720,7 @@ extension_to_mime_type(Extension) ->
             <<"video/x-ms-wmx"/utf8>>;
 
         <<"wmz"/utf8>> ->
-            <<"application/x-ms-wmz"/utf8>>;
+            <<"application/x-msmetafile"/utf8>>;
 
         <<"woff"/utf8>> ->
             <<"font/woff"/utf8>>;
@@ -2965,6 +2987,7 @@ extension_to_mime_type(Extension) ->
             <<"application/octet-stream"/utf8>>
     end.
 
+-file("/Users/louis/src/gleam/marceau/src/marceau.gleam", 1007).
 -spec mime_type_to_extensions(binary()) -> list(binary()).
 mime_type_to_extensions(Mime_type) ->
     case Mime_type of
@@ -3603,6 +3626,9 @@ mime_type_to_extensions(Mime_type) ->
 
         <<"application/vnd.geogebra.file"/utf8>> ->
             [<<"ggb"/utf8>>];
+
+        <<"application/vnd.geogebra.slides"/utf8>> ->
+            [<<"ggs"/utf8>>];
 
         <<"application/vnd.geogebra.tool"/utf8>> ->
             [<<"ggt"/utf8>>];
@@ -4798,7 +4824,7 @@ mime_type_to_extensions(Mime_type) ->
                 <<"m3a"/utf8>>];
 
         <<"audio/ogg"/utf8>> ->
-            [<<"oga"/utf8>>, <<"ogg"/utf8>>, <<"spx"/utf8>>];
+            [<<"oga"/utf8>>, <<"ogg"/utf8>>, <<"spx"/utf8>>, <<"opus"/utf8>>];
 
         <<"audio/s3m"/utf8>> ->
             [<<"s3m"/utf8>>];
@@ -4911,6 +4937,9 @@ mime_type_to_extensions(Mime_type) ->
         <<"font/woff2"/utf8>> ->
             [<<"woff2"/utf8>>];
 
+        <<"image/avif"/utf8>> ->
+            [<<"avif"/utf8>>];
+
         <<"image/bmp"/utf8>> ->
             [<<"bmp"/utf8>>];
 
@@ -4928,6 +4957,9 @@ mime_type_to_extensions(Mime_type) ->
 
         <<"image/jpeg"/utf8>> ->
             [<<"jpeg"/utf8>>, <<"jpg"/utf8>>, <<"jpe"/utf8>>];
+
+        <<"image/jxl"/utf8>> ->
+            [<<"jxl"/utf8>>];
 
         <<"image/ktx"/utf8>> ->
             [<<"ktx"/utf8>>];
@@ -5073,9 +5105,6 @@ mime_type_to_extensions(Mime_type) ->
 
         <<"model/vnd.gtw"/utf8>> ->
             [<<"gtw"/utf8>>];
-
-        <<"model/vnd.mts"/utf8>> ->
-            [<<"mts"/utf8>>];
 
         <<"model/vnd.vtu"/utf8>> ->
             [<<"vtu"/utf8>>];
@@ -5255,6 +5284,9 @@ mime_type_to_extensions(Mime_type) ->
 
         <<"video/mj2"/utf8>> ->
             [<<"mj2"/utf8>>, <<"mjp2"/utf8>>];
+
+        <<"video/mp2t"/utf8>> ->
+            [<<"ts"/utf8>>, <<"m2t"/utf8>>, <<"m2ts"/utf8>>, <<"mts"/utf8>>];
 
         <<"video/mp4"/utf8>> ->
             [<<"mp4"/utf8>>, <<"mp4v"/utf8>>, <<"mpg4"/utf8>>];

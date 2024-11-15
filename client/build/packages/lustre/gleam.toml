@@ -1,5 +1,5 @@
 name = "lustre"
-version = "4.5.1"
+version = "4.6.1"
 gleam = ">= 1.1.0"
 
 description = "An Gleam web framework for building HTML templates, single page applications, and real-time server components."
@@ -21,6 +21,7 @@ pages = [
     { title = "Side effects", path = "guide/03-side-effects.html", source = "./pages/guide/03-side-effects.md" },
     { title = "Server side rendering", path = "guide/05-server-side-rendering.html", source = "./pages/guide/05-server-side-rendering.md" },
     { title = "Full stack applications", path = "guide/06-full-stack-applications.html", source = "./pages/guide/06-full-stack-applications.md" },
+    { title = " ", path = "#", source = "" },
     { title = "Components", path = "guide/08-components.html", source = "./pages/guide/08-components.md" },
     { title = "Server components", path = "guide/09-server-components.html", source = "./pages/guide/09-server-components.md" },
     { title = " ", path = "#", source = "" },
@@ -34,7 +35,7 @@ pages = [
 
 [dependencies]
 gleam_erlang = "~> 0.24"
-gleam_json = "~> 1.0"
+gleam_json = ">= 1.0.0 and < 3.0.0"
 gleam_otp = "~> 0.9"
 gleam_stdlib = "~> 0.36"
 

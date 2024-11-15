@@ -1,5 +1,5 @@
 {application, gleam_stdlib, [
-    {vsn, "0.40.0"},
+    {vsn, "0.41.0"},
     {applications, []},
     {description, "A standard library for the Gleam programming language"},
     {modules, [gleam@bit_array,

@@ -141,7 +141,7 @@ export function pattern(regex) {
 }
 
 export function readonly(is_readonly) {
-  return property("readonly", is_readonly);
+  return property("readOnly", is_readonly);
 }
 
 export function required(is_required) {
@@ -208,6 +208,10 @@ export function alt(text) {
   return attribute("alt", text);
 }
 
+export function content(text) {
+  return attribute("content", text);
+}
+
 export function autoplay(should_autoplay) {
   return property("autoplay", should_autoplay);
 }
@@ -258,4 +262,12 @@ export function form_target(target) {
 
 export function open(is_open) {
   return property("open", is_open);
+}
+
+export function charset(name) {
+  return attribute("charset", name);
+}
+
+export function http_equiv(name) {
+  return attribute("http-equiv", name);
 }

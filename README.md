@@ -17,7 +17,7 @@ Welcome to my **Chess Monorepo**! This project is an online chess game where you
 
 ## Project Overview
 
-This is a web-based chess game that allows two players to compete by sharing a game link. The backend is built using **Gleam** and **Wisp, while the frontend is powered by **Gleam**, **Lustre**, and **Vite**. It handles all the necessary logic and interactions, creating a dynamic and enjoyable chess experience.
+This is a web-based chess game that allows two players to compete by sharing a game link. The backend is built using **Gleam** and **Wisp**, while the frontend is powered by **Gleam**, **Lustre**, and **Vite**. It handles all the necessary logic and interactions, creating a dynamic and enjoyable chess experience.
 
 ## Tech Stack
 

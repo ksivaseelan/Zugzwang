@@ -229,8 +229,9 @@ export class LustreClientApplication {
           }),
         );
       const select = () => {};
+      const root = this.root;
 
-      effect({ dispatch, emit, select });
+      effect({ dispatch, emit, select, root });
     }
 
     // If any effects immediately dispatched a message we can process it
@@ -303,6 +304,7 @@ export const make_lustre_client_component = (
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
+      this.internals = this.attachInternals();
 
       if (hasAttributes) {
         on_attribute_change[0].forEach((decoder, name) => {
@@ -494,8 +496,9 @@ export const make_lustre_client_component = (
             }),
           );
         const select = () => {};
+        const root = this.shadowRoot;
 
-        effect({ dispatch, emit, select });
+        effect({ dispatch, emit, select, root });
       }
 
       // If any effects immediately dispatched a message we can process it
@@ -693,8 +696,9 @@ export class LustreServerApplication {
           }),
         );
       const select = () => {};
+      const root = null;
 
-      effect({ dispatch, emit, select });
+      effect({ dispatch, emit, select, root });
     }
 
     // If any effects immediately dispatched a message we can process it

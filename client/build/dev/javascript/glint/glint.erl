@@ -20,32 +20,32 @@
         gleam_community@colour:colour(),
         gleam_community@colour:colour()}.
 
--opaque glint(MJE) :: {glint, config(), command_node(MJE)}.
+-opaque glint(MIY) :: {glint, config(), command_node(MIY)}.
 
 -type args_count() :: {eq_args, integer()} | {min_args, integer()}.
 
--opaque command(MJF) :: {command,
-        fun((named_args(), list(binary()), flags()) -> MJF),
+-opaque command(MIZ) :: {command,
+        fun((named_args(), list(binary()), flags()) -> MIZ),
         flags(),
         binary(),
         gleam@option:option(args_count()),
         list(binary())}.
 
--type internal_command(MJG) :: {internal_command,
-        fun((named_args(), list(binary()), flags()) -> MJG),
+-type internal_command(MJA) :: {internal_command,
+        fun((named_args(), list(binary()), flags()) -> MJA),
         flags(),
         gleam@option:option(args_count()),
         list(binary())}.
 
 -opaque named_args() :: {named_args, gleam@dict:dict(binary(), binary())}.
 
--type command_node(MJH) :: {command_node,
-        gleam@option:option(internal_command(MJH)),
-        gleam@dict:dict(binary(), command_node(MJH)),
+-type command_node(MJB) :: {command_node,
+        gleam@option:option(internal_command(MJB)),
+        gleam@dict:dict(binary(), command_node(MJB)),
         flags(),
         binary()}.
 
--type out(MJI) :: {out, MJI} | {help, binary()}.
+-type out(MJC) :: {out, MJC} | {help, binary()}.
 
 -type value() :: {b, flag_internals(boolean())} |
     {i, flag_internals(integer())} |
@@ -55,38 +55,42 @@
     {s, flag_internals(binary())} |
     {ls, flag_internals(list(binary()))}.
 
--opaque flag(MJJ) :: {flag,
+-opaque flag(MJD) :: {flag,
         binary(),
         binary(),
-        fun((binary()) -> {ok, MJJ} | {error, snag:snag()}),
-        fun((flag_internals(MJJ)) -> value()),
-        fun((flags(), binary()) -> {ok, MJJ} | {error, snag:snag()}),
-        gleam@option:option(MJJ)}.
+        fun((binary()) -> {ok, MJD} | {error, snag:snag()}),
+        fun((flag_internals(MJD)) -> value()),
+        fun((flags(), binary()) -> {ok, MJD} | {error, snag:snag()}),
+        gleam@option:option(MJD)}.
 
--type flag_internals(MJK) :: {flag_internals,
-        gleam@option:option(MJK),
-        fun((binary()) -> {ok, MJK} | {error, snag:snag()})}.
+-type flag_internals(MJE) :: {flag_internals,
+        gleam@option:option(MJE),
+        fun((binary()) -> {ok, MJE} | {error, snag:snag()})}.
 
 -type flag_entry() :: {flag_entry, value(), binary()}.
 
 -opaque flags() :: {flags, gleam@dict:dict(binary(), flag_entry())}.
 
--spec config(glint(MJR), config()) -> glint(MJR).
-config(Glint, Config) ->
-    erlang:setelement(2, Glint, Config).
-
--spec pretty_help(glint(MJU), pretty_help()) -> glint(MJU).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 63).
+-spec pretty_help(glint(MJL), pretty_help()) -> glint(MJL).
 pretty_help(Glint, Pretty) ->
-    config(
+    erlang:setelement(
+        2,
         Glint,
         erlang:setelement(2, erlang:element(2, Glint), {some, Pretty})
     ).
 
--spec with_name(glint(MJX), binary()) -> glint(MJX).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 71).
+-spec with_name(glint(MJO), binary()) -> glint(MJO).
 with_name(Glint, Name) ->
-    config(Glint, erlang:setelement(3, erlang:element(2, Glint), {some, Name})).
+    erlang:setelement(
+        2,
+        Glint,
+        erlang:setelement(3, erlang:element(2, Glint), {some, Name})
+    ).
 
--spec without_exit(glint(MKA)) -> glint(MKA).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 79).
+-spec without_exit(glint(MJR)) -> glint(MJR).
 without_exit(Glint) ->
     erlang:setelement(
         2,
@@ -94,43 +98,53 @@ without_exit(Glint) ->
         erlang:setelement(6, erlang:element(2, Glint), false)
     ).
 
--spec as_module(glint(MKD)) -> glint(MKD).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 87).
+-spec as_module(glint(MJU)) -> glint(MJU).
 as_module(Glint) ->
-    config(Glint, erlang:setelement(4, erlang:element(2, Glint), true)).
-
--spec with_indent_width(glint(MKG), integer()) -> glint(MKG).
-with_indent_width(Glint, Width) ->
     erlang:setelement(
         2,
         Glint,
-        erlang:setelement(7, erlang:element(2, Glint), Width)
+        erlang:setelement(4, erlang:element(2, Glint), true)
     ).
 
--spec with_max_output_width(glint(MKJ), integer()) -> glint(MKJ).
-with_max_output_width(Glint, Width) ->
+-file("/home/runner/work/glint/glint/src/glint.gleam", 96).
+-spec with_indent_width(glint(MJX), integer()) -> glint(MJX).
+with_indent_width(Glint, Indent_width) ->
     erlang:setelement(
         2,
         Glint,
-        erlang:setelement(8, erlang:element(2, Glint), Width)
+        erlang:setelement(7, erlang:element(2, Glint), Indent_width)
     ).
 
--spec with_min_first_column_width(glint(MKM), integer()) -> glint(MKM).
-with_min_first_column_width(Glint, Width) ->
+-file("/home/runner/work/glint/glint/src/glint.gleam", 104).
+-spec with_max_output_width(glint(MKA), integer()) -> glint(MKA).
+with_max_output_width(Glint, Max_output_width) ->
     erlang:setelement(
         2,
         Glint,
-        erlang:setelement(9, erlang:element(2, Glint), Width)
+        erlang:setelement(8, erlang:element(2, Glint), Max_output_width)
     ).
 
--spec with_column_gap(glint(MKP), integer()) -> glint(MKP).
-with_column_gap(Glint, Gap) ->
+-file("/home/runner/work/glint/glint/src/glint.gleam", 112).
+-spec with_min_first_column_width(glint(MKD), integer()) -> glint(MKD).
+with_min_first_column_width(Glint, Min_first_column_width) ->
     erlang:setelement(
         2,
         Glint,
-        erlang:setelement(10, erlang:element(2, Glint), Gap)
+        erlang:setelement(9, erlang:element(2, Glint), Min_first_column_width)
     ).
 
--spec global_help(glint(MKY), binary()) -> glint(MKY).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 123).
+-spec with_column_gap(glint(MKG), integer()) -> glint(MKG).
+with_column_gap(Glint, Column_gap) ->
+    erlang:setelement(
+        2,
+        Glint,
+        erlang:setelement(10, erlang:element(2, Glint), Column_gap)
+    ).
+
+-file("/home/runner/work/glint/glint/src/glint.gleam", 240).
+-spec global_help(glint(MKP), binary()) -> glint(MKP).
 global_help(Glint, Description) ->
     erlang:setelement(
         2,
@@ -138,24 +152,28 @@ global_help(Glint, Description) ->
         erlang:setelement(5, erlang:element(2, Glint), {some, Description})
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 289).
 -spec sanitize_path(list(binary())) -> list(binary()).
 sanitize_path(Path) ->
     _pipe = Path,
     _pipe@1 = gleam@list:map(_pipe, fun gleam@string:trim/1),
     gleam@list:filter(_pipe@1, fun(S) -> S /= <<""/utf8>> end).
 
--spec command_help(binary(), fun(() -> command(MLN))) -> command(MLN).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 326).
+-spec command_help(binary(), fun(() -> command(MLE))) -> command(MLE).
 command_help(Desc, F) ->
     erlang:setelement(4, F(), Desc).
 
--spec unnamed_args(args_count(), fun(() -> command(MLQ))) -> command(MLQ).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 345).
+-spec unnamed_args(args_count(), fun(() -> command(MLH))) -> command(MLH).
 unnamed_args(Count, F) ->
     erlang:setelement(5, F(), {some, Count}).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 373).
 -spec named_arg(
     binary(),
-    fun((fun((named_args()) -> binary())) -> command(MLT))
-) -> command(MLT).
+    fun((fun((named_args()) -> binary())) -> command(MLK))
+) -> command(MLK).
 named_arg(Name, F) ->
     Cmd = (F(
         fun(Named_args) ->
@@ -167,17 +185,18 @@ named_arg(Name, F) ->
                 {ok, _} -> _assert_subject;
                 _assert_fail ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail,
                                 module => <<"glint"/utf8>>,
                                 function => <<"named_arg"/utf8>>,
-                                line => 383})
+                                line => 380})
             end,
             Arg
         end
     )),
     erlang:setelement(6, Cmd, [Name | erlang:element(6, Cmd)]).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 503).
 -spec args_compare(args_count(), integer()) -> {ok, nil} | {error, snag:snag()}.
 args_compare(Expected, Actual) ->
     gleam@result:map_error(case Expected of
@@ -202,6 +221,7 @@ args_compare(Expected, Actual) ->
             )
         end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 626).
 -spec default_pretty_help() -> pretty_help().
 default_pretty_help() ->
     _assert_subject = gleam_community@colour:from_rgb255(182, 255, 234),
@@ -209,36 +229,37 @@ default_pretty_help() ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"glint"/utf8>>,
                         function => <<"default_pretty_help"/utf8>>,
-                        line => 636})
+                        line => 627})
     end,
     _assert_subject@1 = gleam_community@colour:from_rgb255(255, 175, 243),
     {ok, Flags_colour} = case _assert_subject@1 of
         {ok, _} -> _assert_subject@1;
         _assert_fail@1 ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail@1,
                         module => <<"glint"/utf8>>,
                         function => <<"default_pretty_help"/utf8>>,
-                        line => 637})
+                        line => 628})
     end,
     _assert_subject@2 = gleam_community@colour:from_rgb255(252, 226, 174),
     {ok, Subcommands_colour} = case _assert_subject@2 of
         {ok, _} -> _assert_subject@2;
         _assert_fail@2 ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail@2,
                         module => <<"glint"/utf8>>,
                         function => <<"default_pretty_help"/utf8>>,
-                        line => 638})
+                        line => 629})
     end,
     {pretty_help, Usage_colour, Flags_colour, Subcommands_colour}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 701).
 -spec flag_type_info(flag_entry()) -> binary().
 flag_type_info(Flag) ->
     case erlang:element(2, Flag) of
@@ -264,6 +285,7 @@ flag_type_info(Flag) ->
             <<"STRING"/utf8>>
     end.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 728).
 -spec build_subcommands_help(gleam@dict:dict(binary(), command_node(any()))) -> list(glint@internal@help:metadata()).
 build_subcommands_help(Subcommands) ->
     gleam@dict:fold(
@@ -274,15 +296,17 @@ build_subcommands_help(Subcommands) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 877).
 -spec new_builder(
     binary(),
-    fun((flag_internals(MOI)) -> value()),
-    fun((flags(), binary()) -> {ok, MOI} | {error, snag:snag()}),
-    fun((binary()) -> {ok, MOI} | {error, snag:snag()})
-) -> flag(MOI).
+    fun((flag_internals(MNY)) -> value()),
+    fun((flags(), binary()) -> {ok, MNY} | {error, snag:snag()}),
+    fun((binary()) -> {ok, MNY} | {error, snag:snag()})
+) -> flag(MNY).
 new_builder(Name, Valuer, Getter, P) ->
     {flag, Name, <<""/utf8>>, P, Valuer, Getter, none}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 895).
 -spec build_flag(flag(any())) -> flag_entry().
 build_flag(Fb) ->
     {flag_entry,
@@ -291,21 +315,24 @@ build_flag(Fb) ->
         ),
         erlang:element(3, Fb)}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 948).
 -spec attempt(
-    {ok, MPA} | {error, MPB},
-    fun((MPA) -> {ok, any()} | {error, MPB})
-) -> {ok, MPA} | {error, MPB}.
+    {ok, MOQ} | {error, MOR},
+    fun((MOQ) -> {ok, any()} | {error, MOR})
+) -> {ok, MOQ} | {error, MOR}.
 attempt(Val, F) ->
     gleam@result:'try'(Val, fun(A) -> gleam@result:replace(F(A), A) end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 941).
 -spec wrap_with_constraint(
-    fun((binary()) -> {ok, MOU} | {error, snag:snag()}),
-    fun((MOU) -> {ok, MOU} | {error, snag:snag()})
-) -> fun((binary()) -> {ok, MOU} | {error, snag:snag()}).
+    fun((binary()) -> {ok, MOK} | {error, snag:snag()}),
+    fun((MOK) -> {ok, MOK} | {error, snag:snag()})
+) -> fun((binary()) -> {ok, MOK} | {error, snag:snag()}).
 wrap_with_constraint(P, Constraint) ->
     fun(Input) -> attempt(P(Input), Constraint) end.
 
--spec flag_constraint(flag(MOQ), fun((MOQ) -> {ok, MOQ} | {error, snag:snag()})) -> flag(MOQ).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 932).
+-spec flag_constraint(flag(MOG), fun((MOG) -> {ok, MOG} | {error, snag:snag()})) -> flag(MOG).
 flag_constraint(Builder, Constraint) ->
     erlang:setelement(
         4,
@@ -313,22 +340,26 @@ flag_constraint(Builder, Constraint) ->
         wrap_with_constraint(erlang:element(4, Builder), Constraint)
     ).
 
--spec flag_help(flag(MPJ), binary()) -> flag(MPJ).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 977).
+-spec flag_help(flag(MOZ), binary()) -> flag(MOZ).
 flag_help(Flag, Description) ->
     erlang:setelement(3, Flag, Description).
 
--spec flag_default(flag(MPM), MPM) -> flag(MPM).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 990).
+-spec flag_default(flag(MPC), MPC) -> flag(MPC).
 flag_default(Flag, Default) ->
     erlang:setelement(7, Flag, {some, Default}).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1000).
 -spec insert(flags(), binary(), flag_entry()) -> flags().
 insert(Flags, Name, Flag) ->
     {flags, gleam@dict:insert(erlang:element(2, Flags), Name, Flag)}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 407).
 -spec flag(
-    flag(MLW),
-    fun((fun((flags()) -> {ok, MLW} | {error, snag:snag()})) -> command(MLZ))
-) -> command(MLZ).
+    flag(MLN),
+    fun((fun((flags()) -> {ok, MLN} | {error, snag:snag()})) -> command(MLQ))
+) -> command(MLQ).
 flag(Flag, F) ->
     Cmd = F(
         fun(_capture) ->
@@ -345,14 +376,17 @@ flag(Flag, F) ->
         )
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1004).
 -spec merge(flags(), flags()) -> flags().
 merge(A, B) ->
     {flags, gleam@dict:merge(erlang:element(2, A), erlang:element(2, B))}.
 
--spec fold(flags(), MPP, fun((MPP, binary(), flag_entry()) -> MPP)) -> MPP.
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1008).
+-spec fold(flags(), MPF, fun((MPF, binary(), flag_entry()) -> MPF)) -> MPF.
 fold(Flags, Acc, F) ->
     gleam@dict:fold(erlang:element(2, Flags), Acc, F).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 715).
 -spec build_flags_help(flags()) -> list(glint@internal@help:flag()).
 build_flags_help(Flags) ->
     fold(
@@ -366,6 +400,7 @@ build_flags_help(Flags) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 671).
 -spec build_command_help(binary(), command_node(any())) -> glint@internal@help:command().
 build_command_help(Name, Node) ->
     {Description, Flags, Unnamed_args, Named_args} = begin
@@ -396,30 +431,36 @@ build_command_help(Name, Node) ->
                 end end)),
         Named_args}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1012).
 -spec new_flags() -> flags().
 new_flags() ->
     {flags, gleam@dict:new()}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 278).
 -spec empty_command() -> command_node(any()).
 empty_command() ->
     {command_node, none, gleam@dict:new(), new_flags(), <<""/utf8>>}.
 
--spec command(fun((named_args(), list(binary()), flags()) -> MLK)) -> command(MLK).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 308).
+-spec command(fun((named_args(), list(binary()), flags()) -> MLB)) -> command(MLB).
 command(Runner) ->
     {command, Runner, new_flags(), <<""/utf8>>, none, []}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1063).
 -spec access_type_error(binary()) -> {ok, any()} | {error, snag:snag()}.
 access_type_error(Flag_type) ->
     snag:error(<<"cannot access flag as "/utf8, Flag_type/binary>>).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1067).
 -spec flag_not_provided_error() -> {ok, any()} | {error, snag:snag()}.
 flag_not_provided_error() ->
     snag:error(<<"no value provided"/utf8>>).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1071).
 -spec construct_value(
     binary(),
-    flag_internals(MPW),
-    fun((flag_internals(MPW)) -> value())
+    flag_internals(MPM),
+    fun((flag_internals(MPM)) -> value())
 ) -> {ok, value()} | {error, snag:snag()}.
 construct_value(Input, Internal, Constructor) ->
     gleam@result:map(
@@ -427,6 +468,7 @@ construct_value(Input, Internal, Constructor) ->
         fun(Val) -> Constructor(erlang:setelement(2, Internal, {some, Val})) end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1082).
 -spec compute_flag(binary(), value()) -> {ok, value()} | {error, snag:snag()}.
 compute_flag(Input, Current) ->
     _pipe = Input,
@@ -496,10 +538,12 @@ compute_flag(Input, Current) ->
     end(_pipe),
     snag:context(_pipe@1, <<"failed to compute value for flag"/utf8>>).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1097).
 -spec layer_invalid_flag(snag:snag(), binary()) -> snag:snag().
 layer_invalid_flag(Err, Flag) ->
     snag:layer(Err, <<<<"invalid flag '"/utf8, Flag/binary>>/binary, "'"/utf8>>).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1101).
 -spec no_value_flag_err(binary()) -> snag:snag().
 no_value_flag_err(Flag_input) ->
     _pipe = (<<<<"flag '"/utf8, Flag_input/binary>>/binary,
@@ -507,12 +551,14 @@ no_value_flag_err(Flag_input) ->
     _pipe@1 = snag:new(_pipe),
     layer_invalid_flag(_pipe@1, Flag_input).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1107).
 -spec undefined_flag_err(binary()) -> snag:snag().
 undefined_flag_err(Key) ->
     _pipe = <<"flag provided but not defined"/utf8>>,
     _pipe@1 = snag:new(_pipe),
     layer_invalid_flag(_pipe@1, Key).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1113).
 -spec cannot_parse(binary(), binary()) -> snag:snag().
 cannot_parse(Value, Kind) ->
     _pipe = (<<<<<<"cannot parse value '"/utf8, Value/binary>>/binary,
@@ -520,11 +566,13 @@ cannot_parse(Value, Kind) ->
         Kind/binary>>),
     snag:new(_pipe).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1122).
 -spec get(flags(), binary()) -> {ok, flag_entry()} | {error, snag:snag()}.
 get(Flags, Name) ->
     _pipe = gleam@dict:get(erlang:element(2, Flags), Name),
     gleam@result:replace_error(_pipe, undefined_flag_err(Name)).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1029).
 -spec update_flag_value(flags(), {binary(), binary()}) -> {ok, flags()} |
     {error, snag:snag()}.
 update_flag_value(Flags, Data) ->
@@ -547,6 +595,7 @@ update_flag_value(Flags, Data) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1042).
 -spec attempt_toggle_flag(flags(), binary()) -> {ok, flags()} |
     {error, snag:snag()}.
 attempt_toggle_flag(Flags, Key) ->
@@ -590,11 +639,12 @@ attempt_toggle_flag(Flags, Key) ->
             end end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1127).
 -spec get_value(
     flags(),
     binary(),
-    fun((flag_entry()) -> {ok, MQC} | {error, snag:snag()})
-) -> {ok, MQC} | {error, snag:snag()}.
+    fun((flag_entry()) -> {ok, MPS} | {error, snag:snag()})
+) -> {ok, MPS} | {error, snag:snag()}.
 get_value(Flags, Key, Kind) ->
     _pipe = get(Flags, Key),
     _pipe@1 = gleam@result:'try'(_pipe, Kind),
@@ -604,10 +654,12 @@ get_value(Flags, Key, Kind) ->
             "'"/utf8>>
     ).
 
--spec get_flag(flags(), flag(MQF)) -> {ok, MQF} | {error, snag:snag()}.
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1142).
+-spec get_flag(flags(), flag(MPV)) -> {ok, MPV} | {error, snag:snag()}.
 get_flag(Flags, Flag) ->
     (erlang:element(6, Flag))(Flags, erlang:element(2, Flag)).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1148).
 -spec get_int_flag(flags(), binary()) -> {ok, integer()} | {error, snag:snag()}.
 get_int_flag(Flags, Name) ->
     get_value(Flags, Name, fun(Flag) -> case erlang:element(2, Flag) of
@@ -621,6 +673,7 @@ get_int_flag(Flags, Name) ->
                     access_type_error(<<"int"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 813).
 -spec int_flag(binary()) -> flag(integer()).
 int_flag(Name) ->
     new_builder(
@@ -635,6 +688,7 @@ int_flag(Name) ->
             ) end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1159).
 -spec get_ints_flag(flags(), binary()) -> {ok, list(integer())} |
     {error, snag:snag()}.
 get_ints_flag(Flags, Name) ->
@@ -649,6 +703,7 @@ get_ints_flag(Flags, Name) ->
                     access_type_error(<<"int list"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 822).
 -spec ints_flag(binary()) -> flag(list(integer())).
 ints_flag(Name) ->
     new_builder(
@@ -664,6 +719,7 @@ ints_flag(Name) ->
             ) end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1170).
 -spec get_bool_flag(flags(), binary()) -> {ok, boolean()} | {error, snag:snag()}.
 get_bool_flag(Flags, Name) ->
     get_value(Flags, Name, fun(Flag) -> case erlang:element(2, Flag) of
@@ -677,6 +733,7 @@ get_bool_flag(Flags, Name) ->
                     access_type_error(<<"bool"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 866).
 -spec bool_flag(binary()) -> flag(boolean()).
 bool_flag(Name) ->
     new_builder(
@@ -701,6 +758,7 @@ bool_flag(Name) ->
             end end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1181).
 -spec get_string_flag(flags(), binary()) -> {ok, binary()} |
     {error, snag:snag()}.
 get_string_flag(Flags, Name) ->
@@ -715,6 +773,7 @@ get_string_flag(Flags, Name) ->
                     access_type_error(<<"string"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 851).
 -spec string_flag(binary()) -> flag(binary()).
 string_flag(Name) ->
     new_builder(
@@ -724,6 +783,7 @@ string_flag(Name) ->
         fun(S) -> {ok, S} end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1192).
 -spec get_strings_flag(flags(), binary()) -> {ok, list(binary())} |
     {error, snag:snag()}.
 get_strings_flag(Flags, Name) ->
@@ -738,6 +798,7 @@ get_strings_flag(Flags, Name) ->
                     access_type_error(<<"string list"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 857).
 -spec strings_flag(binary()) -> flag(list(binary())).
 strings_flag(Name) ->
     new_builder(
@@ -749,6 +810,7 @@ strings_flag(Name) ->
             {ok, _pipe@1} end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1206).
 -spec get_floats(flags(), binary()) -> {ok, float()} | {error, snag:snag()}.
 get_floats(Flags, Name) ->
     get_value(Flags, Name, fun(Flag) -> case erlang:element(2, Flag) of
@@ -762,6 +824,7 @@ get_floats(Flags, Name) ->
                     access_type_error(<<"float"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 832).
 -spec float_flag(binary()) -> flag(float()).
 float_flag(Name) ->
     new_builder(
@@ -776,6 +839,7 @@ float_flag(Name) ->
             ) end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1217).
 -spec get_floats_flag(flags(), binary()) -> {ok, list(float())} |
     {error, snag:snag()}.
 get_floats_flag(Flags, Name) ->
@@ -790,6 +854,7 @@ get_floats_flag(Flags, Name) ->
                     access_type_error(<<"float list"/utf8>>)
             end end).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 841).
 -spec floats_flag(binary()) -> flag(list(float())).
 floats_flag(Name) ->
     new_builder(
@@ -805,11 +870,12 @@ floats_flag(Name) ->
             ) end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1243).
 -spec do_update_at(
-    command_node(MQY),
+    command_node(MQO),
     list(binary()),
-    fun((command_node(MQY)) -> command_node(MQY))
-) -> command_node(MQY).
+    fun((command_node(MQO)) -> command_node(MQO))
+) -> command_node(MQO).
 do_update_at(Node, Path, F) ->
     case Path of
         [] ->
@@ -832,11 +898,12 @@ do_update_at(Node, Path, F) ->
             )
     end.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1232).
 -spec update_at(
-    glint(MQS),
+    glint(MQI),
     list(binary()),
-    fun((command_node(MQS)) -> command_node(MQS))
-) -> glint(MQS).
+    fun((command_node(MQI)) -> command_node(MQI))
+) -> glint(MQI).
 update_at(Glint, Path, F) ->
     erlang:setelement(
         3,
@@ -844,7 +911,8 @@ update_at(Glint, Path, F) ->
         do_update_at(erlang:element(3, Glint), sanitize_path(Path), F)
     ).
 
--spec path_help(glint(MKU), list(binary()), binary()) -> glint(MKU).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 220).
+-spec path_help(glint(MKL), list(binary()), binary()) -> glint(MKL).
 path_help(Glint, Path, Description) ->
     update_at(
         Glint,
@@ -852,7 +920,8 @@ path_help(Glint, Path, Description) ->
         fun(Node) -> erlang:setelement(5, Node, Description) end
     ).
 
--spec add(glint(MLB), list(binary()), command(MLB)) -> glint(MLB).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 258).
+-spec add(glint(MKS), list(binary()), command(MKS)) -> glint(MKS).
 add(Glint, Path, Command) ->
     update_at(
         Glint,
@@ -871,7 +940,8 @@ add(Glint, Path, Command) ->
         end
     ).
 
--spec group_flag(glint(MMC), list(binary()), flag(any())) -> glint(MMC).
+-file("/home/runner/work/glint/glint/src/glint.gleam", 418).
+-spec group_flag(glint(MLT), list(binary()), flag(any())) -> glint(MLT).
 group_flag(Glint, Path, Flag) ->
     update_at(
         Glint,
@@ -889,12 +959,14 @@ group_flag(Glint, Path, Flag) ->
         end
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 210).
 -spec new() -> glint(any()).
 new() ->
     {glint,
         {config, none, none, false, none, true, 4, 80, 20, 2},
         empty_command()}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 652).
 -spec build_help_config(config()) -> glint@internal@help:config().
 build_help_config(Config) ->
     {config,
@@ -920,6 +992,7 @@ build_help_config(Config) ->
         <<"--"/utf8>>,
         <<"="/utf8>>}.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 641).
 -spec cmd_help(list(binary()), command_node(any()), config()) -> binary().
 cmd_help(Path, Cmd, Config) ->
     _pipe = Path,
@@ -931,6 +1004,7 @@ cmd_help(Path, Cmd, Config) ->
         build_help_config(Config)
     ).
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 1020).
 -spec update_flags(flags(), binary()) -> {ok, flags()} | {error, snag:snag()}.
 update_flags(Flags, Flag_input) ->
     Flag_input@1 = gleam@string:drop_left(
@@ -945,148 +1019,137 @@ update_flags(Flags, Flag_input) ->
             attempt_toggle_flag(Flags, Flag_input@1)
     end.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 517).
 -spec execute_root(
     list(binary()),
     config(),
-    command_node(MMY),
+    command_node(MMP),
     list(binary()),
     list(binary())
-) -> {ok, out(MMY)} | {error, binary()}.
+) -> {ok, MMP} | {error, binary()}.
 execute_root(Path, Config, Cmd, Args, Flag_inputs) ->
-    Res = begin
-        _pipe@5 = (gleam@option:map(
+    _pipe@5 = (gleam@result:'try'(
+        gleam@option:to_result(
             erlang:element(2, Cmd),
-            fun(Contents) ->
-                gleam@result:'try'(
-                    gleam@list:try_fold(
-                        Flag_inputs,
-                        merge(
-                            erlang:element(4, Cmd),
-                            erlang:element(3, Contents)
-                        ),
-                        fun update_flags/2
-                    ),
-                    fun(New_flags) ->
-                        gleam@result:'try'(
-                            begin
-                                Named = gleam@list:zip(
-                                    erlang:element(5, Contents),
-                                    Args
-                                ),
-                                case erlang:length(Named) =:= erlang:length(
-                                    erlang:element(5, Contents)
-                                ) of
-                                    true ->
-                                        {ok, maps:from_list(Named)};
-
-                                    false ->
-                                        snag:error(
-                                            <<"unmatched named arguments: "/utf8,
-                                                (begin
-                                                    _pipe = erlang:element(
-                                                        5,
-                                                        Contents
-                                                    ),
-                                                    _pipe@1 = gleam@list:drop(
-                                                        _pipe,
-                                                        erlang:length(Named)
-                                                    ),
-                                                    _pipe@2 = gleam@list:map(
-                                                        _pipe@1,
-                                                        fun(S) ->
-                                                            <<<<"'"/utf8,
-                                                                    S/binary>>/binary,
-                                                                "'"/utf8>>
-                                                        end
-                                                    ),
-                                                    gleam@string:join(
-                                                        _pipe@2,
-                                                        <<", "/utf8>>
-                                                    )
-                                                end)/binary>>
-                                        )
-                                end
-                            end,
-                            fun(Named_args) ->
-                                Args@1 = gleam@list:drop(
-                                    Args,
-                                    maps:size(Named_args)
-                                ),
-                                gleam@result:map(
-                                    case erlang:element(4, Contents) of
-                                        {some, Count} ->
-                                            _pipe@3 = Count,
-                                            _pipe@4 = args_compare(
-                                                _pipe@3,
-                                                erlang:length(Args@1)
-                                            ),
-                                            snag:context(
-                                                _pipe@4,
-                                                <<"invalid number of arguments provided"/utf8>>
-                                            );
-
-                                        none ->
-                                            {ok, nil}
-                                    end,
-                                    fun(_) ->
-                                        {out,
-                                            (erlang:element(2, Contents))(
-                                                {named_args, Named_args},
-                                                Args@1,
-                                                New_flags
-                                            )}
-                                    end
-                                )
-                            end
-                        )
-                    end
-                )
-            end
-        )),
-        _pipe@6 = gleam@option:unwrap(
-            _pipe@5,
-            snag:error(<<"command not found"/utf8>>)
+            snag:new(<<"command not found"/utf8>>)
         ),
-        _pipe@7 = snag:context(_pipe@6, <<"failed to run command"/utf8>>),
-        gleam@result:map_error(
-            _pipe@7,
-            fun(Err) -> {Err, cmd_help(Path, Cmd, Config)} end
-        )
-    end,
-    case Res of
-        {ok, Out} ->
-            {ok, Out};
+        fun(Contents) ->
+            gleam@result:'try'(
+                gleam@list:try_fold(
+                    Flag_inputs,
+                    merge(erlang:element(4, Cmd), erlang:element(3, Contents)),
+                    fun update_flags/2
+                ),
+                fun(New_flags) ->
+                    gleam@result:'try'(
+                        begin
+                            Named = gleam@list:zip(
+                                erlang:element(5, Contents),
+                                Args
+                            ),
+                            case erlang:length(Named) =:= erlang:length(
+                                erlang:element(5, Contents)
+                            ) of
+                                true ->
+                                    {ok, maps:from_list(Named)};
 
-        {error, {Snag, Help}} ->
-            {error,
-                <<<<(snag:pretty_print(Snag))/binary,
-                        "\nSee the following help text, available via the '--help' flag.\n\n"/utf8>>/binary,
-                    Help/binary>>}
-    end.
+                                false ->
+                                    snag:error(
+                                        <<"unmatched named arguments: "/utf8,
+                                            (begin
+                                                _pipe = erlang:element(
+                                                    5,
+                                                    Contents
+                                                ),
+                                                _pipe@1 = gleam@list:drop(
+                                                    _pipe,
+                                                    erlang:length(Named)
+                                                ),
+                                                _pipe@2 = gleam@list:map(
+                                                    _pipe@1,
+                                                    fun(S) ->
+                                                        <<<<"'"/utf8, S/binary>>/binary,
+                                                            "'"/utf8>>
+                                                    end
+                                                ),
+                                                gleam@string:join(
+                                                    _pipe@2,
+                                                    <<", "/utf8>>
+                                                )
+                                            end)/binary>>
+                                    )
+                            end
+                        end,
+                        fun(Named_args) ->
+                            Args@1 = gleam@list:drop(
+                                Args,
+                                maps:size(Named_args)
+                            ),
+                            gleam@result:map(case erlang:element(4, Contents) of
+                                    {some, Count} ->
+                                        _pipe@3 = Count,
+                                        _pipe@4 = args_compare(
+                                            _pipe@3,
+                                            erlang:length(Args@1)
+                                        ),
+                                        snag:context(
+                                            _pipe@4,
+                                            <<"invalid number of arguments provided"/utf8>>
+                                        );
 
+                                    none ->
+                                        {ok, nil}
+                                end, fun(_) ->
+                                    (erlang:element(2, Contents))(
+                                        {named_args, Named_args},
+                                        Args@1,
+                                        New_flags
+                                    )
+                                end)
+                        end
+                    )
+                end
+            )
+        end
+    )),
+    gleam@result:map_error(
+        _pipe@5,
+        fun(Err) ->
+            <<<<(begin
+                        _pipe@6 = Err,
+                        _pipe@7 = snag:layer(
+                            _pipe@6,
+                            <<"failed to run command"/utf8>>
+                        ),
+                        snag:pretty_print(_pipe@7)
+                    end)/binary,
+                    "\nSee the following help text, available via the '--help' flag.\n\n"/utf8>>/binary,
+                (cmd_help(Path, Cmd, Config))/binary>>
+        end
+    ).
+
+-file("/home/runner/work/glint/glint/src/glint.gleam", 461).
 -spec do_execute(
-    command_node(MMO),
+    command_node(MMF),
     config(),
     list(binary()),
     list(binary()),
     boolean(),
     list(binary())
-) -> {ok, out(MMO)} | {error, binary()}.
+) -> {ok, out(MMF)} | {error, binary()}.
 do_execute(Cmd, Config, Args, Flags, Help, Command_path) ->
     case Args of
         [] when Help ->
-            _pipe = Command_path,
-            _pipe@1 = cmd_help(_pipe, Cmd, Config),
-            _pipe@2 = {help, _pipe@1},
-            {ok, _pipe@2};
+            {ok, {help, cmd_help(Command_path, Cmd, Config)}};
 
         [] ->
-            execute_root(Command_path, Config, Cmd, [], Flags);
+            _pipe = execute_root(Command_path, Config, Cmd, [], Flags),
+            gleam@result:map(_pipe, fun(Field@0) -> {out, Field@0} end);
 
         [Arg | Rest] ->
             case gleam@dict:get(erlang:element(3, Cmd), Arg) of
                 {ok, Sub_command} ->
-                    Sub_command@1 = erlang:setelement(
+                    _pipe@1 = erlang:setelement(
                         4,
                         Sub_command,
                         merge(
@@ -1095,7 +1158,7 @@ do_execute(Cmd, Config, Args, Flags, Help, Command_path) ->
                         )
                     ),
                     do_execute(
-                        Sub_command@1,
+                        _pipe@1,
                         Config,
                         Rest,
                         Flags,
@@ -1104,17 +1167,25 @@ do_execute(Cmd, Config, Args, Flags, Help, Command_path) ->
                     );
 
                 _ when Help ->
-                    _pipe@3 = Command_path,
-                    _pipe@4 = cmd_help(_pipe@3, Cmd, Config),
-                    _pipe@5 = {help, _pipe@4},
-                    {ok, _pipe@5};
+                    {ok, {help, cmd_help(Command_path, Cmd, Config)}};
 
                 _ ->
-                    execute_root(Command_path, Config, Cmd, Args, Flags)
+                    _pipe@2 = execute_root(
+                        Command_path,
+                        Config,
+                        Cmd,
+                        Args,
+                        Flags
+                    ),
+                    gleam@result:map(
+                        _pipe@2,
+                        fun(Field@0) -> {out, Field@0} end
+                    )
             end
     end.
 
--spec execute(glint(MMI), list(binary())) -> {ok, out(MMI)} | {error, binary()}.
+-file("/home/runner/work/glint/glint/src/glint.gleam", 442).
+-spec execute(glint(MLZ), list(binary())) -> {ok, out(MLZ)} | {error, binary()}.
 execute(Glint, Args) ->
     Help_flag = <<"--"/utf8,
         (erlang:element(
@@ -1148,7 +1219,8 @@ execute(Glint, Args) ->
         []
     ).
 
--spec run_and_handle(glint(MNI), list(binary()), fun((MNI) -> any())) -> nil.
+-file("/home/runner/work/glint/glint/src/glint.gleam", 597).
+-spec run_and_handle(glint(MMY), list(binary()), fun((MMY) -> any())) -> nil.
 run_and_handle(Glint, Args, Handle) ->
     case execute(Glint, Args) of
         {error, S} ->
@@ -1169,6 +1241,7 @@ run_and_handle(Glint, Args, Handle) ->
             nil
     end.
 
+-file("/home/runner/work/glint/glint/src/glint.gleam", 587).
 -spec run(glint(any()), list(binary())) -> nil.
 run(Glint, Args) ->
     run_and_handle(Glint, Args, fun(_) -> nil end).

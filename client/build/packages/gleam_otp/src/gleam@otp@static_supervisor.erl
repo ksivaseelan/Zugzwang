@@ -54,7 +54,7 @@ add(Builder, Child) ->
 ) -> child_builder().
 worker_child(Id, Starter) ->
     {child_builder, Id, fun() -> _pipe = Starter(),
-            gleam@result:map_error(_pipe, fun gleam@dynamic:from/1) end, permanent, false, {worker,
+            gleam@result:map_error(_pipe, fun gleam_stdlib:identity/1) end, permanent, false, {worker,
             5000}}.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/static_supervisor.gleam", 219).
@@ -64,7 +64,7 @@ worker_child(Id, Starter) ->
 ) -> child_builder().
 supervisor_child(Id, Starter) ->
     {child_builder, Id, fun() -> _pipe = Starter(),
-            gleam@result:map_error(_pipe, fun gleam@dynamic:from/1) end, permanent, false, supervisor}.
+            gleam@result:map_error(_pipe, fun gleam_stdlib:identity/1) end, permanent, false, supervisor}.
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/static_supervisor.gleam", 241).
 -spec significant(child_builder(), boolean()) -> child_builder().
@@ -97,7 +97,7 @@ property(Dict, Key, Value) ->
     gleam@dict:insert(
         Dict,
         erlang:binary_to_atom(Key),
-        gleam@dynamic:from(Value)
+        gleam_stdlib:identity(Value)
     ).
 
 -file("/Users/louis/src/gleam/otp/src/gleam/otp/static_supervisor.gleam", 267).
@@ -105,15 +105,18 @@ property(Dict, Key, Value) ->
 convert_child(Child) ->
     Mfa = {erlang:binary_to_atom(<<"erlang"/utf8>>),
         erlang:binary_to_atom(<<"apply"/utf8>>),
-        [gleam@dynamic:from(erlang:element(3, Child)), gleam@dynamic:from([])]},
+        [gleam_stdlib:identity(erlang:element(3, Child)),
+            gleam_stdlib:identity([])]},
     {Type_, Shutdown} = case erlang:element(6, Child) of
         supervisor ->
             {erlang:binary_to_atom(<<"supervisor"/utf8>>),
-                gleam@dynamic:from(erlang:binary_to_atom(<<"infinity"/utf8>>))};
+                gleam_stdlib:identity(
+                    erlang:binary_to_atom(<<"infinity"/utf8>>)
+                )};
 
         {worker, Timeout} ->
             {erlang:binary_to_atom(<<"worker"/utf8>>),
-                gleam@dynamic:from(Timeout)}
+                gleam_stdlib:identity(Timeout)}
     end,
     _pipe = gleam@dict:new(),
     _pipe@1 = property(_pipe, <<"id"/utf8>>, erlang:element(2, Child)),

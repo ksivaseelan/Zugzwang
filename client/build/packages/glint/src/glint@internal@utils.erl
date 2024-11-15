@@ -3,12 +3,14 @@
 
 -export([max_string_length/1, wordwrap/2]).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/utils.gleam", 8).
 -spec max_string_length(list(binary())) -> integer().
 max_string_length(Strings) ->
     gleam@list:fold(Strings, 0, fun(Max, F) -> _pipe = F,
             _pipe@1 = gleam@string:length(_pipe),
             gleam@int:max(_pipe@1, Max) end).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/utils.gleam", 27).
 -spec do_wordwrap(list(binary()), integer(), binary(), list(binary())) -> list(binary()).
 do_wordwrap(Tokens, Max_width, Line, Lines) ->
     case Tokens of
@@ -38,6 +40,7 @@ do_wordwrap(Tokens, Max_width, Line, Lines) ->
             lists:reverse([Line | Lines])
     end.
 
+-file("/home/runner/work/glint/glint/src/glint/internal/utils.gleam", 63).
 -spec space_split_lines(binary()) -> list(binary()).
 space_split_lines(S) ->
     Chunks = begin
@@ -69,6 +72,7 @@ space_split_lines(S) ->
     )),
     lists:reverse(erlang:element(1, Lines)).
 
+-file("/home/runner/work/glint/glint/src/glint/internal/utils.gleam", 19).
 -spec wordwrap(binary(), integer()) -> list(binary()).
 wordwrap(S, Max_width) ->
     gleam@bool:guard(

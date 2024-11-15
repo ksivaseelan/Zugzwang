@@ -56,12 +56,12 @@ functionality.
 
 ### Task
 
-A task is a kind of process that performs a single task and then shuts down.
-Commonly tasks are used to convert sequential code into concurrent code by
-performing computation in another process.
+A task is a kind of process that computes a value and then sends the result back
+to its parent. Commonly multiple tasks are used to compute multiple things at
+once.
 
 - [gleam/otp/task](https://hexdocs.pm/gleam_otp/gleam/otp/task.html)
-documentation.
+  documentation.
 
 ### Supervisor
 

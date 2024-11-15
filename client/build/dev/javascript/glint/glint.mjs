@@ -204,19 +204,16 @@ class Flags extends $CustomType {
   }
 }
 
-function config(glint, config) {
-  return glint.withFields({ config: config });
-}
-
 export function pretty_help(glint, pretty) {
-  return config(
-    glint,
-    glint.config.withFields({ pretty_help: new Some(pretty) }),
-  );
+  return glint.withFields({
+    config: glint.config.withFields({ pretty_help: new Some(pretty) })
+  });
 }
 
 export function with_name(glint, name) {
-  return config(glint, glint.config.withFields({ name: new Some(name) }));
+  return glint.withFields({
+    config: glint.config.withFields({ name: new Some(name) })
+  });
 }
 
 export function without_exit(glint) {
@@ -224,30 +221,34 @@ export function without_exit(glint) {
 }
 
 export function as_module(glint) {
-  return config(glint, glint.config.withFields({ as_module: true }));
-}
-
-export function with_indent_width(glint, width) {
   return glint.withFields({
-    config: glint.config.withFields({ indent_width: width })
+    config: glint.config.withFields({ as_module: true })
   });
 }
 
-export function with_max_output_width(glint, width) {
+export function with_indent_width(glint, indent_width) {
   return glint.withFields({
-    config: glint.config.withFields({ max_output_width: width })
+    config: glint.config.withFields({ indent_width: indent_width })
   });
 }
 
-export function with_min_first_column_width(glint, width) {
+export function with_max_output_width(glint, max_output_width) {
   return glint.withFields({
-    config: glint.config.withFields({ min_first_column_width: width })
+    config: glint.config.withFields({ max_output_width: max_output_width })
   });
 }
 
-export function with_column_gap(glint, gap) {
+export function with_min_first_column_width(glint, min_first_column_width) {
   return glint.withFields({
-    config: glint.config.withFields({ column_gap: gap })
+    config: glint.config.withFields({
+      min_first_column_width: min_first_column_width
+    })
+  });
+}
+
+export function with_column_gap(glint, column_gap) {
+  return glint.withFields({
+    config: glint.config.withFields({ column_gap: column_gap })
   });
 }
 
@@ -279,7 +280,7 @@ export function named_arg(name, f) {
         throw makeError(
           "let_assert",
           "glint",
-          383,
+          380,
           "",
           "Pattern match failed, no pattern matched the value.",
           { value: $ }
@@ -325,7 +326,7 @@ export function default_pretty_help() {
     throw makeError(
       "let_assert",
       "glint",
-      636,
+      627,
       "default_pretty_help",
       "Pattern match failed, no pattern matched the value.",
       { value: $ }
@@ -337,7 +338,7 @@ export function default_pretty_help() {
     throw makeError(
       "let_assert",
       "glint",
-      637,
+      628,
       "default_pretty_help",
       "Pattern match failed, no pattern matched the value.",
       { value: $1 }
@@ -349,7 +350,7 @@ export function default_pretty_help() {
     throw makeError(
       "let_assert",
       "glint",
-      638,
+      629,
       "default_pretty_help",
       "Pattern match failed, no pattern matched the value.",
       { value: $2 }
@@ -1070,85 +1071,81 @@ function update_flags(flags, flag_input) {
 }
 
 function execute_root(path, config, cmd, args, flag_inputs) {
-  let res = (() => {
-    let _pipe = $option.map(
-      cmd.contents,
-      (contents) => {
-        return $result.try$(
-          $list.try_fold(
-            flag_inputs,
-            merge(cmd.group_flags, contents.flags),
-            update_flags,
-          ),
-          (new_flags) => {
-            return $result.try$(
-              (() => {
-                let named = $list.zip(contents.named_args, args);
-                let $ = $list.length(named) === $list.length(
-                  contents.named_args,
-                );
-                if ($) {
-                  return new Ok($dict.from_list(named));
-                } else {
-                  return $snag.error(
-                    "unmatched named arguments: " + (() => {
-                      let _pipe = contents.named_args;
-                      let _pipe$1 = $list.drop(_pipe, $list.length(named));
-                      let _pipe$2 = $list.map(
-                        _pipe$1,
-                        (s) => { return ("'" + s) + "'"; },
-                      );
-                      return $string.join(_pipe$2, ", ");
-                    })(),
-                  );
-                }
-              })(),
-              (named_args) => {
-                let args$1 = $list.drop(args, $dict.size(named_args));
-                return $result.map(
-                  (() => {
-                    let $ = contents.unnamed_args;
-                    if ($ instanceof Some) {
-                      let count = $[0];
-                      let _pipe = count;
-                      let _pipe$1 = args_compare(_pipe, $list.length(args$1));
-                      return $snag.context(
-                        _pipe$1,
-                        "invalid number of arguments provided",
-                      );
-                    } else {
-                      return new Ok(undefined);
-                    }
-                  })(),
-                  (_) => {
-                    return new Out(
-                      contents.do(new NamedArgs(named_args), args$1, new_flags),
+  let _pipe = $result.try$(
+    $option.to_result(cmd.contents, $snag.new$("command not found")),
+    (contents) => {
+      return $result.try$(
+        $list.try_fold(
+          flag_inputs,
+          merge(cmd.group_flags, contents.flags),
+          update_flags,
+        ),
+        (new_flags) => {
+          return $result.try$(
+            (() => {
+              let named = $list.zip(contents.named_args, args);
+              let $ = $list.length(named) === $list.length(contents.named_args);
+              if ($) {
+                return new Ok($dict.from_list(named));
+              } else {
+                return $snag.error(
+                  "unmatched named arguments: " + (() => {
+                    let _pipe = contents.named_args;
+                    let _pipe$1 = $list.drop(_pipe, $list.length(named));
+                    let _pipe$2 = $list.map(
+                      _pipe$1,
+                      (s) => { return ("'" + s) + "'"; },
                     );
-                  },
+                    return $string.join(_pipe$2, ", ");
+                  })(),
                 );
-              },
-            );
-          },
-        );
-      },
-    );
-    let _pipe$1 = $option.unwrap(_pipe, $snag.error("command not found"));
-    let _pipe$2 = $snag.context(_pipe$1, "failed to run command");
-    return $result.map_error(
-      _pipe$2,
-      (err) => { return [err, cmd_help(path, cmd, config)]; },
-    );
-  })();
-  if (res.isOk()) {
-    let out = res[0];
-    return new Ok(out);
-  } else {
-    let snag = res[0][0];
-    let help = res[0][1];
-    return new Error(
-      ($snag.pretty_print(snag) + "\nSee the following help text, available via the '--help' flag.\n\n") + help,
-    );
-  }
+              }
+            })(),
+            (named_args) => {
+              let args$1 = $list.drop(args, $dict.size(named_args));
+              return $result.map(
+                (() => {
+                  let $ = contents.unnamed_args;
+                  if ($ instanceof Some) {
+                    let count = $[0];
+                    let _pipe = count;
+                    let _pipe$1 = args_compare(_pipe, $list.length(args$1));
+                    return $snag.context(
+                      _pipe$1,
+                      "invalid number of arguments provided",
+                    );
+                  } else {
+                    return new Ok(undefined);
+                  }
+                })(),
+                (_) => {
+                  return contents.do(
+                    new NamedArgs(named_args),
+                    args$1,
+                    new_flags,
+                  );
+                },
+              );
+            },
+          );
+        },
+      );
+    },
+  );
+  return $result.map_error(
+    _pipe,
+    (err) => {
+      return ((() => {
+        let _pipe$1 = err;
+        let _pipe$2 = $snag.layer(_pipe$1, "failed to run command");
+        return $snag.pretty_print(_pipe$2);
+      })() + "\nSee the following help text, available via the '--help' flag.\n\n") + cmd_help(
+        path,
+        cmd,
+        config,
+      );
+    },
+  );
 }
 
 function do_execute(
@@ -1167,34 +1164,30 @@ function do_execute(
     let help = loop$help;
     let command_path = loop$command_path;
     if (args.hasLength(0) && (help)) {
-      let _pipe = command_path;
-      let _pipe$1 = cmd_help(_pipe, cmd, config);
-      let _pipe$2 = new Help(_pipe$1);
-      return new Ok(_pipe$2);
+      return new Ok(new Help(cmd_help(command_path, cmd, config)));
     } else if (args.hasLength(0)) {
-      return execute_root(command_path, config, cmd, toList([]), flags);
+      let _pipe = execute_root(command_path, config, cmd, toList([]), flags);
+      return $result.map(_pipe, (var0) => { return new Out(var0); });
     } else {
       let arg = args.head;
       let rest = args.tail;
       let $ = $dict.get(cmd.subcommands, arg);
       if ($.isOk()) {
         let sub_command = $[0];
-        let sub_command$1 = sub_command.withFields({
+        let _pipe = sub_command.withFields({
           group_flags: merge(cmd.group_flags, sub_command.group_flags)
         });
-        loop$cmd = sub_command$1;
+        loop$cmd = _pipe;
         loop$config = config;
         loop$args = rest;
         loop$flags = flags;
         loop$help = help;
         loop$command_path = listPrepend(arg, command_path);
       } else if (help) {
-        let _pipe = command_path;
-        let _pipe$1 = cmd_help(_pipe, cmd, config);
-        let _pipe$2 = new Help(_pipe$1);
-        return new Ok(_pipe$2);
+        return new Ok(new Help(cmd_help(command_path, cmd, config)));
       } else {
-        return execute_root(command_path, config, cmd, args, flags);
+        let _pipe = execute_root(command_path, config, cmd, args, flags);
+        return $result.map(_pipe, (var0) => { return new Out(var0); });
       }
     }
   }

@@ -256,13 +256,16 @@ pub fn selecting_trapped_exits(
 @external(erlang, "gleam_erlang_ffi", "flush_messages")
 pub fn flush_messages() -> Nil
 
-/// Add a new `Subject` to the `Selector` to that it's messages can be received.
+/// Add a new `Subject` to the `Selector` so that its messages can be selected
+/// from the receiver process inbox.
 ///
 /// The `mapping` function provided with the `Subject` can be used to convert
 /// the type of messages received using this `Subject`. This is useful for when
 /// you wish to add multiple `Subject`s to a `Selector` when they have differing
 /// message types. If you do not wish to transform the incoming messages in any
 /// way then the `identity` function can be given.
+///
+/// See `deselecting` to remove a subject from a selector.
 ///
 pub fn selecting(
   selector: Selector(payload),
@@ -271,6 +274,16 @@ pub fn selecting(
 ) -> Selector(payload) {
   let handler = fn(message: #(Reference, message)) { transform(message.1) }
   insert_selector_handler(selector, #(subject.tag, 2), handler)
+}
+
+/// Remove a new `Subject` from the `Selector` so that its messages will not be
+/// selected from the receiver process inbox.
+///
+pub fn deselecting(
+  selector: Selector(payload),
+  for subject: Subject(message),
+) -> Selector(payload) {
+  remove_selector_handler(selector, #(subject.tag, 2))
 }
 
 /// Add a handler to a selector for 2 element tuple messages with a given tag
@@ -453,6 +466,12 @@ fn insert_selector_handler(
   mapping mapping: fn(message) -> payload,
 ) -> Selector(payload)
 
+@external(erlang, "gleam_erlang_ffi", "remove_selector_handler")
+fn remove_selector_handler(
+  a: Selector(payload),
+  for for: tag,
+) -> Selector(payload)
+
 /// Suspends the process calling this function for the specified number of
 /// milliseconds.
 ///
@@ -511,7 +530,9 @@ pub fn monitor_process(pid: Pid) -> ProcessMonitor {
 }
 
 /// Add a `ProcessMonitor` to a `Selector` so that the `ProcessDown` message can
-/// be received using the `Selector` and the `select` function.
+/// be received using the `Selector` and the `select` function. The
+/// `ProcessMonitor` can be removed later with
+/// [`deselecting_process_down`](#deselecting_process_down).
 ///
 pub fn selecting_process_down(
   selector: Selector(payload),
@@ -541,6 +562,17 @@ pub type CallError(msg) {
   /// time.
   ///
   CallTimeout
+}
+
+/// Remove a `ProcessMonitor` from a `Selector` prevoiusly added by
+/// [`selecting_process_down`](#selecting_process_down). If the `ProcessMonitor` is not in the
+/// `Selector` it will be returned unchanged.
+///
+pub fn deselecting_process_down(
+  selector: Selector(payload),
+  monitor: ProcessMonitor,
+) -> Selector(payload) {
+  remove_selector_handler(selector, monitor.tag)
 }
 
 // This function is based off of Erlang's gen:do_call/4.
@@ -599,6 +631,54 @@ pub fn call(
 ) -> response {
   let assert Ok(resp) = try_call(subject, make_request, timeout)
   resp
+}
+
+/// Similar to the `call` function but will wait forever for a message to
+/// arrive rather than timing out after a specified amount of time.
+///
+/// If the receiving process exits, the calling process crashes.
+/// If you wish an error to be returned instead see the `try_call_forever`
+/// function.
+///
+pub fn call_forever(
+  subject: Subject(request),
+  make_request: fn(Subject(response)) -> request,
+) -> response {
+  let assert Ok(response) = try_call_forever(subject, make_request)
+  response
+}
+
+/// Similar to the `try_call` function but will wait forever for a message
+/// to arrive rather than timing out after a specified amount of time.
+///
+/// If the receiving process exits then an error is returned.
+///
+pub fn try_call_forever(
+  subject: Subject(request),
+  make_request: fn(Subject(response)) -> request,
+) -> Result(response, CallError(c)) {
+  let reply_subject = new_subject()
+
+  // Monitor the callee process so we can tell if it goes down (meaning we
+  // won't get a reply)
+  let monitor = monitor_process(subject_owner(subject))
+
+  // Send the request to the process over the channel
+  send(subject, make_request(reply_subject))
+
+  // Await a reply or handle failure modes (timeout, process down, etc)
+  let result =
+    new_selector()
+    |> selecting(reply_subject, Ok)
+    |> selecting_process_down(monitor, fn(down) {
+      Error(CalleeDown(reason: down.reason))
+    })
+    |> select_forever
+
+  // Demonitor the process and close the channels as we're done
+  demonitor_process(monitor)
+
+  result
 }
 
 /// Creates a link between the calling process and another process.

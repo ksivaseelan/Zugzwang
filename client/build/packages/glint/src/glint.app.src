@@ -1,5 +1,5 @@
 {application, glint, [
-    {vsn, "1.0.1"},
+    {vsn, "1.1.0"},
     {applications, [argv,
                     birdie,
                     gleam_community_ansi,

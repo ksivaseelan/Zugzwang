@@ -51,7 +51,9 @@ pub type MyMessage {
 fn handle_ws_message(state, conn, message) {
   case message {
     mist.Text("ping") -> {
+       io.println("ping received")
       let assert Ok(_) = mist.send_text_frame(conn, "pong")
+     
       actor.continue(state)
     }
     mist.Text("move: 4564") -> {

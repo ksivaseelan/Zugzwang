@@ -157,7 +157,7 @@ export const snake_frames = /* @__PURE__ */ toList([
 ]);
 
 export function new$(text) {
-  return new Builder(snake_frames, text, $ansi.pink);
+  return new Builder(snake_frames, text, $ansi.magenta);
 }
 
 export const triangle_frames = /* @__PURE__ */ toList([

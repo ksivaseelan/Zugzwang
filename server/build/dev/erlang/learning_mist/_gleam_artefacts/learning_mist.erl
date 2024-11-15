@@ -6,7 +6,7 @@
 
 -type my_message() :: {broadcast, binary()}.
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 51).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 51).
 -spec handle_ws_message(
     AXR,
     mist@internal@websocket:websocket_connection(),
@@ -15,6 +15,7 @@
 handle_ws_message(State, Conn, Message) ->
     case Message of
         {text, <<"ping"/utf8>>} ->
+            gleam@io:println(<<"ping received"/utf8>>),
             _assert_subject = mist:send_text_frame(Conn, <<"pong"/utf8>>),
             {ok, _} = case _assert_subject of
                 {ok, _} -> _assert_subject;
@@ -24,7 +25,7 @@ handle_ws_message(State, Conn, Message) ->
                                 value => _assert_fail,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 54})
+                                line => 55})
             end,
             gleam@otp@actor:continue(State);
 
@@ -41,7 +42,7 @@ handle_ws_message(State, Conn, Message) ->
                                 value => _assert_fail@1,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 58})
+                                line => 60})
             end,
             gleam@otp@actor:continue(State);
 
@@ -61,7 +62,7 @@ handle_ws_message(State, Conn, Message) ->
                                 value => _assert_fail@2,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 65})
+                                line => 67})
             end,
             gleam@otp@actor:continue(State);
 
@@ -72,7 +73,7 @@ handle_ws_message(State, Conn, Message) ->
             {stop, normal}
     end.
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 72).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 74).
 -spec echo_body(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
 echo_body(Request) ->
     Content_type = begin
@@ -103,7 +104,7 @@ echo_body(Request) ->
             ) end
     ).
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 90).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 92).
 -spec serve_chunk(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
 serve_chunk(_) ->
     Iter = begin
@@ -119,19 +120,19 @@ serve_chunk(_) ->
         <<"text/plain"/utf8>>
     ).
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 121).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 123).
 -spec handle_form(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
 handle_form(Req) ->
     _ = mist:read_body(Req, (1024 * 1024) * 30),
     _pipe = gleam@http@response:new(200),
     gleam@http@response:set_body(_pipe, {bytes, gleam@bytes_builder:new()}).
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 127).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 129).
 -spec guess_content_type(binary()) -> binary().
 guess_content_type(_) ->
     <<"application/octet-stream"/utf8>>.
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 101).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 103).
 -spec serve_file(
     gleam@http@request:request(mist@internal@http:connection()),
     list(binary())
@@ -161,7 +162,7 @@ serve_file(_, Path) ->
             ) end
     ).
 
--file("/home/kogul/projects/gleam/learning_mist/src/learning_mist.gleam", 13).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 13).
 -spec main() -> nil.
 main() ->
     Selector = gleam_erlang_ffi:new_selector(),
