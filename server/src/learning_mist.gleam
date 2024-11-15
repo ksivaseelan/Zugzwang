@@ -1,9 +1,11 @@
 import gleam/bytes_builder
+import gleam/dynamic.{field, int, string}
 import gleam/erlang/process
 import gleam/http/request.{type Request}
 import gleam/http/response.{type Response}
 import gleam/io
 import gleam/iterator
+import gleam/json
 import gleam/option.{None, Some}
 import gleam/otp/actor
 import gleam/result
@@ -51,12 +53,21 @@ pub type MyMessage {
 fn handle_ws_message(state, conn, message) {
   case message {
     mist.Text("ping") -> {
-       io.println("ping received")
+      io.println("ping received")
       let assert Ok(_) = mist.send_text_frame(conn, "pong")
-     
+
       actor.continue(state)
     }
-    mist.Text("move: 4564") -> {
+    mist.Text(message) -> {
+      case move_from_json(message) {
+        Ok(move) -> {
+          io.println("move received:" <> move |> string.inspect)
+        }
+        _ -> {
+          io.println("invalid move received:" <> message)
+        }
+      }
+
       let assert Ok(_) = mist.send_text_frame(conn, "invalid move")
       actor.continue(state)
     }
@@ -128,4 +139,30 @@ fn handle_form(req: Request(Connection)) -> Response(ResponseData) {
 
 fn guess_content_type(_path: String) -> String {
   "application/octet-stream"
+}
+
+pub type Move {
+  Move(method: String, from: Square, to: Square)
+}
+
+pub type Square {
+  Square(x: Int, y: Int)
+}
+
+// function to decode 
+fn move_from_json(json_string: String) -> Result(Move, json.DecodeError) {
+  let move_decoder =
+    dynamic.decode3(
+      Move,
+      field("method", of: string),
+      field(
+        "from",
+        of: dynamic.decode2(Square, field("x", of: int), field("y", of: int)),
+      ),
+      field(
+        "to",
+        of: dynamic.decode2(Square, field("x", of: int), field("y", of: int)),
+      ),
+    )
+  json.decode(from: json_string, using: move_decoder)
 }

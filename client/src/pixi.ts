@@ -6,7 +6,7 @@ interface DataSprite extends Sprite {
 }
 
 interface moveMessage {
-  type: string;
+  method: string;
   from: {
     x: number;
     y: number;
@@ -150,7 +150,7 @@ export async function main() {
       console.log(`To: X: ${endX} Y: ${endY}`);
 
       const moveMessage = {
-        type: "makeMove",
+        method: "makeMove",
         from: {
           x: dragTarget.data.startX,
           y: dragTarget.data.startY,
@@ -161,6 +161,7 @@ export async function main() {
         },
       };
       sendMoves(moveMessage, socket);
+
       // Snap the piece to the center of the grid position
       dragTarget.x = (endX + 0.5) * squareSize;
       dragTarget.y = (endY + 0.5) * squareSize;
@@ -182,3 +183,5 @@ export async function main() {
 async function sendMoves(moveMessage: moveMessage, socket: WebSocket) {
   socket.send(JSON.stringify(moveMessage));
 }
+
+

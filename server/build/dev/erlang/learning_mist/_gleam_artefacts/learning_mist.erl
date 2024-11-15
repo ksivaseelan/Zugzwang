@@ -2,78 +2,15 @@
 -compile([no_auto_import, nowarn_unused_vars, nowarn_unused_function, nowarn_nomatch]).
 
 -export([main/0]).
--export_type([my_message/0]).
+-export_type([my_message/0, move/0, square/0]).
 
 -type my_message() :: {broadcast, binary()}.
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 51).
--spec handle_ws_message(
-    AXR,
-    mist@internal@websocket:websocket_connection(),
-    mist:websocket_message(my_message())
-) -> gleam@otp@actor:next(any(), AXR).
-handle_ws_message(State, Conn, Message) ->
-    case Message of
-        {text, <<"ping"/utf8>>} ->
-            gleam@io:println(<<"ping received"/utf8>>),
-            _assert_subject = mist:send_text_frame(Conn, <<"pong"/utf8>>),
-            {ok, _} = case _assert_subject of
-                {ok, _} -> _assert_subject;
-                _assert_fail ->
-                    erlang:error(#{gleam_error => let_assert,
-                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
-                                value => _assert_fail,
-                                module => <<"learning_mist"/utf8>>,
-                                function => <<"handle_ws_message"/utf8>>,
-                                line => 55})
-            end,
-            gleam@otp@actor:continue(State);
+-type move() :: {move, binary(), square(), square()}.
 
-        {text, <<"move: 4564"/utf8>>} ->
-            _assert_subject@1 = mist:send_text_frame(
-                Conn,
-                <<"invalid move"/utf8>>
-            ),
-            {ok, _} = case _assert_subject@1 of
-                {ok, _} -> _assert_subject@1;
-                _assert_fail@1 ->
-                    erlang:error(#{gleam_error => let_assert,
-                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
-                                value => _assert_fail@1,
-                                module => <<"learning_mist"/utf8>>,
-                                function => <<"handle_ws_message"/utf8>>,
-                                line => 60})
-            end,
-            gleam@otp@actor:continue(State);
+-type square() :: {square, integer(), integer()}.
 
-        {text, _} ->
-            gleam@otp@actor:continue(State);
-
-        {binary, _} ->
-            gleam@otp@actor:continue(State);
-
-        {custom, {broadcast, Text}} ->
-            _assert_subject@2 = mist:send_text_frame(Conn, Text),
-            {ok, _} = case _assert_subject@2 of
-                {ok, _} -> _assert_subject@2;
-                _assert_fail@2 ->
-                    erlang:error(#{gleam_error => let_assert,
-                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
-                                value => _assert_fail@2,
-                                module => <<"learning_mist"/utf8>>,
-                                function => <<"handle_ws_message"/utf8>>,
-                                line => 67})
-            end,
-            gleam@otp@actor:continue(State);
-
-        closed ->
-            {stop, normal};
-
-        shutdown ->
-            {stop, normal}
-    end.
-
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 74).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 85).
 -spec echo_body(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
 echo_body(Request) ->
     Content_type = begin
@@ -104,7 +41,7 @@ echo_body(Request) ->
             ) end
     ).
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 92).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 103).
 -spec serve_chunk(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
 serve_chunk(_) ->
     Iter = begin
@@ -120,19 +57,19 @@ serve_chunk(_) ->
         <<"text/plain"/utf8>>
     ).
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 123).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 134).
 -spec handle_form(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
 handle_form(Req) ->
     _ = mist:read_body(Req, (1024 * 1024) * 30),
     _pipe = gleam@http@response:new(200),
     gleam@http@response:set_body(_pipe, {bytes, gleam@bytes_builder:new()}).
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 129).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 140).
 -spec guess_content_type(binary()) -> binary().
 guess_content_type(_) ->
     <<"application/octet-stream"/utf8>>.
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 103).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 114).
 -spec serve_file(
     gleam@http@request:request(mist@internal@http:connection()),
     list(binary())
@@ -162,7 +99,115 @@ serve_file(_, Path) ->
             ) end
     ).
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 13).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 153).
+-spec move_from_json(binary()) -> {ok, move()} |
+    {error, gleam@json:decode_error()}.
+move_from_json(Json_string) ->
+    Move_decoder = gleam@dynamic:decode3(
+        fun(Field@0, Field@1, Field@2) -> {move, Field@0, Field@1, Field@2} end,
+        gleam@dynamic:field(<<"method"/utf8>>, fun gleam@dynamic:string/1),
+        gleam@dynamic:field(
+            <<"from"/utf8>>,
+            gleam@dynamic:decode2(
+                fun(Field@0, Field@1) -> {square, Field@0, Field@1} end,
+                gleam@dynamic:field(<<"x"/utf8>>, fun gleam@dynamic:int/1),
+                gleam@dynamic:field(<<"y"/utf8>>, fun gleam@dynamic:int/1)
+            )
+        ),
+        gleam@dynamic:field(
+            <<"to"/utf8>>,
+            gleam@dynamic:decode2(
+                fun(Field@0, Field@1) -> {square, Field@0, Field@1} end,
+                gleam@dynamic:field(<<"x"/utf8>>, fun gleam@dynamic:int/1),
+                gleam@dynamic:field(<<"y"/utf8>>, fun gleam@dynamic:int/1)
+            )
+        )
+    ),
+    gleam@json:decode(Json_string, Move_decoder).
+
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 53).
+-spec handle_ws_message(
+    BCM,
+    mist@internal@websocket:websocket_connection(),
+    mist:websocket_message(my_message())
+) -> gleam@otp@actor:next(any(), BCM).
+handle_ws_message(State, Conn, Message) ->
+    case Message of
+        {text, <<"ping"/utf8>>} ->
+            gleam@io:println(<<"ping received"/utf8>>),
+            _assert_subject = mist:send_text_frame(Conn, <<"pong"/utf8>>),
+            {ok, _} = case _assert_subject of
+                {ok, _} -> _assert_subject;
+                _assert_fail ->
+                    erlang:error(#{gleam_error => let_assert,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                value => _assert_fail,
+                                module => <<"learning_mist"/utf8>>,
+                                function => <<"handle_ws_message"/utf8>>,
+                                line => 57})
+            end,
+            gleam@otp@actor:continue(State);
+
+        {text, Message@1} ->
+            case move_from_json(Message@1) of
+                {ok, Move} ->
+                    gleam@io:println(
+                        <<"move received:"/utf8,
+                            (begin
+                                _pipe = Move,
+                                gleam@string:inspect(_pipe)
+                            end)/binary>>
+                    );
+
+                _ ->
+                    gleam@io:println(
+                        <<"invalid move received:"/utf8, Message@1/binary>>
+                    )
+            end,
+            _assert_subject@1 = mist:send_text_frame(
+                Conn,
+                <<"invalid move"/utf8>>
+            ),
+            {ok, _} = case _assert_subject@1 of
+                {ok, _} -> _assert_subject@1;
+                _assert_fail@1 ->
+                    erlang:error(#{gleam_error => let_assert,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                value => _assert_fail@1,
+                                module => <<"learning_mist"/utf8>>,
+                                function => <<"handle_ws_message"/utf8>>,
+                                line => 71})
+            end,
+            gleam@otp@actor:continue(State);
+
+        {text, _} ->
+            gleam@otp@actor:continue(State);
+
+        {binary, _} ->
+            gleam@otp@actor:continue(State);
+
+        {custom, {broadcast, Text}} ->
+            _assert_subject@2 = mist:send_text_frame(Conn, Text),
+            {ok, _} = case _assert_subject@2 of
+                {ok, _} -> _assert_subject@2;
+                _assert_fail@2 ->
+                    erlang:error(#{gleam_error => let_assert,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                value => _assert_fail@2,
+                                module => <<"learning_mist"/utf8>>,
+                                function => <<"handle_ws_message"/utf8>>,
+                                line => 78})
+            end,
+            gleam@otp@actor:continue(State);
+
+        closed ->
+            {stop, normal};
+
+        shutdown ->
+            {stop, normal}
+    end.
+
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 15).
 -spec main() -> nil.
 main() ->
     Selector = gleam_erlang_ffi:new_selector(),
@@ -208,6 +253,6 @@ main() ->
                         value => _assert_fail,
                         module => <<"learning_mist"/utf8>>,
                         function => <<"main"/utf8>>,
-                        line => 22})
+                        line => 24})
     end,
     gleam_erlang_ffi:sleep_forever().
