@@ -8,6 +8,6 @@
                     gleeunit,
                     mist]},
     {description, ""},
-    {modules, [learning_mist]},
+    {modules, []},
     {registered, []}
 ]}.

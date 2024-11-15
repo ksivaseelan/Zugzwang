@@ -2,135 +2,35 @@
 -compile([no_auto_import, nowarn_unused_vars, nowarn_unused_function, nowarn_nomatch]).
 
 -export([main/0]).
--export_type([my_message/0, move/0, square/0]).
+-export_type([my_message/0, payload/0, client_message/0]).
 
 -type my_message() :: {broadcast, binary()}.
 
--type move() :: {move, binary(), square(), square()}.
+-type payload() :: {move, binary()} | surrender.
 
--type square() :: {square, integer(), integer()}.
-
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 85).
--spec echo_body(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
-echo_body(Request) ->
-    Content_type = begin
-        _pipe = Request,
-        _pipe@1 = gleam@http@request:get_header(_pipe, <<"content-type"/utf8>>),
-        gleam@result:unwrap(_pipe@1, <<"text/plain"/utf8>>)
-    end,
-    _pipe@2 = mist:read_body(Request, (1024 * 1024) * 10),
-    _pipe@5 = gleam@result:map(
-        _pipe@2,
-        fun(Req) -> _pipe@3 = gleam@http@response:new(200),
-            _pipe@4 = gleam@http@response:set_body(
-                _pipe@3,
-                {bytes, gleam_stdlib:wrap_list(erlang:element(4, Req))}
-            ),
-            gleam@http@response:set_header(
-                _pipe@4,
-                <<"content-type"/utf8>>,
-                Content_type
-            ) end
-    ),
-    gleam@result:lazy_unwrap(
-        _pipe@5,
-        fun() -> _pipe@6 = gleam@http@response:new(400),
-            gleam@http@response:set_body(
-                _pipe@6,
-                {bytes, gleam@bytes_builder:new()}
-            ) end
-    ).
-
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 103).
--spec serve_chunk(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
-serve_chunk(_) ->
-    Iter = begin
-        _pipe = [<<"one"/utf8>>, <<"two"/utf8>>, <<"three"/utf8>>],
-        _pipe@1 = gleam@iterator:from_list(_pipe),
-        gleam@iterator:map(_pipe@1, fun gleam_stdlib:wrap_list/1)
-    end,
-    _pipe@2 = gleam@http@response:new(200),
-    _pipe@3 = gleam@http@response:set_body(_pipe@2, {chunked, Iter}),
-    gleam@http@response:set_header(
-        _pipe@3,
-        <<"content-type"/utf8>>,
-        <<"text/plain"/utf8>>
-    ).
-
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 134).
--spec handle_form(gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist:response_data()).
-handle_form(Req) ->
-    _ = mist:read_body(Req, (1024 * 1024) * 30),
-    _pipe = gleam@http@response:new(200),
-    gleam@http@response:set_body(_pipe, {bytes, gleam@bytes_builder:new()}).
-
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 140).
--spec guess_content_type(binary()) -> binary().
-guess_content_type(_) ->
-    <<"application/octet-stream"/utf8>>.
+-type client_message() :: {client_message, binary(), payload()}.
 
 -file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 114).
--spec serve_file(
-    gleam@http@request:request(mist@internal@http:connection()),
-    list(binary())
-) -> gleam@http@response:response(mist:response_data()).
-serve_file(_, Path) ->
-    File_path = gleam@string:join(Path, <<"/"/utf8>>),
-    _pipe = mist:send_file(File_path, 0, none),
-    _pipe@3 = gleam@result:map(
-        _pipe,
-        fun(File) ->
-            Content_type = guess_content_type(File_path),
-            _pipe@1 = gleam@http@response:new(200),
-            _pipe@2 = gleam@http@response:prepend_header(
-                _pipe@1,
-                <<"content-type"/utf8>>,
-                Content_type
-            ),
-            gleam@http@response:set_body(_pipe@2, File)
-        end
-    ),
-    gleam@result:lazy_unwrap(
-        _pipe@3,
-        fun() -> _pipe@4 = gleam@http@response:new(404),
-            gleam@http@response:set_body(
-                _pipe@4,
-                {bytes, gleam@bytes_builder:new()}
-            ) end
-    ).
-
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 153).
--spec move_from_json(binary()) -> {ok, move()} |
+-spec client_message_from_json(binary()) -> {ok, client_message()} |
     {error, gleam@json:decode_error()}.
-move_from_json(Json_string) ->
-    Move_decoder = gleam@dynamic:decode3(
-        fun(Field@0, Field@1, Field@2) -> {move, Field@0, Field@1, Field@2} end,
-        gleam@dynamic:field(<<"method"/utf8>>, fun gleam@dynamic:string/1),
-        gleam@dynamic:field(
-            <<"from"/utf8>>,
-            gleam@dynamic:decode2(
-                fun(Field@0, Field@1) -> {square, Field@0, Field@1} end,
-                gleam@dynamic:field(<<"x"/utf8>>, fun gleam@dynamic:int/1),
-                gleam@dynamic:field(<<"y"/utf8>>, fun gleam@dynamic:int/1)
-            )
-        ),
-        gleam@dynamic:field(
-            <<"to"/utf8>>,
-            gleam@dynamic:decode2(
-                fun(Field@0, Field@1) -> {square, Field@0, Field@1} end,
-                gleam@dynamic:field(<<"x"/utf8>>, fun gleam@dynamic:int/1),
-                gleam@dynamic:field(<<"y"/utf8>>, fun gleam@dynamic:int/1)
-            )
-        )
+client_message_from_json(Json_string) ->
+    Payload_decoder = gleam@dynamic:decode1(
+        fun(Field@0) -> {move, Field@0} end,
+        gleam@dynamic:field(<<"move"/utf8>>, fun gleam@dynamic:string/1)
     ),
-    gleam@json:decode(Json_string, Move_decoder).
+    Client_message_decoder = gleam@dynamic:decode2(
+        fun(Field@0, Field@1) -> {client_message, Field@0, Field@1} end,
+        gleam@dynamic:field(<<"method"/utf8>>, fun gleam@dynamic:string/1),
+        gleam@dynamic:field(<<"payload"/utf8>>, Payload_decoder)
+    ),
+    gleam@json:decode(Json_string, Client_message_decoder).
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 53).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 58).
 -spec handle_ws_message(
-    BCM,
+    AYV,
     mist@internal@websocket:websocket_connection(),
     mist:websocket_message(my_message())
-) -> gleam@otp@actor:next(any(), BCM).
+) -> gleam@otp@actor:next(any(), AYV).
 handle_ws_message(State, Conn, Message) ->
     case Message of
         {text, <<"ping"/utf8>>} ->
@@ -144,39 +44,56 @@ handle_ws_message(State, Conn, Message) ->
                                 value => _assert_fail,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 57})
+                                line => 62})
             end,
             gleam@otp@actor:continue(State);
 
         {text, Message@1} ->
-            case move_from_json(Message@1) of
-                {ok, Move} ->
+            case client_message_from_json(Message@1) of
+                {ok, {client_message, Method, Payload}} ->
                     gleam@io:println(
-                        <<"move received:"/utf8,
+                        <<"Message received with method:"/utf8,
                             (begin
-                                _pipe = Move,
+                                _pipe = Method,
                                 gleam@string:inspect(_pipe)
                             end)/binary>>
-                    );
+                    ),
+                    case Method of
+                        <<"move"/utf8>> ->
+                            case Payload of
+                                {move, Move} ->
+                                    gleam@io:println(
+                                        <<"Move received:"/utf8,
+                                            (begin
+                                                _pipe@1 = Move,
+                                                gleam@string:inspect(_pipe@1)
+                                            end)/binary>>
+                                    );
+
+                                _ ->
+                                    gleam@io:println(
+                                        <<"Unknown payload:"/utf8,
+                                            (begin
+                                                _pipe@2 = Payload,
+                                                gleam@string:inspect(_pipe@2)
+                                            end)/binary>>
+                                    )
+                            end;
+
+                        _ ->
+                            gleam@io:println(
+                                <<"Unknown method:"/utf8,
+                                    (begin
+                                        _pipe@3 = Method,
+                                        gleam@string:inspect(_pipe@3)
+                                    end)/binary>>
+                            )
+                    end;
 
                 _ ->
                     gleam@io:println(
-                        <<"invalid move received:"/utf8, Message@1/binary>>
+                        <<"invalid message Format:"/utf8, Message@1/binary>>
                     )
-            end,
-            _assert_subject@1 = mist:send_text_frame(
-                Conn,
-                <<"invalid move"/utf8>>
-            ),
-            {ok, _} = case _assert_subject@1 of
-                {ok, _} -> _assert_subject@1;
-                _assert_fail@1 ->
-                    erlang:error(#{gleam_error => let_assert,
-                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
-                                value => _assert_fail@1,
-                                module => <<"learning_mist"/utf8>>,
-                                function => <<"handle_ws_message"/utf8>>,
-                                line => 71})
             end,
             gleam@otp@actor:continue(State);
 
@@ -187,16 +104,16 @@ handle_ws_message(State, Conn, Message) ->
             gleam@otp@actor:continue(State);
 
         {custom, {broadcast, Text}} ->
-            _assert_subject@2 = mist:send_text_frame(Conn, Text),
-            {ok, _} = case _assert_subject@2 of
-                {ok, _} -> _assert_subject@2;
-                _assert_fail@2 ->
+            _assert_subject@1 = mist:send_text_frame(Conn, Text),
+            {ok, _} = case _assert_subject@1 of
+                {ok, _} -> _assert_subject@1;
+                _assert_fail@1 ->
                     erlang:error(#{gleam_error => let_assert,
                                 message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
-                                value => _assert_fail@2,
+                                value => _assert_fail@1,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 78})
+                                line => 100})
             end,
             gleam@otp@actor:continue(State);
 
@@ -225,18 +142,6 @@ main() ->
                         fun(_) -> {State, {some, Selector}} end,
                         fun(_) -> gleam@io:println(<<"goodbye!"/utf8>>) end
                     );
-
-                [<<"echo"/utf8>>] ->
-                    echo_body(Req);
-
-                [<<"chunk"/utf8>>] ->
-                    serve_chunk(Req);
-
-                [<<"file"/utf8>> | Rest] ->
-                    serve_file(Req, Rest);
-
-                [<<"form"/utf8>>] ->
-                    handle_form(Req);
 
                 _ ->
                     Not_found

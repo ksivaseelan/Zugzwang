@@ -4,17 +4,10 @@ import { Application, Assets, Sprite, FederatedPointerEvent } from "pixi.js";
 interface DataSprite extends Sprite {
   data: { startX: number; startY: number };
 }
-
+// Interface for the move message sent over WebSocket
 interface moveMessage {
   method: string;
-  from: {
-    x: number;
-    y: number;
-  };
-  to: {
-    x: number;
-    y: number;
-  };
+  payload: { move: string };
 }
 
 export async function main() {
@@ -140,24 +133,25 @@ export async function main() {
     isDragging = false;
     if (dragTarget) {
       app.stage.off("pointermove", onDragMove);
-      // reset tranparency of
+      // reset tranparency of dragging piece
       dragTarget.alpha = 1;
 
       // Calculate the grid position the piece should snap to
       const endX = Math.floor(dragTarget.x / squareSize);
       const endY = Math.floor(dragTarget.y / squareSize);
 
-      console.log(`To: X: ${endX} Y: ${endY}`);
+      const startCol = String.fromCharCode(97 + dragTarget.data.startX); // Convert column index to letter
+      const startRow = 8 - dragTarget.data.startY; // Convert row index (0-7) to chess row (8-1)
+      const endCol = String.fromCharCode(97 + endX);
+      const endRow = 8 - endY;
+
+      const moveNotation = `${startCol}${startRow}${endCol}${endRow}`;
+      console.log(moveNotation);
 
       const moveMessage = {
-        method: "makeMove",
-        from: {
-          x: dragTarget.data.startX,
-          y: dragTarget.data.startY,
-        },
-        to: {
-          x: endX,
-          y: endY,
+        method: "move",
+        payload: {
+          move: moveNotation,
         },
       };
       sendMoves(moveMessage, socket);
@@ -183,5 +177,3 @@ export async function main() {
 async function sendMoves(moveMessage: moveMessage, socket: WebSocket) {
   socket.send(JSON.stringify(moveMessage));
 }
-
-
