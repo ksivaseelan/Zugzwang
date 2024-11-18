@@ -13,7 +13,7 @@
 
 -type file() :: {file, file_descriptor(), integer()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/file.gleam", 33).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/file.gleam", 33).
 -spec sendfile(
     glisten@transport:transport(),
     file_descriptor(),
@@ -60,12 +60,12 @@ sendfile(Transport, File_descriptor, Socket, Offset, Bytes, Options) ->
             )
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/file.gleam", 75).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/file.gleam", 75).
 -spec open(bitstring()) -> {ok, file_descriptor()} | {error, file_error()}.
 open(File) ->
     mist_ffi:file_open(File).
 
--file("/home/alex/gleams/mist/src/mist/internal/file.gleam", 24).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/file.gleam", 24).
 -spec stat(bitstring()) -> {ok, file()} | {error, file_error()}.
 stat(Filename) ->
     _pipe = Filename,
@@ -78,7 +78,7 @@ stat(Filename) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/file.gleam", 81).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/file.gleam", 81).
 -spec close(file_descriptor()) -> {ok, nil} | {error, file_error()}.
 close(File) ->
     mist_ffi:file_close(File).

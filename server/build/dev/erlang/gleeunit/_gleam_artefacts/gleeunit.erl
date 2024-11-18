@@ -16,6 +16,7 @@
     no_tty |
     {report, {report_module_name(), list(gleeunit_progress_option())}}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit.gleam", 50).
 -spec gleam_to_erlang_module_name(binary()) -> binary().
 gleam_to_erlang_module_name(Path) ->
     _pipe = Path,
@@ -23,6 +24,7 @@ gleam_to_erlang_module_name(Path) ->
     _pipe@2 = gleam@string:replace(_pipe@1, <<".erl"/utf8>>, <<""/utf8>>),
     gleam@string:replace(_pipe@2, <<"/"/utf8>>, <<"@"/utf8>>).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit.gleam", 27).
 -spec do_main() -> nil.
 do_main() ->
     Options = [verbose,
@@ -43,7 +45,7 @@ do_main() ->
             fun gleam@dynamic:dynamic/1,
             fun gleam@dynamic:dynamic/1
         ))(_pipe@3),
-        gleam@result:unwrap(_pipe@4, {error, gleam@dynamic:from(nil)})
+        gleam@result:unwrap(_pipe@4, {error, gleam_stdlib:identity(nil)})
     end,
     Code = case Result of
         {ok, _} ->
@@ -54,6 +56,7 @@ do_main() ->
     end,
     erlang:halt(Code).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit.gleam", 9).
 -spec main() -> nil.
 main() ->
     do_main().

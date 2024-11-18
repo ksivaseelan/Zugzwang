@@ -6,7 +6,7 @@
 
 -type transport() :: tcp | ssl.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 17).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 17).
 -spec controlling_process(
     transport(),
     glisten@socket:socket(),
@@ -21,7 +21,7 @@ controlling_process(Transport, Socket, Pid) ->
             glisten_ssl_ffi:controlling_process(Socket, Pid)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 28).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 28).
 -spec listen(transport(), integer(), list(glisten@socket@options:tcp_option())) -> {ok,
         glisten@socket:listen_socket()} |
     {error, glisten@socket:socket_reason()}.
@@ -34,7 +34,7 @@ listen(Transport, Port, Opts) ->
             glisten@ssl:listen(Port, Opts)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 39).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 39).
 -spec accept_timeout(transport(), glisten@socket:listen_socket(), integer()) -> {ok,
         glisten@socket:socket()} |
     {error, glisten@socket:socket_reason()}.
@@ -47,7 +47,7 @@ accept_timeout(Transport, Socket, Timeout) ->
             ssl:transport_accept(Socket, Timeout)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 50).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 50).
 -spec accept(transport(), glisten@socket:listen_socket()) -> {ok,
         glisten@socket:socket()} |
     {error, glisten@socket:socket_reason()}.
@@ -60,7 +60,7 @@ accept(Transport, Socket) ->
             ssl:transport_accept(Socket)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 60).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 60).
 -spec handshake(transport(), glisten@socket:socket()) -> {ok,
         glisten@socket:socket()} |
     {error, nil}.
@@ -73,7 +73,7 @@ handshake(Transport, Socket) ->
             ssl:handshake(Socket)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 67).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 67).
 -spec receive_timeout(
     transport(),
     glisten@socket:socket(),
@@ -89,7 +89,7 @@ receive_timeout(Transport, Socket, Amount, Timeout) ->
             ssl:recv(Socket, Amount, Timeout)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 79).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 79).
 -spec 'receive'(transport(), glisten@socket:socket(), integer()) -> {ok,
         bitstring()} |
     {error, glisten@socket:socket_reason()}.
@@ -102,7 +102,7 @@ receive_timeout(Transport, Socket, Amount, Timeout) ->
             ssl:recv(Socket, Amount)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 90).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 90).
 -spec send(
     transport(),
     glisten@socket:socket(),
@@ -117,7 +117,7 @@ send(Transport, Socket, Data) ->
             glisten_ssl_ffi:send(Socket, Data)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 101).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 101).
 -spec close(transport(), glisten@socket:socket()) -> {ok, nil} |
     {error, glisten@socket:socket_reason()}.
 close(Transport, Socket) ->
@@ -129,7 +129,7 @@ close(Transport, Socket) ->
             glisten_ssl_ffi:close(Socket)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 108).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 108).
 -spec shutdown(transport(), glisten@socket:socket()) -> {ok, nil} |
     {error, glisten@socket:socket_reason()}.
 shutdown(Transport, Socket) ->
@@ -141,7 +141,7 @@ shutdown(Transport, Socket) ->
             glisten@ssl:shutdown(Socket)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 118).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 118).
 -spec set_opts(
     transport(),
     glisten@socket:socket(),
@@ -156,7 +156,7 @@ set_opts(Transport, Socket, Opts) ->
             glisten@ssl:set_opts(Socket, Opts)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 129).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 129).
 -spec negotiated_protocol(transport(), glisten@socket:socket()) -> {ok,
         binary()} |
     {error, binary()}.
@@ -169,7 +169,7 @@ negotiated_protocol(Transport, Socket) ->
             glisten_ssl_ffi:negotiated_protocol(Socket)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 139).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 139).
 -spec decode_ipv4() -> fun((gleam@dynamic:dynamic_()) -> {ok,
         glisten@socket@options:ip_address()} |
     {error, list(gleam@dynamic:decode_error())}).
@@ -182,7 +182,7 @@ decode_ipv4() ->
         gleam@dynamic:element(3, fun gleam@dynamic:int/1)
     ).
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 149).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 149).
 -spec decode_ipv6() -> fun((gleam@dynamic:dynamic_()) -> {ok,
         glisten@socket@options:ip_address()} |
     {error, list(gleam@dynamic:decode_error())}).
@@ -212,14 +212,14 @@ decode_ipv6() ->
                 end end)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 173).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 173).
 -spec decode_ip() -> fun((gleam@dynamic:dynamic_()) -> {ok,
         glisten@socket@options:ip_address()} |
     {error, list(gleam@dynamic:decode_error())}).
 decode_ip() ->
     gleam@dynamic:any([decode_ipv6(), decode_ipv4()]).
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 177).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 177).
 -spec peername(transport(), glisten@socket:socket()) -> {ok,
         {glisten@socket@options:ip_address(), integer()}} |
     {error, nil}.
@@ -241,12 +241,12 @@ peername(Transport, Socket) ->
         end
     ).
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 197).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 197).
 -spec socket_info(glisten@socket:socket()) -> gleam@dict:dict(gleam@erlang@atom:atom_(), gleam@dynamic:dynamic_()).
 socket_info(Socket) ->
     socket:info(Socket).
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 199).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 199).
 -spec get_socket_opts(
     transport(),
     glisten@socket:socket(),
@@ -262,7 +262,7 @@ get_socket_opts(Transport, Socket, Opts) ->
             ssl:getopts(Socket, Opts)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 210).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 210).
 -spec set_buffer_size(transport(), glisten@socket:socket()) -> {ok, nil} |
     {error, nil}.
 set_buffer_size(Transport, Socket) ->
@@ -283,7 +283,7 @@ set_buffer_size(Transport, Socket) ->
         fun(Value@1) -> set_opts(Transport, Socket, [{buffer, Value@1}]) end
     ).
 
--file("/home/alex/gleams/glisten/src/glisten/transport.gleam", 223).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/transport.gleam", 223).
 -spec sockname(transport(), glisten@socket:listen_socket()) -> {ok,
         {glisten@socket@options:ip_address(), integer()}} |
     {error, glisten@socket:socket_reason()}.

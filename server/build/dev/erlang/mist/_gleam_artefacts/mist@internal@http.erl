@@ -64,7 +64,7 @@
 
 -type sha_hash() :: sha.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 76).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 76).
 -spec from_header(bitstring()) -> binary().
 from_header(Value) ->
     _assert_subject = gleam@bit_array:to_string(Value),
@@ -80,7 +80,7 @@ from_header(Value) ->
     end,
     gleam@string:lowercase(Value@1).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 111).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 111).
 -spec read_data(
     glisten@socket:socket(),
     glisten@transport:transport(),
@@ -115,7 +115,7 @@ read_data(Socket, Transport, Buffer, Error) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 238).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 238).
 -spec version_to_string(http_version()) -> binary().
 version_to_string(Version) ->
     case Version of
@@ -126,8 +126,8 @@ version_to_string(Version) ->
             <<"1.1"/utf8>>
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 510).
--spec add_date_header(gleam@http@response:response(MXD)) -> gleam@http@response:response(MXD).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 510).
+-spec add_date_header(gleam@http@response:response(NVH)) -> gleam@http@response:response(NVH).
 add_date_header(Resp) ->
     case gleam@http@response:get_header(Resp, <<"date"/utf8>>) of
         {error, _} ->
@@ -141,8 +141,8 @@ add_date_header(Resp) ->
             Resp
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 517).
--spec connection_close(gleam@http@response:response(MXG)) -> gleam@http@response:response(MXG).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 517).
+-spec connection_close(gleam@http@response:response(NVK)) -> gleam@http@response:response(NVK).
 connection_close(Resp) ->
     gleam@http@response:set_header(
         Resp,
@@ -150,8 +150,8 @@ connection_close(Resp) ->
         <<"close"/utf8>>
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 521).
--spec keep_alive(gleam@http@response:response(MXJ)) -> gleam@http@response:response(MXJ).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 521).
+-spec keep_alive(gleam@http@response:response(NVN)) -> gleam@http@response:response(NVN).
 keep_alive(Resp) ->
     gleam@http@response:set_header(
         Resp,
@@ -159,8 +159,8 @@ keep_alive(Resp) ->
         <<"keep-alive"/utf8>>
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 525).
--spec maybe_keep_alive(gleam@http@response:response(MXM)) -> gleam@http@response:response(MXM).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 525).
+-spec maybe_keep_alive(gleam@http@response:response(NVQ)) -> gleam@http@response:response(NVQ).
 maybe_keep_alive(Resp) ->
     case gleam@http@response:get_header(Resp, <<"connection"/utf8>>) of
         {ok, _} ->
@@ -174,8 +174,8 @@ maybe_keep_alive(Resp) ->
             )
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 532).
--spec add_content_length(boolean(), integer()) -> fun((gleam@http@response:response(MXP)) -> gleam@http@response:response(MXP)).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 532).
+-spec add_content_length(boolean(), integer()) -> fun((gleam@http@response:response(NVT)) -> gleam@http@response:response(NVT)).
 add_content_length(When, Length) ->
     fun(Resp) -> case When of
             true ->
@@ -201,7 +201,7 @@ add_content_length(When, Length) ->
                 Resp
         end end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 552).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 552).
 -spec add_default_headers(
     gleam@http@response:response(gleam@bytes_builder:bytes_builder()),
     boolean()
@@ -228,7 +228,7 @@ add_default_headers(Resp, Is_head_response) ->
         Body_size
     ))(_pipe@1).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 573).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 573).
 -spec is_continue(gleam@http@request:request(connection())) -> boolean().
 is_continue(Req) ->
     _pipe = erlang:element(3, Req),
@@ -243,7 +243,7 @@ is_continue(Req) ->
     ),
     gleam@result:is_ok(_pipe@1).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 581).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 581).
 -spec handle_continue(gleam@http@request:request(connection())) -> {ok, nil} |
     {error, decode_error()}.
 handle_continue(Req) ->
@@ -269,7 +269,7 @@ handle_continue(Req) ->
             {ok, nil}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 82).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 82).
 -spec parse_headers(
     bitstring(),
     glisten@socket:socket(),
@@ -315,17 +315,17 @@ parse_headers(Bs, Socket, Transport, Headers) ->
             {error, unknown_header}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 602).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 602).
 -spec crypto_hash(sha_hash(), binary()) -> binary().
 crypto_hash(Hash, Data) ->
     crypto:hash(Hash, Data).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 605).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 605).
 -spec base64_encode(binary()) -> binary().
 base64_encode(Data) ->
     base64:encode(Data).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 144).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 144).
 -spec parse_chunk(bitstring()) -> chunk().
 parse_chunk(String) ->
     case binary:split(String, <<"\r\n"/utf8>>) of
@@ -368,7 +368,7 @@ parse_chunk(String) ->
             {chunk, <<>>, mist@internal@buffer:new(String)}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 251).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 251).
 -spec parse_request(bitstring(), connection()) -> {ok, parsed_request()} |
     {error, decode_error()}.
 parse_request(Bs, Conn) ->
@@ -554,7 +554,7 @@ parse_request(Bs, Conn) ->
             {error, discard_packet}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 174).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 174).
 -spec read_chunk(
     glisten@socket:socket(),
     glisten@transport:transport(),
@@ -660,7 +660,7 @@ read_chunk(Socket, Transport, Buffer, Body) ->
             )
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 357).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 357).
 -spec read_body(gleam@http@request:request(connection())) -> {ok,
         gleam@http@request:request(bitstring())} |
     {error, decode_error()}.
@@ -786,7 +786,7 @@ read_body(Req) ->
             {ok, gleam@http@request:set_body(Req, Data@1)}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 440).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 440).
 -spec parse_websocket_key(binary()) -> binary().
 parse_websocket_key(Key) ->
     _pipe = Key,
@@ -797,7 +797,7 @@ parse_websocket_key(Key) ->
     _pipe@2 = crypto:hash(sha, _pipe@1),
     base64:encode(_pipe@2).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 447).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 447).
 -spec upgrade_socket(gleam@http@request:request(connection()), list(binary())) -> {ok,
         gleam@http@response:response(gleam@bytes_builder:bytes_builder())} |
     {error, gleam@http@request:request(connection())}.
@@ -871,7 +871,7 @@ upgrade_socket(Req, Extensions) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http.gleam", 487).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http.gleam", 487).
 -spec upgrade(
     glisten@socket:socket(),
     glisten@transport:transport(),

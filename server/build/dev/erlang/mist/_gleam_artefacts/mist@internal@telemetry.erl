@@ -26,7 +26,7 @@
 
 -type time_unit() :: native | microsecond.
 
--file("/home/alex/gleams/mist/src/mist/internal/telemetry.gleam", 57).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/telemetry.gleam", 57).
 -spec log(
     list(event()),
     gleam@dict:dict(gleam@erlang@atom:atom_(), gleam@dynamic:dynamic_()),
@@ -63,12 +63,12 @@ log(Path, Measurements, _, _) ->
         <<(gleam@string:inspect(Path))/binary, Duration_string/binary>>
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/telemetry.gleam", 75).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/telemetry.gleam", 75).
 -spec span(
     list(event()),
     gleam@dict:dict(binary(), gleam@dynamic:dynamic_()),
-    fun(() -> PZJ)
-) -> PZJ.
+    fun(() -> QZD)
+) -> QZD.
 span(Path, Metadata, Wrapping) ->
     telemetry:span(
         Path,
@@ -79,7 +79,7 @@ span(Path, Metadata, Wrapping) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/telemetry.gleam", 92).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/telemetry.gleam", 92).
 -spec attach_many(
     binary(),
     list(list(event())),
@@ -88,7 +88,7 @@ span(Path, Metadata, Wrapping) ->
 attach_many(Id, Path, Handler) ->
     telemetry:attach_many(Id, Path, Handler, nil).
 
--file("/home/alex/gleams/mist/src/mist/internal/telemetry.gleam", 121).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/telemetry.gleam", 121).
 -spec attach(
     binary(),
     list(event()),
@@ -98,7 +98,7 @@ attach_many(Id, Path, Handler) ->
 attach(Id, Event, Handler, Config) ->
     telemetry:attach(Id, Event, Handler, Config).
 
--file("/home/alex/gleams/mist/src/mist/internal/telemetry.gleam", 134).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/telemetry.gleam", 134).
 -spec configure_logger() -> nil.
 configure_logger() ->
     attach_many(

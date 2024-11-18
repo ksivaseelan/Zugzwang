@@ -1,1 +1,0 @@
--record(square, {x :: integer(), y :: integer()}).

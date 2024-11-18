@@ -16,12 +16,12 @@
 
 -type hpack_error() :: compression | {bad_header_packet, bitstring()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 30).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 30).
 -spec default_settings() -> http2_settings().
 default_settings() ->
     {http2_settings, 4096, disabled, 100, 65535, 16384, none}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 41).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 41).
 -spec update_settings(
     http2_settings(),
     list(mist@internal@http2@frame:setting())
@@ -51,7 +51,7 @@ update_settings(Current, Settings) ->
             end end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 93).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 93).
 -spec send_data(
     mist@internal@http:connection(),
     bitstring(),
@@ -78,7 +78,7 @@ send_data(Conn, Data, Stream_identifier, End_stream) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 115).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 115).
 -spec send_frame(
     mist@internal@http2@frame:frame(),
     glisten@socket:socket(),
@@ -88,31 +88,31 @@ send_frame(Frame_to_send, Socket, Transport) ->
     Data = mist@internal@http2@frame:encode(Frame_to_send),
     glisten@transport:send(Transport, Socket, gleam_stdlib:wrap_list(Data)).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 154).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 154).
 -spec hpack_new_context(integer()) -> hpack_context().
 hpack_new_context(Size) ->
     hpack:new_context(Size).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 157).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 157).
 -spec hpack_max_table_size(hpack_context(), integer()) -> hpack_context().
 hpack_max_table_size(Context, Size) ->
     mist_ffi:hpack_new_max_table_size(Context, Size).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 165).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 165).
 -spec hpack_decode(hpack_context(), bitstring()) -> {ok,
         {list({binary(), binary()}), hpack_context()}} |
     {error, hpack_error()}.
 hpack_decode(Context, Bin) ->
     mist_ffi:hpack_decode(Context, Bin).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 171).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 171).
 -spec hpack_encode(hpack_context(), list({binary(), binary()})) -> {ok,
         {bitstring(), hpack_context()}} |
     {error, any()}.
 hpack_encode(Context, Headers) ->
     mist_ffi:hpack_encode(Context, Headers).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 62).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 62).
 -spec send_headers(
     hpack_context(),
     mist@internal@http:connection(),
@@ -147,7 +147,7 @@ send_headers(Context, Conn, Headers, End_stream, Stream_identifier) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2.gleam", 125).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2.gleam", 125).
 -spec send_bytes_builder(
     gleam@http@response:response(gleam@bytes_builder:bytes_builder()),
     mist@internal@http:connection(),

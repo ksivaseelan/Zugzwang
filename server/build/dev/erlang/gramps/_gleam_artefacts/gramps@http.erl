@@ -19,6 +19,7 @@
     {http_header, integer(), gleam@dynamic:dynamic_(), binary(), binary()} |
     http_eoh.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 41).
 -spec get_headers(bitstring(), list({binary(), binary()})) -> {ok,
         {list({binary(), binary()}), bitstring()}} |
     {error, decode_packet_error()}.
@@ -43,6 +44,7 @@ get_headers(Data, Headers) ->
             {error, Reason}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 59).
 -spec read_response(bitstring()) -> {ok,
         {gleam@http@response:response(nil), bitstring()}} |
     {error, decode_packet_error()}.
@@ -64,6 +66,7 @@ read_response(Data) ->
             {error, {http_error, <<"Unexpected data"/utf8>>}}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 76).
 -spec read_request(bitstring()) -> {ok,
         {gleam@http@request:request(nil), bitstring()}} |
     {error, decode_packet_error()}.
@@ -97,7 +100,7 @@ read_request(Data) ->
                         gleam@result:unwrap(_pipe@4, {Path@2, none})
                     end,
                     Method@1 = gleam@http:method_from_dynamic(
-                        gleam@dynamic:from(Method)
+                        gleam_stdlib:identity(Method)
                     ),
                     {ok,
                         {{request,
@@ -125,6 +128,7 @@ read_request(Data) ->
                         (gleam@string:inspect(Err))/binary>>}}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 148).
 -spec status_to_bit_array(integer()) -> bitstring().
 status_to_bit_array(Status) ->
     case Status of
@@ -294,6 +298,7 @@ status_to_bit_array(Status) ->
             <<"Unknown HTTP Status"/utf8>>
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 209).
 -spec encode_headers(list({binary(), binary()})) -> gleam@bytes_builder:bytes_builder().
 encode_headers(Headers) ->
     gleam@list:fold(
@@ -309,6 +314,7 @@ encode_headers(Headers) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 132).
 -spec response_builder(integer(), list({binary(), binary()})) -> gleam@bytes_builder:bytes_builder().
 response_builder(Status, Headers) ->
     Status_string = begin
@@ -325,6 +331,7 @@ response_builder(Status, Headers) ->
     _pipe@8 = gleam_stdlib:iodata_append(_pipe@7, encode_headers(Headers)),
     gleam@bytes_builder:append(_pipe@8, <<"\r\n"/utf8>>).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/http.gleam", 126).
 -spec to_bytes_builder(
     gleam@http@response:response(gleam@bytes_builder:bytes_builder())
 ) -> gleam@bytes_builder:bytes_builder().

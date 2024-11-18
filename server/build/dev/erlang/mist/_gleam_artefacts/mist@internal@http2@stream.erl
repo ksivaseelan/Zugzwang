@@ -23,7 +23,7 @@
         gleam@option:option(gleam@http@response:response(mist@internal@http:response_data())),
         bitstring()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/stream.gleam", 148).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/stream.gleam", 148).
 -spec make_request(
     list({binary(), binary()}),
     gleam@http@request:request(mist@internal@http:connection())
@@ -36,7 +36,7 @@ make_request(Headers, Req) ->
 
         [{<<"method"/utf8>>, Method} | Rest] ->
             _pipe = Method,
-            _pipe@1 = gleam@dynamic:from(_pipe),
+            _pipe@1 = gleam_stdlib:identity(_pipe),
             _pipe@2 = gleam@http:method_from_dynamic(_pipe@1),
             _pipe@3 = gleam@result:replace_error(_pipe@2, nil),
             _pipe@4 = gleam@result:map(
@@ -104,7 +104,7 @@ make_request(Headers, Req) ->
             make_request(Rest@4, _pipe@20)
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/stream.gleam", 56).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/stream.gleam", 56).
 -spec new(
     fun((gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist@internal@http:response_data())),
     list({binary(), binary()}),
@@ -242,7 +242,7 @@ new(Handler, Headers, Connection, Send, End) ->
                 end end}
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/stream.gleam", 201).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/stream.gleam", 201).
 -spec receive_data(state(), integer()) -> {state(), integer()}.
 receive_data(State, Size) ->
     {New_window_size, Increment} = mist@internal@http2@flow_control:compute_receive_window(

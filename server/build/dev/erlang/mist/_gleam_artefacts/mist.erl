@@ -39,9 +39,9 @@
         mist@internal@buffer:buffer(),
         boolean()}.
 
--opaque builder(PEU, PEV) :: {builder,
+-opaque builder(QEH, QEI) :: {builder,
         integer(),
-        fun((gleam@http@request:request(PEU)) -> gleam@http@response:response(PEV)),
+        fun((gleam@http@request:request(QEH)) -> gleam@http@response:response(QEI)),
         fun((integer(), gleam@http:scheme(), ip_address()) -> nil),
         binary(),
         boolean()}.
@@ -58,11 +58,11 @@
 -type https_error() :: {glisten_error, glisten:start_error()} |
     {certificate_error, certificate_error()}.
 
--type websocket_message(PEW) :: {text, binary()} |
+-type websocket_message(QEJ) :: {text, binary()} |
     {binary, bitstring()} |
     closed |
     shutdown |
-    {custom, PEW}.
+    {custom, QEJ}.
 
 -opaque sse_connection() :: {sse_connection, mist@internal@http:connection()}.
 
@@ -71,7 +71,7 @@
         gleam@option:option(binary()),
         gleam@string_builder:string_builder()}.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 60).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 60).
 -spec to_mist_ip_address(glisten:ip_address()) -> ip_address().
 to_mist_ip_address(Ip) ->
     case Ip of
@@ -82,7 +82,7 @@ to_mist_ip_address(Ip) ->
             {ip_v6, A@1, B@1, C@1, D@1, E, F, G, H}
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 67).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 67).
 -spec to_glisten_ip_address(ip_address()) -> glisten:ip_address().
 to_glisten_ip_address(Ip) ->
     case Ip of
@@ -93,12 +93,12 @@ to_glisten_ip_address(Ip) ->
             {ip_v6, A@1, B@1, C@1, D@1, E, F, G, H}
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 56).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 56).
 -spec ip_address_to_string(ip_address()) -> binary().
 ip_address_to_string(Address) ->
     glisten:ip_address_to_string(to_glisten_ip_address(Address)).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 79).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 79).
 -spec get_client_info(mist@internal@http:connection()) -> {ok,
         connection_info()} |
     {error, nil}.
@@ -120,7 +120,7 @@ get_client_info(Conn) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 115).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 115).
 -spec convert_file_errors(mist@internal@file:file_error()) -> file_error().
 convert_file_errors(Err) ->
     case Err of
@@ -137,7 +137,7 @@ convert_file_errors(Err) ->
             unknown_file_error
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 129).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 129).
 -spec send_file(binary(), integer(), gleam@option:option(integer())) -> {ok,
         response_data()} |
     {error, file_error()}.
@@ -156,7 +156,7 @@ send_file(Path, Offset, Limit) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 159).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 159).
 -spec read_body(
     gleam@http@request:request(mist@internal@http:connection()),
     integer()
@@ -175,7 +175,7 @@ read_body(Req, Max_body_limit) ->
                 {error, excess_body}
         end end)(_pipe@3).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 188).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 188).
 -spec do_stream(
     gleam@http@request:request(mist@internal@http:connection()),
     mist@internal@buffer:buffer()
@@ -237,7 +237,7 @@ do_stream(Req, Buffer) ->
         end
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 253).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 253).
 -spec fetch_chunks_until(
     glisten@socket:socket(),
     glisten@transport:transport(),
@@ -329,7 +329,7 @@ fetch_chunks_until(Socket, Transport, State, Byte_size) ->
             end
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 233).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 233).
 -spec do_stream_chunked(
     gleam@http@request:request(mist@internal@http:connection()),
     chunk_state()
@@ -348,7 +348,7 @@ do_stream_chunked(Req, State) ->
                 {error, malformed_body}
         end end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 305).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 305).
 -spec stream(gleam@http@request:request(mist@internal@http:connection())) -> {ok,
         fun((integer()) -> {ok, chunk()} | {error, read_error()})} |
     {error, read_error()}.
@@ -412,10 +412,10 @@ stream(Req) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 356).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 356).
 -spec new(
-    fun((gleam@http@request:request(PFT)) -> gleam@http@response:response(PFV))
-) -> builder(PFT, PFV).
+    fun((gleam@http@request:request(QFG)) -> gleam@http@response:response(QFI))
+) -> builder(QFG, QFI).
 new(Handler) ->
     {builder,
         4000,
@@ -440,17 +440,17 @@ new(Handler) ->
         <<"localhost"/utf8>>,
         false}.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 380).
--spec port(builder(PFZ, PGA), integer()) -> builder(PFZ, PGA).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 380).
+-spec port(builder(QFM, QFN), integer()) -> builder(QFM, QFN).
 port(Builder, Port) ->
     erlang:setelement(2, Builder, Port).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 387).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 387).
 -spec read_request_body(
-    builder(bitstring(), PGF),
+    builder(bitstring(), QFS),
     integer(),
-    gleam@http@response:response(PGF)
-) -> builder(mist@internal@http:connection(), PGF).
+    gleam@http@response:response(QFS)
+) -> builder(mist@internal@http:connection(), QFS).
 read_request_body(Builder, Bytes_limit, Failure_response) ->
     Handler = fun(Request) -> case read_body(Request, Bytes_limit) of
             {ok, Request@1} ->
@@ -466,25 +466,25 @@ read_request_body(Builder, Bytes_limit, Failure_response) ->
         erlang:element(5, Builder),
         erlang:element(6, Builder)}.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 409).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 409).
 -spec after_start(
-    builder(PGL, PGM),
+    builder(QFY, QFZ),
     fun((integer(), gleam@http:scheme(), ip_address()) -> nil)
-) -> builder(PGL, PGM).
+) -> builder(QFY, QFZ).
 after_start(Builder, After_start) ->
     erlang:setelement(4, Builder, After_start).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 420).
--spec bind(builder(PGR, PGS), binary()) -> builder(PGR, PGS).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 420).
+-spec bind(builder(QGE, QGF), binary()) -> builder(QGE, QGF).
 bind(Builder, Interface) ->
     erlang:setelement(5, Builder, Interface).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 429).
--spec with_ipv6(builder(PGX, PGY)) -> builder(PGX, PGY).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 429).
+-spec with_ipv6(builder(QGK, QGL)) -> builder(QGK, QGL).
 with_ipv6(Builder) ->
     erlang:setelement(6, Builder, true).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 433).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 433).
 -spec convert_body_types(gleam@http@response:response(response_data())) -> gleam@http@response:response(mist@internal@http:response_data()).
 convert_body_types(Resp) ->
     New_body = case erlang:element(4, Resp) of
@@ -505,17 +505,17 @@ convert_body_types(Resp) ->
     end,
     gleam@http@response:set_body(Resp, New_body).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 459).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 459).
 -spec get_supervisor(server()) -> gleam@erlang@process:subject(gleam@otp@supervisor:message()).
 get_supervisor(Server) ->
     erlang:element(2, Server).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 463).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 463).
 -spec get_port(server()) -> integer().
 get_port(Server) ->
     erlang:element(3, Server).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 478).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 478).
 -spec start_http_server(
     builder(mist@internal@http:connection(), response_data())
 ) -> {ok, server()} | {error, glisten:start_error()}.
@@ -563,7 +563,7 @@ start_http_server(Builder) ->
             end end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 468).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 468).
 -spec start_http(builder(mist@internal@http:connection(), response_data())) -> {ok,
         gleam@erlang@process:subject(gleam@otp@supervisor:message())} |
     {error, glisten:start_error()}.
@@ -571,7 +571,7 @@ start_http(Builder) ->
     _pipe = start_http_server(Builder),
     gleam@result:map(_pipe, fun get_supervisor/1).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 545).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 545).
 -spec start_https_server(
     builder(mist@internal@http:connection(), response_data()),
     binary(),
@@ -645,7 +645,7 @@ start_https_server(Builder, Certfile, Keyfile) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 533).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 533).
 -spec start_https(
     builder(mist@internal@http:connection(), response_data()),
     binary(),
@@ -656,10 +656,10 @@ start_https(Builder, Certfile, Keyfile) ->
     _pipe = start_https_server(Builder, Certfile, Keyfile),
     gleam@result:map(_pipe, fun get_supervisor/1).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 599).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 599).
 -spec internal_to_public_ws_message(
-    mist@internal@websocket:handler_message(PHY)
-) -> {ok, websocket_message(PHY)} | {error, nil}.
+    mist@internal@websocket:handler_message(QHL)
+) -> {ok, websocket_message(QHL)} | {error, nil}.
 internal_to_public_ws_message(Msg) ->
     case Msg of
         {internal, {data, {text_frame, _, Data}}} ->
@@ -677,13 +677,13 @@ internal_to_public_ws_message(Msg) ->
             {error, nil}
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 624).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 624).
 -spec websocket(
     gleam@http@request:request(mist@internal@http:connection()),
-    fun((PIE, mist@internal@websocket:websocket_connection(), websocket_message(PIF)) -> gleam@otp@actor:next(PIF, PIE)),
-    fun((mist@internal@websocket:websocket_connection()) -> {PIE,
-        gleam@option:option(gleam@erlang@process:selector(PIF))}),
-    fun((PIE) -> nil)
+    fun((QHR, mist@internal@websocket:websocket_connection(), websocket_message(QHS)) -> gleam@otp@actor:next(QHS, QHR)),
+    fun((mist@internal@websocket:websocket_connection()) -> {QHR,
+        gleam@option:option(gleam@erlang@process:selector(QHS))}),
+    fun((QHR) -> nil)
 ) -> gleam@http@response:response(response_data()).
 websocket(Request, Handler, On_init, On_close) ->
     Handler@1 = fun(State, Connection, Message) -> _pipe = Message,
@@ -748,7 +748,7 @@ websocket(Request, Handler, On_init, On_close) ->
             ) end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 677).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 677).
 -spec send_binary_frame(
     mist@internal@websocket:websocket_connection(),
     bitstring()
@@ -784,7 +784,7 @@ send_binary_frame(Connection, Frame) ->
                     line => 695})
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 701).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 701).
 -spec send_text_frame(mist@internal@websocket:websocket_connection(), binary()) -> {ok,
         nil} |
     {error, glisten@socket:socket_reason()}.
@@ -819,27 +819,27 @@ send_text_frame(Connection, Frame) ->
                     line => 719})
     end.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 739).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 739).
 -spec event(gleam@string_builder:string_builder()) -> sse_event().
 event(Data) ->
     {sse_event, none, none, Data}.
 
--file("/home/alex/gleams/mist/src/mist.gleam", 744).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 744).
 -spec event_id(sse_event(), binary()) -> sse_event().
 event_id(Event, Id) ->
     erlang:setelement(2, Event, {some, Id}).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 749).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 749).
 -spec event_name(sse_event(), binary()) -> sse_event().
 event_name(Event, Name) ->
     erlang:setelement(3, Event, {some, Name}).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 762).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 762).
 -spec server_sent_events(
     gleam@http@request:request(mist@internal@http:connection()),
     gleam@http@response:response(any()),
-    fun(() -> gleam@otp@actor:init_result(PIT, PIU)),
-    fun((PIU, sse_connection(), PIT) -> gleam@otp@actor:next(PIU, PIT))
+    fun(() -> gleam@otp@actor:init_result(QIG, QIH)),
+    fun((QIH, sse_connection(), QIG) -> gleam@otp@actor:next(QIH, QIG))
 ) -> gleam@http@response:response(response_data()).
 server_sent_events(Req, Resp, Init, Loop) ->
     With_default_headers = begin
@@ -917,7 +917,7 @@ server_sent_events(Req, Resp, Init, Loop) ->
             ) end
     ).
 
--file("/home/alex/gleams/mist/src/mist.gleam", 807).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist.gleam", 807).
 -spec send_event(sse_connection(), sse_event()) -> {ok, nil} | {error, nil}.
 send_event(Conn, Event) ->
     {sse_connection, Conn@1} = Conn,

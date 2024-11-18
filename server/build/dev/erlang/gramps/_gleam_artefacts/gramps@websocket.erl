@@ -21,6 +21,7 @@
 
 -type sha_hash() :: sha.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 30).
 -spec mask_data(bitstring(), list(bitstring()), integer(), bitstring()) -> bitstring().
 mask_data(Data, Masks, Index, Resp) ->
     case Data of
@@ -29,7 +30,7 @@ mask_data(Data, Masks, Index, Resp) ->
                 [_, _, _, _] -> Masks;
                 _assert_fail ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail,
                                 module => <<"gramps/websocket"/utf8>>,
                                 function => <<"mask_data"/utf8>>,
@@ -67,6 +68,7 @@ mask_data(Data, Masks, Index, Resp) ->
             Resp
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 204).
 -spec make_length(integer()) -> bitstring().
 make_length(Length) ->
     case Length of
@@ -80,6 +82,7 @@ make_length(Length) ->
             <<Length:7>>
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 212).
 -spec make_compressed_frame(
     integer(),
     bitstring(),
@@ -108,6 +111,7 @@ make_compressed_frame(Opcode, Payload, Context, Mask) ->
         Data/bitstring>>,
     gleam_stdlib:wrap_list(_pipe).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 242).
 -spec make_frame(
     integer(),
     integer(),
@@ -133,6 +137,7 @@ make_frame(Opcode, Length, Payload, Mask) ->
         Payload/bitstring>>,
     gleam_stdlib:wrap_list(_pipe).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 165).
 -spec frame_to_bytes_builder(frame(), gleam@option:option(bitstring())) -> gleam@bytes_builder:bytes_builder().
 frame_to_bytes_builder(Frame, Mask) ->
     case Frame of
@@ -155,6 +160,7 @@ frame_to_bytes_builder(Frame, Mask) ->
             make_frame(0, Length, Payload@5, Mask)
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 184).
 -spec compressed_frame_to_bytes_builder(
     frame(),
     gramps@websocket@compression:context(),
@@ -181,13 +187,14 @@ compressed_frame_to_bytes_builder(Frame, Context, Mask) ->
             make_frame(0, Length, Payload@5, Mask)
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 269).
 -spec apply_mask(bitstring(), bitstring()) -> bitstring().
 apply_mask(Data, Mask) ->
     <<Mask1:1/binary, Mask2:1/binary, Mask3:1/binary, Mask4:1/binary>> = case Mask of
         <<_:1/binary, _:1/binary, _:1/binary, _:1/binary>> -> Mask;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"gramps/websocket"/utf8>>,
                         function => <<"apply_mask"/utf8>>,
@@ -195,6 +202,7 @@ apply_mask(Data, Mask) ->
     end,
     mask_data(Data, [Mask1, Mask2, Mask3, Mask4], 0, <<>>).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 279).
 -spec to_text_frame(
     binary(),
     gleam@option:option(gramps@websocket@compression:context()),
@@ -220,6 +228,7 @@ to_text_frame(Data, Context, Mask) ->
             frame_to_bytes_builder(Frame, Mask)
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 297).
 -spec to_binary_frame(
     bitstring(),
     gleam@option:option(gramps@websocket@compression:context()),
@@ -244,6 +253,7 @@ to_binary_frame(Data, Context, Mask) ->
             frame_to_bytes_builder(Frame, Mask)
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 327).
 -spec append_frame(frame(), integer(), bitstring()) -> frame().
 append_frame(Left, Length, Data) ->
     case Left of
@@ -281,6 +291,7 @@ append_frame(Left, Length, Data) ->
             Left
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 343).
 -spec aggregate_frames(
     list(parsed_frame()),
     gleam@option:option(frame()),
@@ -310,6 +321,7 @@ aggregate_frames(Frames, Previous, Joined) ->
             {error, nil}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 389).
 -spec inflate(
     boolean(),
     gleam@option:option(gramps@websocket@compression:context()),
@@ -329,6 +341,7 @@ inflate(Compressed, Context, Data) ->
             {ok, {erlang:byte_size(Data), Data}}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 63).
 -spec frame_from_message(
     bitstring(),
     gleam@option:option(gramps@websocket@compression:context())
@@ -506,6 +519,7 @@ frame_from_message(Message, Context) ->
             {error, invalid_frame}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 314).
 -spec get_messages(
     bitstring(),
     list(parsed_frame()),
@@ -526,6 +540,7 @@ get_messages(Data, Frames, Context) ->
             {lists:reverse(Frames), Data}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 405).
 -spec has_deflate(list(binary())) -> boolean().
 has_deflate(Extensions) ->
     gleam@list:any(
@@ -533,6 +548,7 @@ has_deflate(Extensions) ->
         fun(Str) -> Str =:= <<"permessage-deflate"/utf8>> end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket.gleam", 376).
 -spec parse_websocket_key(binary()) -> binary().
 parse_websocket_key(Key) ->
     _pipe = Key,

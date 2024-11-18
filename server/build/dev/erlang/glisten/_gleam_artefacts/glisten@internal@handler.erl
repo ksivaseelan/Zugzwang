@@ -10,34 +10,34 @@
     ssl_closed |
     tcp_closed.
 
--type message(HXY) :: {internal, internal_message()} | {user, HXY}.
+-type message(LTX) :: {internal, internal_message()} | {user, LTX}.
 
--type loop_message(HXZ) :: {packet, bitstring()} | {custom, HXZ}.
+-type loop_message(LTY) :: {packet, bitstring()} | {custom, LTY}.
 
--type loop_state(HYA, HYB) :: {loop_state,
+-type loop_state(LTZ, LUA) :: {loop_state,
         {ok, {glisten@socket@options:ip_address(), integer()}} | {error, nil},
         glisten@socket:socket(),
-        gleam@erlang@process:subject(message(HYA)),
+        gleam@erlang@process:subject(message(LTZ)),
         glisten@transport:transport(),
-        HYB}.
+        LUA}.
 
--type connection(HYC) :: {connection,
+-type connection(LUB) :: {connection,
         {ok, {glisten@socket@options:ip_address(), integer()}} | {error, nil},
         glisten@socket:socket(),
         glisten@transport:transport(),
-        gleam@erlang@process:subject(message(HYC))}.
+        gleam@erlang@process:subject(message(LUB))}.
 
--type handler(HYD, HYE) :: {handler,
+-type handler(LUC, LUD) :: {handler,
         glisten@socket:socket(),
-        fun((loop_message(HYD), HYE, connection(HYD)) -> gleam@otp@actor:next(loop_message(HYD), HYE)),
-        fun((connection(HYD)) -> {HYE,
-            gleam@option:option(gleam@erlang@process:selector(HYD))}),
-        gleam@option:option(fun((HYE) -> nil)),
+        fun((loop_message(LUC), LUD, connection(LUC)) -> gleam@otp@actor:next(loop_message(LUC), LUD)),
+        fun((connection(LUC)) -> {LUD,
+            gleam@option:option(gleam@erlang@process:selector(LUC))}),
+        gleam@option:option(fun((LUD) -> nil)),
         glisten@transport:transport()}.
 
--file("/home/alex/gleams/glisten/src/glisten/internal/handler.gleam", 73).
--spec start(handler(HYO, any())) -> {ok,
-        gleam@erlang@process:subject(message(HYO))} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/internal/handler.gleam", 73).
+-spec start(handler(LUN, any())) -> {ok,
+        gleam@erlang@process:subject(message(LUN))} |
     {error, gleam@otp@actor:start_error()}.
 start(Handler) ->
     gleam@otp@actor:start_spec(

@@ -36,7 +36,7 @@
         integer(),
         integer()}.
 
--file("/home/alex/gleams/glisten/src/glisten/socket/options.gleam", 44).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/socket/options.gleam", 44).
 -spec to_dict(list(tcp_option())) -> gleam@dict:dict(gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()).
 to_dict(Options) ->
     Opt_decoder = gleam@dynamic:tuple2(
@@ -48,48 +48,54 @@ to_dict(Options) ->
     _pipe = Options,
     _pipe@1 = gleam@list:map(_pipe, fun(Opt) -> case Opt of
                 {active_mode, passive} ->
-                    gleam@dynamic:from({Active, false});
+                    gleam_stdlib:identity({Active, false});
 
                 {active_mode, active} ->
-                    gleam@dynamic:from({Active, true});
+                    gleam_stdlib:identity({Active, true});
 
                 {active_mode, {count, N}} ->
-                    gleam@dynamic:from({Active, N});
+                    gleam_stdlib:identity({Active, N});
 
                 {active_mode, once} ->
-                    gleam@dynamic:from(
+                    gleam_stdlib:identity(
                         {Active, erlang:binary_to_atom(<<"once"/utf8>>)}
                     );
 
                 {ip, {address, {ip_v4, A, B, C, D}}} ->
-                    gleam@dynamic:from({Ip, gleam@dynamic:from({A, B, C, D})});
+                    gleam_stdlib:identity(
+                        {Ip, gleam_stdlib:identity({A, B, C, D})}
+                    );
 
                 {ip, {address, {ip_v6, A@1, B@1, C@1, D@1, E, F, G, H}}} ->
-                    gleam@dynamic:from(
+                    gleam_stdlib:identity(
                         {Ip,
-                            gleam@dynamic:from({A@1, B@1, C@1, D@1, E, F, G, H})}
+                            gleam_stdlib:identity(
+                                {A@1, B@1, C@1, D@1, E, F, G, H}
+                            )}
                     );
 
                 {ip, any} ->
-                    gleam@dynamic:from(
+                    gleam_stdlib:identity(
                         {Ip, erlang:binary_to_atom(<<"any"/utf8>>)}
                     );
 
                 {ip, loopback} ->
-                    gleam@dynamic:from(
+                    gleam_stdlib:identity(
                         {Ip, erlang:binary_to_atom(<<"loopback"/utf8>>)}
                     );
 
                 ipv6 ->
-                    gleam@dynamic:from(erlang:binary_to_atom(<<"inet6"/utf8>>));
+                    gleam_stdlib:identity(
+                        erlang:binary_to_atom(<<"inet6"/utf8>>)
+                    );
 
                 Other ->
-                    gleam@dynamic:from(Other)
+                    gleam_stdlib:identity(Other)
             end end),
     _pipe@2 = gleam@list:filter_map(_pipe@1, Opt_decoder),
     maps:from_list(_pipe@2).
 
--file("/home/alex/gleams/glisten/src/glisten/socket/options.gleam", 77).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/socket/options.gleam", 77).
 -spec merge_with_defaults(list(tcp_option())) -> list(tcp_option()).
 merge_with_defaults(Options) ->
     Overrides = to_dict(Options),
@@ -104,10 +110,10 @@ merge_with_defaults(Options) ->
     _pipe@1 = to_dict(_pipe),
     _pipe@2 = gleam@dict:merge(_pipe@1, Overrides),
     _pipe@3 = maps:to_list(_pipe@2),
-    _pipe@4 = gleam@list:map(_pipe@3, fun gleam@dynamic:from/1),
+    _pipe@4 = gleam@list:map(_pipe@3, fun gleam_stdlib:identity/1),
     _pipe@5 = (fun(Opts) -> case Has_ipv6 of
             true ->
-                [gleam@dynamic:from(erlang:binary_to_atom(<<"inet6"/utf8>>)) |
+                [gleam_stdlib:identity(erlang:binary_to_atom(<<"inet6"/utf8>>)) |
                     Opts];
 
             _ ->

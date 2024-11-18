@@ -6,45 +6,45 @@
 
 -opaque queue(EXK) :: {queue, list(EXK), list(EXK)}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 22).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 22).
 -spec new() -> queue(any()).
 new() ->
     {queue, [], []}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 38).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 38).
 -spec from_list(list(EXN)) -> queue(EXN).
 from_list(List) ->
     {queue, [], List}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 54).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 54).
 -spec to_list(queue(EXQ)) -> list(EXQ).
 to_list(Queue) ->
     _pipe = erlang:element(3, Queue),
     lists:append(_pipe, lists:reverse(erlang:element(2, Queue))).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 80).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 80).
 -spec is_empty(queue(any())) -> boolean().
 is_empty(Queue) ->
     (erlang:element(2, Queue) =:= []) andalso (erlang:element(3, Queue) =:= []).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 106).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 106).
 -spec length(queue(any())) -> integer().
 length(Queue) ->
     erlang:length(erlang:element(2, Queue)) + erlang:length(
         erlang:element(3, Queue)
     ).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 119).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 119).
 -spec push_back(queue(EXX), EXX) -> queue(EXX).
 push_back(Queue, Item) ->
     {queue, [Item | erlang:element(2, Queue)], erlang:element(3, Queue)}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 132).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 132).
 -spec push_front(queue(EYA), EYA) -> queue(EYA).
 push_front(Queue, Item) ->
     {queue, erlang:element(2, Queue), [Item | erlang:element(3, Queue)]}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 164).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 164).
 -spec pop_back(queue(EYD)) -> {ok, {EYD, queue(EYD)}} | {error, nil}.
 pop_back(Queue) ->
     case Queue of
@@ -59,7 +59,7 @@ pop_back(Queue) ->
             {ok, {First, Queue@1}}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 203).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 203).
 -spec pop_front(queue(EYI)) -> {ok, {EYI, queue(EYI)}} | {error, nil}.
 pop_front(Queue) ->
     case Queue of
@@ -74,12 +74,12 @@ pop_front(Queue) ->
             {ok, {First, Queue@1}}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 236).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 236).
 -spec reverse(queue(EYN)) -> queue(EYN).
 reverse(Queue) ->
     {queue, erlang:element(3, Queue), erlang:element(2, Queue)}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 240).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 240).
 -spec check_equal(
     list(EYQ),
     list(EYQ),
@@ -111,7 +111,7 @@ check_equal(Xs, X_tail, Ys, Y_tail, Eq) ->
             false
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 271).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 271).
 -spec is_logically_equal(queue(EYV), queue(EYV), fun((EYV, EYV) -> boolean())) -> boolean().
 is_logically_equal(A, B, Element_is_equal) ->
     check_equal(
@@ -122,7 +122,7 @@ is_logically_equal(A, B, Element_is_equal) ->
         Element_is_equal
     ).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/queue.gleam", 288).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/queue.gleam", 288).
 -spec is_equal(queue(EYY), queue(EYY)) -> boolean().
 is_equal(A, B) ->
     check_equal(

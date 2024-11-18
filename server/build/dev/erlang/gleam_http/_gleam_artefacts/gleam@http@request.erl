@@ -4,17 +4,17 @@
 -export([to_uri/1, from_uri/1, get_header/2, set_header/3, prepend_header/3, set_body/2, map/2, path_segments/1, get_query/1, set_query/2, set_method/2, new/0, to/1, set_scheme/2, set_host/2, set_port/2, set_path/2, set_cookie/3, get_cookies/1, remove_cookie/2]).
 -export_type([request/1]).
 
--type request(GGB) :: {request,
+-type request(IRA) :: {request,
         gleam@http:method(),
         list({binary(), binary()}),
-        GGB,
+        IRA,
         gleam@http:scheme(),
         binary(),
         gleam@option:option(integer()),
         binary(),
         gleam@option:option(binary())}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 31).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 31).
 -spec to_uri(request(any())) -> gleam@uri:uri().
 to_uri(Request) ->
     {uri,
@@ -26,7 +26,7 @@ to_uri(Request) ->
         erlang:element(9, Request),
         none}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 45).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 45).
 -spec from_uri(gleam@uri:uri()) -> {ok, request(binary())} | {error, nil}.
 from_uri(Uri) ->
     gleam@result:then(
@@ -57,13 +57,13 @@ from_uri(Uri) ->
         end
     ).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 76).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 76).
 -spec get_header(request(any()), binary()) -> {ok, binary()} | {error, nil}.
 get_header(Request, Key) ->
     gleam@list:key_find(erlang:element(3, Request), gleam@string:lowercase(Key)).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 87).
--spec set_header(request(GGL), binary(), binary()) -> request(GGL).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 87).
+-spec set_header(request(IRK), binary(), binary()) -> request(IRK).
 set_header(Request, Key, Value) ->
     Headers = gleam@list:key_set(
         erlang:element(3, Request),
@@ -72,33 +72,33 @@ set_header(Request, Key, Value) ->
     ),
     erlang:setelement(3, Request, Headers).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 104).
--spec prepend_header(request(GGO), binary(), binary()) -> request(GGO).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 104).
+-spec prepend_header(request(IRN), binary(), binary()) -> request(IRN).
 prepend_header(Request, Key, Value) ->
     Headers = [{gleam@string:lowercase(Key), Value} |
         erlang:element(3, Request)],
     erlang:setelement(3, Request, Headers).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 116).
--spec set_body(request(any()), GGT) -> request(GGT).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 116).
+-spec set_body(request(any()), IRS) -> request(IRS).
 set_body(Req, Body) ->
     {request, Method, Headers, _, Scheme, Host, Port, Path, Query} = Req,
     {request, Method, Headers, Body, Scheme, Host, Port, Path, Query}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 141).
--spec map(request(GGV), fun((GGV) -> GGX)) -> request(GGX).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 141).
+-spec map(request(IRU), fun((IRU) -> IRW)) -> request(IRW).
 map(Request, Transform) ->
     _pipe = erlang:element(4, Request),
     _pipe@1 = Transform(_pipe),
     set_body(Request, _pipe@1).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 161).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 161).
 -spec path_segments(request(any())) -> list(binary()).
 path_segments(Request) ->
     _pipe = erlang:element(8, Request),
     gleam@uri:path_segments(_pipe).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 167).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 167).
 -spec get_query(request(any())) -> {ok, list({binary(), binary()})} |
     {error, nil}.
 get_query(Request) ->
@@ -110,8 +110,8 @@ get_query(Request) ->
             {ok, []}
     end.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 177).
--spec set_query(request(GHH), list({binary(), binary()})) -> request(GHH).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 177).
+-spec set_query(request(ISG), list({binary(), binary()})) -> request(ISG).
 set_query(Req, Query) ->
     Pair = fun(T) ->
         gleam@string_builder:from_strings(
@@ -133,12 +133,12 @@ set_query(Req, Query) ->
     end,
     erlang:setelement(9, Req, Query@1).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 200).
--spec set_method(request(GHL), gleam@http:method()) -> request(GHL).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 200).
+-spec set_method(request(ISK), gleam@http:method()) -> request(ISK).
 set_method(Req, Method) ->
     erlang:setelement(2, Req, Method).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 207).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 207).
 -spec new() -> request(binary()).
 new() ->
     {request,
@@ -151,35 +151,35 @@ new() ->
         <<""/utf8>>,
         none}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 222).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 222).
 -spec to(binary()) -> {ok, request(binary())} | {error, nil}.
 to(Url) ->
     _pipe = Url,
     _pipe@1 = gleam@uri:parse(_pipe),
     gleam@result:then(_pipe@1, fun from_uri/1).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 230).
--spec set_scheme(request(GHS), gleam@http:scheme()) -> request(GHS).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 230).
+-spec set_scheme(request(ISR), gleam@http:scheme()) -> request(ISR).
 set_scheme(Req, Scheme) ->
     erlang:setelement(5, Req, Scheme).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 236).
--spec set_host(request(GHV), binary()) -> request(GHV).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 236).
+-spec set_host(request(ISU), binary()) -> request(ISU).
 set_host(Req, Host) ->
     erlang:setelement(6, Req, Host).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 242).
--spec set_port(request(GHY), integer()) -> request(GHY).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 242).
+-spec set_port(request(ISX), integer()) -> request(ISX).
 set_port(Req, Port) ->
     erlang:setelement(7, Req, {some, Port}).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 248).
--spec set_path(request(GIB), binary()) -> request(GIB).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 248).
+-spec set_path(request(ITA), binary()) -> request(ITA).
 set_path(Req, Path) ->
     erlang:setelement(8, Req, Path).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 255).
--spec set_cookie(request(GIE), binary(), binary()) -> request(GIE).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 255).
+-spec set_cookie(request(ITD), binary(), binary()) -> request(ITD).
 set_cookie(Req, Name, Value) ->
     New_cookie_string = gleam@string:join([Name, Value], <<"="/utf8>>),
     {Cookies_string@2, Headers@1} = case gleam@list:key_pop(
@@ -202,7 +202,7 @@ set_cookie(Req, Name, Value) ->
         [{<<"cookie"/utf8>>, Cookies_string@2} | Headers@1]
     ).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 274).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 274).
 -spec get_cookies(request(any())) -> list({binary(), binary()}).
 get_cookies(Req) ->
     {request, _, Headers, _, _, _, _, _, _} = Req,
@@ -222,8 +222,8 @@ get_cookies(Req) ->
     ),
     gleam@list:flatten(_pipe@1).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/request.gleam", 292).
--spec remove_cookie(request(GIJ), binary()) -> request(GIJ).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/request.gleam", 292).
+-spec remove_cookie(request(ITI), binary()) -> request(ITI).
 remove_cookie(Req, Name) ->
     case gleam@list:key_pop(erlang:element(3, Req), <<"cookie"/utf8>>) of
         {ok, {Cookies_string, Headers}} ->

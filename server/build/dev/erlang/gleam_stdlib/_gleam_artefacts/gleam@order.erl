@@ -6,7 +6,7 @@
 
 -type order() :: lt | eq | gt.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/order.gleam", 35).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/order.gleam", 35).
 -spec negate(order()) -> order().
 negate(Order) ->
     case Order of
@@ -20,7 +20,7 @@ negate(Order) ->
             lt
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/order.gleam", 62).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/order.gleam", 62).
 -spec to_int(order()) -> integer().
 to_int(Order) ->
     case Order of
@@ -34,7 +34,7 @@ to_int(Order) ->
             1
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/order.gleam", 79).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/order.gleam", 79).
 -spec compare(order(), order()) -> order().
 compare(A, B) ->
     case {A, B} of
@@ -51,12 +51,12 @@ compare(A, B) ->
             gt
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/order.gleam", 100).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/order.gleam", 100).
 -spec reverse(fun((I, I) -> order())) -> fun((I, I) -> order()).
 reverse(Orderer) ->
     fun(A, B) -> Orderer(B, A) end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/order.gleam", 122).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/order.gleam", 122).
 -spec break_tie(order(), order()) -> order().
 break_tie(Order, Other) ->
     case Order of
@@ -70,7 +70,7 @@ break_tie(Order, Other) ->
             Other
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/order.gleam", 151).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/order.gleam", 151).
 -spec lazy_break_tie(order(), fun(() -> order())) -> order().
 lazy_break_tie(Order, Comparison) ->
     case Order of

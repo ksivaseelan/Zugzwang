@@ -3,23 +3,28 @@
 
 -export([equal/2, not_equal/2, be_ok/1, be_error/1, be_some/1, be_none/1, be_true/1, be_false/1, fail/0]).
 
--spec equal(FOQ, FOQ) -> nil.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 11).
+-spec equal(LEH, LEH) -> nil.
 equal(A, B) ->
     gleeunit_ffi:should_equal(A, B).
 
--spec not_equal(FOR, FOR) -> nil.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 25).
+-spec not_equal(LEI, LEI) -> nil.
 not_equal(A, B) ->
     gleeunit_ffi:should_not_equal(A, B).
 
--spec be_ok({ok, FOS} | {error, any()}) -> FOS.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 39).
+-spec be_ok({ok, LEJ} | {error, any()}) -> LEJ.
 be_ok(A) ->
     gleeunit_ffi:should_be_ok(A).
 
--spec be_error({ok, any()} | {error, FOX}) -> FOX.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 47).
+-spec be_error({ok, any()} | {error, LEO}) -> LEO.
 be_error(A) ->
     gleeunit_ffi:should_be_error(A).
 
--spec be_some(gleam@option:option(FPA)) -> FPA.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 54).
+-spec be_some(gleam@option:option(LER)) -> LER.
 be_some(A) ->
     case A of
         {some, Value} ->
@@ -37,6 +42,7 @@ be_some(A) ->
                     line => 57})
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 61).
 -spec be_none(gleam@option:option(any())) -> nil.
 be_none(A) ->
     case A of
@@ -55,16 +61,19 @@ be_none(A) ->
                     line => 64})
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 68).
 -spec be_true(boolean()) -> nil.
 be_true(Actual) ->
     _pipe = Actual,
     gleeunit_ffi:should_equal(_pipe, true).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 73).
 -spec be_false(boolean()) -> nil.
 be_false(Actual) ->
     _pipe = Actual,
     gleeunit_ffi:should_equal(_pipe, false).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleeunit/src/gleeunit/should.gleam", 78).
 -spec fail() -> nil.
 fail() ->
     be_true(false).

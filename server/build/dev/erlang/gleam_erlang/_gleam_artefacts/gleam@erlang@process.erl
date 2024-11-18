@@ -6,12 +6,12 @@
 
 -type pid_() :: any().
 
--opaque subject(FOG) :: {subject, pid_(), gleam@erlang:reference_()} |
-    {gleam_phantom, FOG}.
+-opaque subject(HOA) :: {subject, pid_(), gleam@erlang:reference_()} |
+    {gleam_phantom, HOA}.
 
 -type do_not_leak() :: any().
 
--type selector(FOH) :: any() | {gleam_phantom, FOH}.
+-type selector(HOB) :: any() | {gleam_phantom, HOB}.
 
 -type exit_message() :: {exit_message, pid_(), exit_reason()}.
 
@@ -25,9 +25,9 @@
 
 -type process_down() :: {process_down, pid_(), gleam@dynamic:dynamic_()}.
 
--type call_error(FOI) :: {callee_down, gleam@dynamic:dynamic_()} |
+-type call_error(HOC) :: {callee_down, gleam@dynamic:dynamic_()} |
     call_timeout |
-    {gleam_phantom, FOI}.
+    {gleam_phantom, HOC}.
 
 -type timer() :: any().
 
@@ -35,12 +35,12 @@
 
 -type kill_flag() :: kill.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 14).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 14).
 -spec self() -> pid_().
 self() ->
     erlang:self().
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 28).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 28).
 -spec start(fun(() -> any()), boolean()) -> pid_().
 start(Implementation, Link) ->
     case Link of
@@ -51,18 +51,18 @@ start(Implementation, Link) ->
             erlang:spawn(Implementation)
     end.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 70).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 70).
 -spec new_subject() -> subject(any()).
 new_subject() ->
     {subject, erlang:self(), erlang:make_ref()}.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 77).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 77).
 -spec subject_owner(subject(any())) -> pid_().
 subject_owner(Subject) ->
     erlang:element(2, Subject).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 110).
--spec send(subject(FOR), FOR) -> nil.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 110).
+-spec send(subject(HOL), HOL) -> nil.
 send(Subject, Message) ->
     erlang:send(
         erlang:element(2, Subject),
@@ -70,44 +70,44 @@ send(Subject, Message) ->
     ),
     nil.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 166).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 166).
 -spec new_selector() -> selector(any()).
 new_selector() ->
     gleam_erlang_ffi:new_selector().
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 186).
--spec select(selector(FOZ), integer()) -> {ok, FOZ} | {error, nil}.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 186).
+-spec select(selector(HOT), integer()) -> {ok, HOT} | {error, nil}.
 select(From, Within) ->
     gleam_erlang_ffi:select(From, Within).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 195).
--spec select_forever(selector(FPD)) -> FPD.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 195).
+-spec select_forever(selector(HOX)) -> HOX.
 select_forever(From) ->
     gleam_erlang_ffi:select(From).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 204).
--spec map_selector(selector(FPF), fun((FPF) -> FPH)) -> selector(FPH).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 204).
+-spec map_selector(selector(HOZ), fun((HOZ) -> HPB)) -> selector(HPB).
 map_selector(A, B) ->
     gleam_erlang_ffi:map_selector(A, B).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 213).
--spec merge_selector(selector(FPJ), selector(FPJ)) -> selector(FPJ).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 213).
+-spec merge_selector(selector(HPD), selector(HPD)) -> selector(HPD).
 merge_selector(A, B) ->
     gleam_erlang_ffi:merge_selector(A, B).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 257).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 257).
 -spec flush_messages() -> nil.
 flush_messages() ->
     gleam_erlang_ffi:flush_messages().
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 229).
--spec selecting_trapped_exits(selector(FPN), fun((exit_message()) -> FPN)) -> selector(FPN).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 229).
+-spec selecting_trapped_exits(selector(HPH), fun((exit_message()) -> HPH)) -> selector(HPH).
 selecting_trapped_exits(Selector, Handler) ->
     Tag = erlang:binary_to_atom(<<"EXIT"/utf8>>),
     Handler@1 = fun(Message) ->
         Reason = erlang:element(3, Message),
-        Normal = gleam@dynamic:from(normal),
-        Killed = gleam@dynamic:from(killed),
+        Normal = gleam_stdlib:identity(normal),
+        Killed = gleam_stdlib:identity(killed),
         Reason@2 = case gleam@dynamic:string(Reason) of
             _ when Reason =:= Normal ->
                 normal;
@@ -125,8 +125,8 @@ selecting_trapped_exits(Selector, Handler) ->
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 3}, Handler@1).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 270).
--spec selecting(selector(FPQ), subject(FPS), fun((FPS) -> FPQ)) -> selector(FPQ).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 270).
+-spec selecting(selector(HPK), subject(HPM), fun((HPM) -> HPK)) -> selector(HPK).
 selecting(Selector, Subject, Transform) ->
     Handler = fun(Message) -> Transform(erlang:element(2, Message)) end,
     gleam_erlang_ffi:insert_selector_handler(
@@ -135,41 +135,41 @@ selecting(Selector, Subject, Transform) ->
         Handler
     ).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 130).
--spec 'receive'(subject(FOT), integer()) -> {ok, FOT} | {error, nil}.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 130).
+-spec 'receive'(subject(HON), integer()) -> {ok, HON} | {error, nil}.
 'receive'(Subject, Timeout) ->
     _pipe = gleam_erlang_ffi:new_selector(),
     _pipe@1 = selecting(_pipe, Subject, fun(X) -> X end),
     gleam_erlang_ffi:select(_pipe@1, Timeout).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 296).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 296).
 -spec selecting_record2(
-    selector(FQA),
+    selector(HPU),
     any(),
-    fun((gleam@dynamic:dynamic_()) -> FQA)
-) -> selector(FQA).
+    fun((gleam@dynamic:dynamic_()) -> HPU)
+) -> selector(HPU).
 selecting_record2(Selector, Tag, Transform) ->
     Handler = fun(Message) -> Transform(erlang:element(2, Message)) end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 2}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 312).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 312).
 -spec selecting_record3(
-    selector(FQE),
+    selector(HPY),
     any(),
-    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> FQE)
-) -> selector(FQE).
+    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> HPY)
+) -> selector(HPY).
 selecting_record3(Selector, Tag, Transform) ->
     Handler = fun(Message) ->
         Transform(erlang:element(2, Message), erlang:element(3, Message))
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 3}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 330).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 330).
 -spec selecting_record4(
-    selector(FQI),
+    selector(HQC),
     any(),
-    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> FQI)
-) -> selector(FQI).
+    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> HQC)
+) -> selector(HQC).
 selecting_record4(Selector, Tag, Transform) ->
     Handler = fun(Message) ->
         Transform(
@@ -180,12 +180,12 @@ selecting_record4(Selector, Tag, Transform) ->
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 4}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 348).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 348).
 -spec selecting_record5(
-    selector(FQM),
+    selector(HQG),
     any(),
-    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> FQM)
-) -> selector(FQM).
+    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> HQG)
+) -> selector(HQG).
 selecting_record5(Selector, Tag, Transform) ->
     Handler = fun(Message) ->
         Transform(
@@ -197,12 +197,12 @@ selecting_record5(Selector, Tag, Transform) ->
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 5}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 366).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 366).
 -spec selecting_record6(
-    selector(FQQ),
+    selector(HQK),
     any(),
-    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> FQQ)
-) -> selector(FQQ).
+    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> HQK)
+) -> selector(HQK).
 selecting_record6(Selector, Tag, Transform) ->
     Handler = fun(Message) ->
         Transform(
@@ -215,12 +215,12 @@ selecting_record6(Selector, Tag, Transform) ->
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 6}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 384).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 384).
 -spec selecting_record7(
-    selector(FQU),
+    selector(HQO),
     any(),
-    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> FQU)
-) -> selector(FQU).
+    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> HQO)
+) -> selector(HQO).
 selecting_record7(Selector, Tag, Transform) ->
     Handler = fun(Message) ->
         Transform(
@@ -234,12 +234,12 @@ selecting_record7(Selector, Tag, Transform) ->
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 7}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 405).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 405).
 -spec selecting_record8(
-    selector(FQY),
+    selector(HQS),
     any(),
-    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> FQY)
-) -> selector(FQY).
+    fun((gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_(), gleam@dynamic:dynamic_()) -> HQS)
+) -> selector(HQS).
 selecting_record8(Selector, Tag, Transform) ->
     Handler = fun(Message) ->
         Transform(
@@ -254,47 +254,47 @@ selecting_record8(Selector, Tag, Transform) ->
     end,
     gleam_erlang_ffi:insert_selector_handler(Selector, {Tag, 8}, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 455).
--spec selecting_anything(selector(FRC), fun((gleam@dynamic:dynamic_()) -> FRC)) -> selector(FRC).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 455).
+-spec selecting_anything(selector(HQW), fun((gleam@dynamic:dynamic_()) -> HQW)) -> selector(HQW).
 selecting_anything(Selector, Handler) ->
     gleam_erlang_ffi:insert_selector_handler(Selector, anything, Handler).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 282).
--spec deselecting(selector(FPV), subject(any())) -> selector(FPV).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 282).
+-spec deselecting(selector(HPP), subject(any())) -> selector(HPP).
 deselecting(Selector, Subject) ->
     gleam_erlang_ffi:remove_selector_handler(
         Selector,
         {erlang:element(3, Subject), 2}
     ).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 479).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 479).
 -spec sleep(integer()) -> nil.
 sleep(A) ->
     gleam_erlang_ffi:sleep(A).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 486).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 486).
 -spec sleep_forever() -> nil.
 sleep_forever() ->
     gleam_erlang_ffi:sleep_forever().
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 495).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 495).
 -spec is_alive(pid_()) -> boolean().
 is_alive(A) ->
     erlang:is_process_alive(A).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 526).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 526).
 -spec monitor_process(pid_()) -> process_monitor().
 monitor_process(Pid) ->
     _pipe = process,
     _pipe@1 = erlang:monitor(_pipe, Pid),
     {process_monitor, _pipe@1}.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 537).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 537).
 -spec selecting_process_down(
-    selector(FRO),
+    selector(HRI),
     process_monitor(),
-    fun((process_down()) -> FRO)
-) -> selector(FRO).
+    fun((process_down()) -> HRI)
+) -> selector(HRI).
 selecting_process_down(Selector, Monitor, Mapping) ->
     gleam_erlang_ffi:insert_selector_handler(
         Selector,
@@ -302,22 +302,22 @@ selecting_process_down(Selector, Monitor, Mapping) ->
         Mapping
     ).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 552).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 552).
 -spec demonitor_process(process_monitor()) -> nil.
 demonitor_process(Monitor) ->
     gleam_erlang_ffi:demonitor(Monitor).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 571).
--spec deselecting_process_down(selector(FRR), process_monitor()) -> selector(FRR).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 571).
+-spec deselecting_process_down(selector(HRL), process_monitor()) -> selector(HRL).
 deselecting_process_down(Selector, Monitor) ->
     gleam_erlang_ffi:remove_selector_handler(
         Selector,
         erlang:element(2, Monitor)
     ).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 586).
--spec try_call(subject(FRU), fun((subject(FRW)) -> FRU), integer()) -> {ok, FRW} |
-    {error, call_error(FRW)}.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 586).
+-spec try_call(subject(HRO), fun((subject(HRQ)) -> HRO), integer()) -> {ok, HRQ} |
+    {error, call_error(HRQ)}.
 try_call(Subject, Make_request, Timeout) ->
     Reply_subject = new_subject(),
     Monitor = monitor_process(subject_owner(Subject)),
@@ -345,8 +345,8 @@ try_call(Subject, Make_request, Timeout) ->
             Res
     end.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 627).
--spec call(subject(FSB), fun((subject(FSD)) -> FSB), integer()) -> FSD.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 627).
+-spec call(subject(HRV), fun((subject(HRX)) -> HRV), integer()) -> HRX.
 call(Subject, Make_request, Timeout) ->
     _assert_subject = try_call(Subject, Make_request, Timeout),
     {ok, Resp} = case _assert_subject of
@@ -361,8 +361,8 @@ call(Subject, Make_request, Timeout) ->
     end,
     Resp.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 656).
--spec try_call_forever(subject(FSJ), fun((subject(FSL)) -> FSJ)) -> {ok, FSL} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 656).
+-spec try_call_forever(subject(HSD), fun((subject(HSF)) -> HSD)) -> {ok, HSF} |
     {error, call_error(any())}.
 try_call_forever(Subject, Make_request) ->
     Reply_subject = new_subject(),
@@ -385,8 +385,8 @@ try_call_forever(Subject, Make_request) ->
     gleam_erlang_ffi:demonitor(Monitor),
     Result.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 643).
--spec call_forever(subject(FSF), fun((subject(FSH)) -> FSF)) -> FSH.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 643).
+-spec call_forever(subject(HRZ), fun((subject(HSB)) -> HRZ)) -> HSB.
 call_forever(Subject, Make_request) ->
     _assert_subject = try_call_forever(Subject, Make_request),
     {ok, Response} = case _assert_subject of
@@ -401,19 +401,19 @@ call_forever(Subject, Make_request) ->
     end,
     Response.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 694).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 694).
 -spec link(pid_()) -> boolean().
 link(Pid) ->
     gleam_erlang_ffi:link(Pid).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 701).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 701).
 -spec unlink(pid_()) -> nil.
 unlink(Pid) ->
     erlang:unlink(Pid),
     nil.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 713).
--spec send_after(subject(FSS), integer(), FSS) -> timer().
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 713).
+-spec send_after(subject(HSM), integer(), HSM) -> timer().
 send_after(Subject, Delay, Message) ->
     erlang:send_after(
         Delay,
@@ -421,7 +421,7 @@ send_after(Subject, Delay, Message) ->
         {erlang:element(3, Subject), Message}
     ).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 737).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 737).
 -spec cancel_timer(timer()) -> cancelled().
 cancel_timer(Timer) ->
     case gleam@dynamic:int(erlang:cancel_timer(Timer)) of
@@ -432,45 +432,45 @@ cancel_timer(Timer) ->
             timer_not_found
     end.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 761).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 761).
 -spec kill(pid_()) -> nil.
 kill(Pid) ->
     erlang:exit(Pid, kill),
     nil.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 777).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 777).
 -spec send_exit(pid_()) -> nil.
 send_exit(Pid) ->
     erlang:exit(Pid, normal),
     nil.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 789).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 789).
 -spec send_abnormal_exit(pid_(), binary()) -> nil.
 send_abnormal_exit(Pid, Reason) ->
     erlang:exit(Pid, {abnormal, Reason}),
     nil.
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 805).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 805).
 -spec trap_exits(boolean()) -> nil.
 trap_exits(A) ->
     gleam_erlang_ffi:trap_exits(A).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 817).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 817).
 -spec register(pid_(), gleam@erlang@atom:atom_()) -> {ok, nil} | {error, nil}.
 register(Pid, Name) ->
     gleam_erlang_ffi:register_process(Pid, Name).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 828).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 828).
 -spec unregister(gleam@erlang@atom:atom_()) -> {ok, nil} | {error, nil}.
 unregister(Name) ->
     gleam_erlang_ffi:unregister_process(Name).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 833).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 833).
 -spec named(gleam@erlang@atom:atom_()) -> {ok, pid_()} | {error, nil}.
 named(Name) ->
     gleam_erlang_ffi:process_named(Name).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/process.gleam", 851).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/process.gleam", 851).
 -spec pid_from_dynamic(gleam@dynamic:dynamic_()) -> {ok, pid_()} |
     {error, list(gleam@dynamic:decode_error())}.
 pid_from_dynamic(From) ->

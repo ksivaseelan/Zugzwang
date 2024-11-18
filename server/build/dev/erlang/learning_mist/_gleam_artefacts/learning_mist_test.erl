@@ -3,12 +3,12 @@
 
 -export([main/0, hello_world_test/0]).
 
--file("/home/kogul/projects/gleam/learning_mist/test/learning_mist_test.gleam", 4).
+-file("/home/kogul/projects/gleam/chess/server/test/learning_mist_test.gleam", 4).
 -spec main() -> nil.
 main() ->
     gleeunit:main().
 
--file("/home/kogul/projects/gleam/learning_mist/test/learning_mist_test.gleam", 9).
+-file("/home/kogul/projects/gleam/chess/server/test/learning_mist_test.gleam", 9).
 -spec hello_world_test() -> nil.
 hello_world_test() ->
     _pipe = 1,

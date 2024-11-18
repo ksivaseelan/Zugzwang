@@ -6,17 +6,17 @@
 
 -type buffer() :: {buffer, integer(), bitstring()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/buffer.gleam", 8).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/buffer.gleam", 8).
 -spec empty() -> buffer().
 empty() ->
     {buffer, 0, <<>>}.
 
--file("/home/alex/gleams/mist/src/mist/internal/buffer.gleam", 12).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/buffer.gleam", 12).
 -spec new(bitstring()) -> buffer().
 new(Data) ->
     {buffer, 0, Data}.
 
--file("/home/alex/gleams/mist/src/mist/internal/buffer.gleam", 16).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/buffer.gleam", 16).
 -spec append(buffer(), bitstring()) -> buffer().
 append(Buffer, Data) ->
     Data_size = erlang:byte_size(Data),
@@ -25,7 +25,7 @@ append(Buffer, Data) ->
         Remaining,
         <<(erlang:element(3, Buffer))/bitstring, Data/bitstring>>}.
 
--file("/home/alex/gleams/mist/src/mist/internal/buffer.gleam", 22).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/buffer.gleam", 22).
 -spec slice(buffer(), integer()) -> {bitstring(), bitstring()}.
 slice(Buffer, Bits) ->
     Bytes = Bits * 8,
@@ -37,12 +37,12 @@ slice(Buffer, Bits) ->
             {erlang:element(3, Buffer), <<>>}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/buffer.gleam", 30).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/buffer.gleam", 30).
 -spec with_capacity(buffer(), integer()) -> buffer().
 with_capacity(Buffer, Size) ->
     erlang:setelement(2, Buffer, Size).
 
--file("/home/alex/gleams/mist/src/mist/internal/buffer.gleam", 34).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/buffer.gleam", 34).
 -spec size(integer()) -> buffer().
 size(Remaining) ->
     {buffer, Remaining, <<>>}.

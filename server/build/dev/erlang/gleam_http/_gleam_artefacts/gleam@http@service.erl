@@ -3,30 +3,30 @@
 
 -export([map_response_body/2, prepend_response_header/3, method_override/1]).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/service.gleam", 17).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/service.gleam", 17).
 -spec map_response_body(
-    fun((GSP) -> gleam@http@response:response(GSB)),
-    fun((GSB) -> GSC)
-) -> fun((GSP) -> gleam@http@response:response(GSC)).
+    fun((JDS) -> gleam@http@response:response(JDE)),
+    fun((JDE) -> JDF)
+) -> fun((JDS) -> gleam@http@response:response(JDF)).
 map_response_body(Service, Mapper) ->
     fun(Req) -> _pipe = Req,
         _pipe@1 = Service(_pipe),
         gleam@http@response:map(_pipe@1, Mapper) end.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/service.gleam", 26).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/service.gleam", 26).
 -spec prepend_response_header(
-    fun((GST) -> gleam@http@response:response(GSV)),
+    fun((JDW) -> gleam@http@response:response(JDY)),
     binary(),
     binary()
-) -> fun((GST) -> gleam@http@response:response(GSV)).
+) -> fun((JDW) -> gleam@http@response:response(JDY)).
 prepend_response_header(Service, Key, Value) ->
     fun(Req) -> _pipe = Req,
         _pipe@1 = Service(_pipe),
         gleam@http@response:prepend_header(_pipe@1, Key, Value) end.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/service.gleam", 34).
--spec ensure_post(gleam@http@request:request(GSG)) -> {ok,
-        gleam@http@request:request(GSG)} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/service.gleam", 34).
+-spec ensure_post(gleam@http@request:request(JDJ)) -> {ok,
+        gleam@http@request:request(JDJ)} |
     {error, nil}.
 ensure_post(Req) ->
     case erlang:element(2, Req) of
@@ -37,7 +37,7 @@ ensure_post(Req) ->
             {error, nil}
     end.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/service.gleam", 41).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/service.gleam", 41).
 -spec get_override_method(gleam@http@request:request(any())) -> {ok,
         gleam@http:method()} |
     {error, nil}.
@@ -69,8 +69,8 @@ get_override_method(Request) ->
         end
     ).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/service.gleam", 52).
--spec method_override(fun((gleam@http@request:request(GUC)) -> GUK)) -> fun((gleam@http@request:request(GUC)) -> GUK).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/service.gleam", 52).
+-spec method_override(fun((gleam@http@request:request(JFF)) -> JFN)) -> fun((gleam@http@request:request(JFF)) -> JFN).
 method_override(Service) ->
     fun(Request) -> _pipe = Request,
         _pipe@1 = ensure_post(_pipe),

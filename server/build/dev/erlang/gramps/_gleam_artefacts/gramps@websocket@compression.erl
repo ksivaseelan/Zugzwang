@@ -14,6 +14,7 @@
 
 -type compression() :: {compression, context(), context()}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket/compression.gleam", 24).
 -spec init() -> compression().
 init() ->
     Inflate_context = zlib:open(),
@@ -22,6 +23,7 @@ init() ->
     zlib:'deflateInit'(Deflate_context, default, deflated, -15, 8, default),
     {compression, Inflate_context, Deflate_context}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket/compression.gleam", 52).
 -spec inflate(context(), bitstring()) -> bitstring().
 inflate(Context, Data) ->
     _pipe = Context,
@@ -31,6 +33,7 @@ inflate(Context, Data) ->
     ),
     erlang:list_to_bitstring(_pipe@1).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket/compression.gleam", 61).
 -spec deflate(context(), bitstring()) -> bitstring().
 deflate(Context, Data) ->
     Data@1 = begin
@@ -47,10 +50,12 @@ deflate(Context, Data) ->
             Data@1
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket/compression.gleam", 76).
 -spec set_controlling_process(context(), gleam@erlang@process:pid_()) -> gleam@erlang@atom:atom_().
 set_controlling_process(Context, Pid) ->
     zlib:set_controlling_process(Context, Pid).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/websocket/compression.gleam", 79).
 -spec close(context()) -> nil.
 close(Context) ->
     zlib:close(Context).

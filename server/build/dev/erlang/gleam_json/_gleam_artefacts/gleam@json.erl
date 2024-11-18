@@ -14,9 +14,9 @@
 -file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_json/src/gleam/json.gleam", 87).
 -spec decode_bits(
     bitstring(),
-    fun((gleam@dynamic:dynamic_()) -> {ok, AID} |
+    fun((gleam@dynamic:dynamic_()) -> {ok, JGE} |
         {error, list(gleam@dynamic:decode_error())})
-) -> {ok, AID} | {error, decode_error()}.
+) -> {ok, JGE} | {error, decode_error()}.
 decode_bits(Json, Decoder) ->
     gleam@result:then(
         gleam_json_ffi:decode(Json),
@@ -30,9 +30,9 @@ decode_bits(Json, Decoder) ->
 -file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_json/src/gleam/json.gleam", 45).
 -spec do_decode(
     binary(),
-    fun((gleam@dynamic:dynamic_()) -> {ok, AHZ} |
+    fun((gleam@dynamic:dynamic_()) -> {ok, JGA} |
         {error, list(gleam@dynamic:decode_error())})
-) -> {ok, AHZ} | {error, decode_error()}.
+) -> {ok, JGA} | {error, decode_error()}.
 do_decode(Json, Decoder) ->
     Bits = gleam_stdlib:identity(Json),
     decode_bits(Bits, Decoder).
@@ -40,9 +40,9 @@ do_decode(Json, Decoder) ->
 -file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_json/src/gleam/json.gleam", 37).
 -spec decode(
     binary(),
-    fun((gleam@dynamic:dynamic_()) -> {ok, AHV} |
+    fun((gleam@dynamic:dynamic_()) -> {ok, JFW} |
         {error, list(gleam@dynamic:decode_error())})
-) -> {ok, AHV} | {error, decode_error()}.
+) -> {ok, JFW} | {error, decode_error()}.
 decode(Json, Decoder) ->
     do_decode(Json, Decoder).
 
@@ -82,7 +82,7 @@ null() ->
     gleam_json_ffi:null().
 
 -file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_json/src/gleam/json.gleam", 248).
--spec nullable(gleam@option:option(AIJ), fun((AIJ) -> json())) -> json().
+-spec nullable(gleam@option:option(JGK), fun((JGK) -> json())) -> json().
 nullable(Input, Inner_type) ->
     case Input of
         {some, Value} ->
@@ -103,7 +103,7 @@ preprocessed_array(From) ->
     gleam_json_ffi:array(From).
 
 -file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_json/src/gleam/json.gleam", 284).
--spec array(list(AIN), fun((AIN) -> json())) -> json().
+-spec array(list(JGO), fun((JGO) -> json())) -> json().
 array(Entries, Inner_type) ->
     _pipe = Entries,
     _pipe@1 = gleam@list:map(_pipe, Inner_type),

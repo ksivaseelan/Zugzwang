@@ -7,7 +7,7 @@ interface DataSprite extends Sprite {
 // Interface for the move message sent over WebSocket
 interface moveMessage {
   method: string;
-  move: string;
+  payload: { move: string };
 }
 
 export async function main() {
@@ -149,8 +149,10 @@ export async function main() {
       console.log(moveNotation);
 
       const moveMessage = {
-        method: "makeMove",
-        move: moveNotation,
+        method: "move",
+        payload: {
+          move: moveNotation,
+        },
       };
       sendMoves(moveMessage, socket);
 

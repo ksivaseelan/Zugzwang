@@ -6,7 +6,7 @@
 
 -type option(FV) :: {some, FV} | none.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 24).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 24).
 -spec do_all(list(option(FW)), list(FW)) -> option(list(FW)).
 do_all(List, Acc) ->
     case List of
@@ -24,22 +24,22 @@ do_all(List, Acc) ->
             Accumulate(do_all(Rest, Acc), X)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 55).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 55).
 -spec all(list(option(GC))) -> option(list(GC)).
 all(List) ->
     do_all(List, []).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 73).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 73).
 -spec is_some(option(any())) -> boolean().
 is_some(Option) ->
     Option /= none.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 91).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 91).
 -spec is_none(option(any())) -> boolean().
 is_none(Option) ->
     Option =:= none.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 109).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 109).
 -spec to_result(option(GL), GO) -> {ok, GL} | {error, GO}.
 to_result(Option, E) ->
     case Option of
@@ -50,7 +50,7 @@ to_result(Option, E) ->
             {error, E}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 130).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 130).
 -spec from_result({ok, GR} | {error, any()}) -> option(GR).
 from_result(Result) ->
     case Result of
@@ -61,7 +61,7 @@ from_result(Result) ->
             none
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 151).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 151).
 -spec unwrap(option(GW), GW) -> GW.
 unwrap(Option, Default) ->
     case Option of
@@ -72,7 +72,7 @@ unwrap(Option, Default) ->
             Default
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 172).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 172).
 -spec lazy_unwrap(option(GY), fun(() -> GY)) -> GY.
 lazy_unwrap(Option, Default) ->
     case Option of
@@ -83,7 +83,7 @@ lazy_unwrap(Option, Default) ->
             Default()
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 197).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 197).
 -spec map(option(HA), fun((HA) -> HC)) -> option(HC).
 map(Option, Fun) ->
     case Option of
@@ -94,7 +94,7 @@ map(Option, Fun) ->
             none
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 223).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 223).
 -spec flatten(option(option(HE))) -> option(HE).
 flatten(Option) ->
     case Option of
@@ -105,7 +105,7 @@ flatten(Option) ->
             none
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 262).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 262).
 -spec then(option(HI), fun((HI) -> option(HK))) -> option(HK).
 then(Option, Fun) ->
     case Option of
@@ -116,7 +116,7 @@ then(Option, Fun) ->
             none
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 293).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 293).
 -spec 'or'(option(HN), option(HN)) -> option(HN).
 'or'(First, Second) ->
     case First of
@@ -127,7 +127,7 @@ then(Option, Fun) ->
             Second
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 324).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 324).
 -spec lazy_or(option(HR), fun(() -> option(HR))) -> option(HR).
 lazy_or(First, Second) ->
     case First of
@@ -138,7 +138,7 @@ lazy_or(First, Second) ->
             Second()
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 331).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 331).
 -spec do_values(list(option(HV)), list(HV)) -> list(HV).
 do_values(List, Acc) ->
     case List of
@@ -156,7 +156,7 @@ do_values(List, Acc) ->
             Accumulate(do_values(Rest, Acc), First)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/option.gleam", 356).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/option.gleam", 356).
 -spec values(list(option(IA))) -> list(IA).
 values(Options) ->
     do_values(Options, []).

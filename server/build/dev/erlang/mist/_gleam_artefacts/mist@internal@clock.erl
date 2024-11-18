@@ -15,18 +15,18 @@
     named_table |
     {read_concurrency, boolean()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/clock.gleam", 55).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/clock.gleam", 55).
 -spec stop(any()) -> gleam@erlang@atom:atom_().
 stop(_) ->
     erlang:binary_to_atom(<<"ok"/utf8>>).
 
--file("/home/alex/gleams/mist/src/mist/internal/clock.gleam", 69).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/clock.gleam", 69).
 -spec date() -> binary().
 date() ->
     _pipe = birl:now(),
     birl:to_http(_pipe).
 
--file("/home/alex/gleams/mist/src/mist/internal/clock.gleam", 28).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/clock.gleam", 28).
 -spec start(any(), any()) -> {ok, gleam@erlang@process:pid_()} |
     {error, gleam@otp@actor:start_error()}.
 start(_, _) ->
@@ -59,7 +59,7 @@ start(_, _) ->
     ),
     gleam@result:map(_pipe@1, fun gleam@erlang@process:subject_owner/1).
 
--file("/home/alex/gleams/mist/src/mist/internal/clock.gleam", 59).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/clock.gleam", 59).
 -spec get_date() -> binary().
 get_date() ->
     case mist_ffi:ets_lookup_element(mist_clock, date_header, 2) of

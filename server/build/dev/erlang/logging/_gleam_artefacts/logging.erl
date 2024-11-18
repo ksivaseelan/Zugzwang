@@ -17,15 +17,18 @@
 
 -type key() :: level.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/logging/src/logging.gleam", 25).
 -spec configure() -> nil.
 configure() ->
     logging_ffi:configure().
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/logging/src/logging.gleam", 29).
 -spec log(log_level(), binary()) -> nil.
 log(Level, Message) ->
     logger:log(Level, Message),
     nil.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/logging/src/logging.gleam", 42).
 -spec set_level(log_level()) -> nil.
 set_level(Level) ->
     logger:set_primary_config(level, Level),

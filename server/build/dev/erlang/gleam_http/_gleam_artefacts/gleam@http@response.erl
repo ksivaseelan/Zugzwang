@@ -4,14 +4,14 @@
 -export([new/1, get_header/2, set_header/3, prepend_header/3, set_body/2, try_map/2, map/2, redirect/1, get_cookies/1, set_cookie/4, expire_cookie/3]).
 -export_type([response/1]).
 
--type response(GOD) :: {response, integer(), list({binary(), binary()}), GOD}.
+-type response(IZF) :: {response, integer(), list({binary(), binary()}), IZF}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 40).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 40).
 -spec new(integer()) -> response(binary()).
 new(Status) ->
     {response, Status, [], <<""/utf8>>}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 48).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 48).
 -spec get_header(response(any()), binary()) -> {ok, binary()} | {error, nil}.
 get_header(Response, Key) ->
     gleam@list:key_find(
@@ -19,8 +19,8 @@ get_header(Response, Key) ->
         gleam@string:lowercase(Key)
     ).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 59).
--spec set_header(response(GOS), binary(), binary()) -> response(GOS).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 59).
+-spec set_header(response(IZU), binary(), binary()) -> response(IZU).
 set_header(Response, Key, Value) ->
     Headers = gleam@list:key_set(
         erlang:element(3, Response),
@@ -29,37 +29,37 @@ set_header(Response, Key, Value) ->
     ),
     erlang:setelement(3, Response, Headers).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 76).
--spec prepend_header(response(GOV), binary(), binary()) -> response(GOV).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 76).
+-spec prepend_header(response(IZX), binary(), binary()) -> response(IZX).
 prepend_header(Response, Key, Value) ->
     Headers = [{gleam@string:lowercase(Key), Value} |
         erlang:element(3, Response)],
     erlang:setelement(3, Response, Headers).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 87).
--spec set_body(response(any()), GPA) -> response(GPA).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 87).
+-spec set_body(response(any()), JAC) -> response(JAC).
 set_body(Response, Body) ->
     {response, Status, Headers, _} = Response,
     {response, Status, Headers, Body}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 27).
--spec try_map(response(GOE), fun((GOE) -> {ok, GOG} | {error, GOH})) -> {ok,
-        response(GOG)} |
-    {error, GOH}.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 27).
+-spec try_map(response(IZG), fun((IZG) -> {ok, IZI} | {error, IZJ})) -> {ok,
+        response(IZI)} |
+    {error, IZJ}.
 try_map(Response, Transform) ->
     gleam@result:then(
         Transform(erlang:element(4, Response)),
         fun(Body) -> {ok, set_body(Response, Body)} end
     ).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 97).
--spec map(response(GPC), fun((GPC) -> GPE)) -> response(GPE).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 97).
+-spec map(response(JAE), fun((JAE) -> JAG)) -> response(JAG).
 map(Response, Transform) ->
     _pipe = erlang:element(4, Response),
     _pipe@1 = Transform(_pipe),
     set_body(Response, _pipe@1).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 108).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 108).
 -spec redirect(binary()) -> response(binary()).
 redirect(Uri) ->
     {response,
@@ -67,7 +67,7 @@ redirect(Uri) ->
         [{<<"location"/utf8>>, Uri}],
         gleam@string:append(<<"You are being redirected to "/utf8>>, Uri)}.
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 120).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 120).
 -spec get_cookies(response(any())) -> list({binary(), binary()}).
 get_cookies(Resp) ->
     {response, _, Headers, _} = Resp,
@@ -87,13 +87,13 @@ get_cookies(Resp) ->
     ),
     gleam@list:flatten(_pipe@1).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 135).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 135).
 -spec set_cookie(
-    response(GPJ),
+    response(JAL),
     binary(),
     binary(),
     gleam@http@cookie:attributes()
-) -> response(GPJ).
+) -> response(JAL).
 set_cookie(Response, Name, Value, Attributes) ->
     prepend_header(
         Response,
@@ -101,8 +101,8 @@ set_cookie(Response, Name, Value, Attributes) ->
         gleam@http@cookie:set_header(Name, Value, Attributes)
     ).
 
--file("/Users/louis/src/gleam/http/src/gleam/http/response.gleam", 151).
--spec expire_cookie(response(GPM), binary(), gleam@http@cookie:attributes()) -> response(GPM).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_http/src/gleam/http/response.gleam", 151).
+-spec expire_cookie(response(JAO), binary(), gleam@http@cookie:attributes()) -> response(JAO).
 expire_cookie(Response, Name, Attributes) ->
     Attrs = erlang:setelement(2, Attributes, {some, 0}),
     set_cookie(Response, Name, <<""/utf8>>, Attrs).

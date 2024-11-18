@@ -16,23 +16,27 @@
     month |
     year.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 25).
 -spec add(duration(), duration()) -> duration().
 add(A, B) ->
     {duration, A@1} = A,
     {duration, B@1} = B,
     {duration, A@1 + B@1}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 31).
 -spec subtract(duration(), duration()) -> duration().
 subtract(A, B) ->
     {duration, A@1} = A,
     {duration, B@1} = B,
     {duration, A@1 - B@1}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 37).
 -spec scale_up(duration(), integer()) -> duration().
 scale_up(Value, Factor) ->
     {duration, Value@1} = Value,
     {duration, Value@1 * Factor}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 42).
 -spec scale_down(duration(), integer()) -> duration().
 scale_down(Value, Factor) ->
     {duration, Value@1} = Value,
@@ -41,10 +45,12 @@ scale_down(Value, Factor) ->
             Gleam@denominator -> Value@1 div Gleam@denominator
         end}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 47).
 -spec micro_seconds(integer()) -> duration().
 micro_seconds(Value) ->
     {duration, Value}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 83).
 -spec compare(duration(), duration()) -> gleam@order:order().
 compare(A, B) ->
     {duration, Dta} = A,
@@ -60,6 +66,7 @@ compare(A, B) ->
             gt
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 376).
 -spec extract(integer(), integer()) -> {integer(), integer()}.
 extract(Duration, Unit_value) ->
     {case Unit_value of
@@ -70,38 +77,47 @@ extract(Duration, Unit_value) ->
             Gleam@denominator@1 -> Duration rem Gleam@denominator@1
         end}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 51).
 -spec milli_seconds(integer()) -> duration().
 milli_seconds(Value) ->
     {duration, Value * 1000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 55).
 -spec seconds(integer()) -> duration().
 seconds(Value) ->
     {duration, Value * 1000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 59).
 -spec minutes(integer()) -> duration().
 minutes(Value) ->
     {duration, Value * 60000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 63).
 -spec hours(integer()) -> duration().
 hours(Value) ->
     {duration, Value * 3600000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 67).
 -spec days(integer()) -> duration().
 days(Value) ->
     {duration, Value * 86400000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 71).
 -spec weeks(integer()) -> duration().
 weeks(Value) ->
     {duration, Value * 604800000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 75).
 -spec months(integer()) -> duration().
 months(Value) ->
     {duration, Value * 2592000000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 79).
 -spec years(integer()) -> duration().
 years(Value) ->
     {duration, Value * 31536000000000}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 95).
 -spec new(list({integer(), unit()})) -> duration().
 new(Values) ->
     _pipe = Values,
@@ -135,6 +151,7 @@ new(Values) ->
             end end),
     {duration, _pipe@1}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 133).
 -spec decompose(duration()) -> list({integer(), unit()}).
 decompose(Duration) ->
     {duration, Value} = Duration,
@@ -168,6 +185,7 @@ decompose(Duration) ->
                     Item@1
             end end).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 114).
 -spec accurate_new(list({integer(), unit()})) -> duration().
 accurate_new(Values) ->
     _pipe = Values,
@@ -201,6 +219,7 @@ accurate_new(Values) ->
             end end),
     {duration, _pipe@1}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 166).
 -spec accurate_decompose(duration()) -> list({integer(), unit()}).
 accurate_decompose(Duration) ->
     {duration, Value} = Duration,
@@ -234,6 +253,7 @@ accurate_decompose(Duration) ->
                     Item@1
             end end).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 206).
 -spec blur_to(duration(), unit()) -> integer().
 blur_to(Duration, Unit) ->
     _assert_subject = gleam@list:key_find(
@@ -252,7 +272,7 @@ blur_to(Duration, Unit) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl/duration"/utf8>>,
                         function => <<"blur_to"/utf8>>,
@@ -268,13 +288,14 @@ blur_to(Duration, Unit) ->
             Unit_counts
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 253).
 -spec inner_blur(list({integer(), unit()})) -> {integer(), unit()}.
 inner_blur(Values) ->
     [Second, Leading | _] = case Values of
         [_, _ | _] -> Values;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl/duration"/utf8>>,
                         function => <<"inner_blur"/utf8>>,
@@ -296,7 +317,7 @@ inner_blur(Values) ->
         {ok, _} -> _assert_subject;
         _assert_fail@1 ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail@1,
                         module => <<"birl/duration"/utf8>>,
                         function => <<"inner_blur"/utf8>>,
@@ -318,7 +339,7 @@ inner_blur(Values) ->
         {ok, _} -> _assert_subject@1;
         _assert_fail@2 ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail@2,
                         module => <<"birl/duration"/utf8>>,
                         function => <<"inner_blur"/utf8>>,
@@ -341,6 +362,7 @@ inner_blur(Values) ->
             inner_blur([Leading@1 | Chopped])
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 217).
 -spec blur(duration()) -> {integer(), unit()}.
 blur(Duration) ->
     case decompose(Duration) of
@@ -353,6 +375,7 @@ blur(Duration) ->
             inner_blur(_pipe@1)
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl/duration.gleam", 318).
 -spec parse(binary()) -> {ok, duration()} | {error, nil}.
 parse(Expression) ->
     _assert_subject = gleam@regex:from_string(
@@ -362,7 +385,7 @@ parse(Expression) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl/duration"/utf8>>,
                         function => <<"parse"/utf8>>,
@@ -378,7 +401,7 @@ parse(Expression) ->
                 [_, _] -> _assert_subject@1;
                 _assert_fail@1 ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail@1,
                                 module => <<"birl/duration"/utf8>>,
                                 function => <<"parse"/utf8>>,

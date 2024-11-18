@@ -3,23 +3,23 @@
 
 -export([from_string/1, byte_size/1, slice/3, is_utf8/1, to_string/1, concat/1, append/2, base64_encode/2, base64_decode/1, base64_url_encode/2, base64_url_decode/1, base16_encode/1, base16_decode/1, inspect/1, compare/2]).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 11).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 11).
 -spec from_string(binary()) -> bitstring().
 from_string(X) ->
     gleam_stdlib:identity(X).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 17).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 17).
 -spec byte_size(bitstring()) -> integer().
 byte_size(X) ->
     erlang:byte_size(X).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 42).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 42).
 -spec slice(bitstring(), integer(), integer()) -> {ok, bitstring()} |
     {error, nil}.
 slice(String, Position, Length) ->
     gleam_stdlib:bit_array_slice(String, Position, Length).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 55).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 55).
 -spec do_is_utf8(bitstring()) -> boolean().
 do_is_utf8(Bits) ->
     case Bits of
@@ -33,12 +33,12 @@ do_is_utf8(Bits) ->
             false
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 50).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 50).
 -spec is_utf8(bitstring()) -> boolean().
 is_utf8(Bits) ->
     do_is_utf8(Bits).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 83).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 83).
 -spec do_to_string(bitstring()) -> {ok, binary()} | {error, nil}.
 do_to_string(Bits) ->
     case is_utf8(Bits) of
@@ -49,27 +49,27 @@ do_to_string(Bits) ->
             {error, nil}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 75).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 75).
 -spec to_string(bitstring()) -> {ok, binary()} | {error, nil}.
 to_string(Bits) ->
     do_to_string(Bits).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 101).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 101).
 -spec concat(list(bitstring())) -> bitstring().
 concat(Bit_arrays) ->
     gleam_stdlib:bit_array_concat(Bit_arrays).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 28).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 28).
 -spec append(bitstring(), bitstring()) -> bitstring().
 append(First, Second) ->
     gleam_stdlib:bit_array_concat([First, Second]).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 107).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 107).
 -spec base64_encode(bitstring(), boolean()) -> binary().
 base64_encode(Input, Padding) ->
     gleam_stdlib:bit_array_base64_encode(Input, Padding).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 111).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 111).
 -spec base64_decode(binary()) -> {ok, bitstring()} | {error, nil}.
 base64_decode(Encoded) ->
     Padded = case erlang:byte_size(gleam_stdlib:identity(Encoded)) rem 4 of
@@ -84,14 +84,14 @@ base64_decode(Encoded) ->
     end,
     gleam_stdlib:base_decode64(Padded).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 125).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 125).
 -spec base64_url_encode(bitstring(), boolean()) -> binary().
 base64_url_encode(Input, Padding) ->
     _pipe = gleam_stdlib:bit_array_base64_encode(Input, Padding),
     _pipe@1 = gleam@string:replace(_pipe, <<"+"/utf8>>, <<"-"/utf8>>),
     gleam@string:replace(_pipe@1, <<"/"/utf8>>, <<"_"/utf8>>).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 133).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 133).
 -spec base64_url_decode(binary()) -> {ok, bitstring()} | {error, nil}.
 base64_url_decode(Encoded) ->
     _pipe = Encoded,
@@ -99,17 +99,17 @@ base64_url_decode(Encoded) ->
     _pipe@2 = gleam@string:replace(_pipe@1, <<"_"/utf8>>, <<"/"/utf8>>),
     base64_decode(_pipe@2).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 142).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 142).
 -spec base16_encode(bitstring()) -> binary().
 base16_encode(Input) ->
     binary:encode_hex(Input).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 146).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 146).
 -spec base16_decode(binary()) -> {ok, bitstring()} | {error, nil}.
 base16_decode(Input) ->
     gleam_stdlib:base16_decode(Input).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 165).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 165).
 -spec do_inspect(bitstring(), binary()) -> binary().
 do_inspect(Input, Accumulator) ->
     case Input of
@@ -161,12 +161,12 @@ do_inspect(Input, Accumulator) ->
             Accumulator
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 160).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 160).
 -spec inspect(bitstring()) -> binary().
 inspect(Input) ->
     <<(do_inspect(Input, <<"<<"/utf8>>))/binary, ">>"/utf8>>.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/bit_array.gleam", 210).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/bit_array.gleam", 210).
 -spec compare(bitstring(), bitstring()) -> gleam@order:order().
 compare(A, B) ->
     case {A, B} of

@@ -4,18 +4,18 @@
 -export([add/2, supervisor/1, worker/1, returning/2, start_spec/1, start/1, application_stopped/0, to_erlang_start_result/1]).
 -export_type([spec/2, children/1, child_spec/3, child_start_error/0, message/0, instruction/0, state/1, starter/1, child/1, handle_exit_error/0, application_start_mode/0, application_stop/0]).
 
--type spec(GZC, GZD) :: {spec,
-        GZC,
+-type spec(JXM, JXN) :: {spec,
+        JXM,
         integer(),
         integer(),
-        fun((children(GZC)) -> children(GZD))}.
+        fun((children(JXM)) -> children(JXN))}.
 
--opaque children(GZE) :: {ready, starter(GZE)} | {failed, child_start_error()}.
+-opaque children(JXO) :: {ready, starter(JXO)} | {failed, child_start_error()}.
 
--opaque child_spec(GZF, GZG, GZH) :: {child_spec,
-        fun((GZG) -> {ok, gleam@erlang@process:subject(GZF)} |
+-opaque child_spec(JXP, JXQ, JXR) :: {child_spec,
+        fun((JXQ) -> {ok, gleam@erlang@process:subject(JXP)} |
             {error, gleam@otp@actor:start_error()}),
-        fun((GZG, gleam@erlang@process:subject(GZF)) -> GZH)}.
+        fun((JXQ, gleam@erlang@process:subject(JXP)) -> JXR)}.
 
 -type child_start_error() :: {child_start_error,
         gleam@option:option(gleam@erlang@process:pid_()),
@@ -26,18 +26,18 @@
 
 -type instruction() :: start_all | {start_from, gleam@erlang@process:pid_()}.
 
--type state(GZI) :: {state,
+-type state(JXS) :: {state,
         gleam@otp@intensity_tracker:intensity_tracker(),
-        starter(GZI),
+        starter(JXS),
         gleam@erlang@process:subject(gleam@erlang@process:pid_())}.
 
--type starter(GZJ) :: {starter,
-        GZJ,
+-type starter(JXT) :: {starter,
+        JXT,
         gleam@option:option(fun((instruction()) -> {ok,
-                {starter(GZJ), instruction()}} |
+                {starter(JXT), instruction()}} |
             {error, child_start_error()}))}.
 
--type child(GZK) :: {child, gleam@erlang@process:pid_(), GZK}.
+-type child(JXU) :: {child, gleam@erlang@process:pid_(), JXU}.
 
 -type handle_exit_error() :: {restart_failed,
         gleam@erlang@process:pid_(),
@@ -50,8 +50,8 @@
 
 -type application_stop() :: any().
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 87).
--spec start_child(child_spec(any(), GZO, GZP), GZO) -> {ok, child(GZP)} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 87).
+-spec start_child(child_spec(any(), JXY, JXZ), JXY) -> {ok, child(JXZ)} |
     {error, child_start_error()}.
 start_child(Child_spec, Argument) ->
     gleam@result:then(
@@ -70,7 +70,7 @@ start_child(Child_spec, Argument) ->
         end
     ).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 106).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 106).
 -spec shutdown_child(
     gleam@erlang@process:pid_(),
     child_spec(any(), any(), any())
@@ -78,13 +78,13 @@ start_child(Child_spec, Argument) ->
 shutdown_child(Pid, _) ->
     gleam@erlang@process:send_exit(Pid).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 110).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 110).
 -spec perform_instruction_for_child(
-    HAC,
+    JYM,
     instruction(),
-    child_spec(any(), HAC, HAE),
-    child(HAE)
-) -> {ok, {child(HAE), instruction()}} | {error, child_start_error()}.
+    child_spec(any(), JYM, JYO),
+    child(JYO)
+) -> {ok, {child(JYO), instruction()}} | {error, child_start_error()}.
 perform_instruction_for_child(Argument, Instruction, Child_spec, Child) ->
     Current = erlang:element(2, Child),
     case Instruction of
@@ -99,12 +99,12 @@ perform_instruction_for_child(Argument, Instruction, Child_spec, Child) ->
             )
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 132).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 132).
 -spec add_child_to_starter(
-    starter(HAM),
-    child_spec(any(), HAM, HAP),
-    child(HAP)
-) -> starter(HAP).
+    starter(JYW),
+    child_spec(any(), JYW, JYZ),
+    child(JYZ)
+) -> starter(JYZ).
 add_child_to_starter(Starter, Child_spec, Child) ->
     Starter@3 = fun(Instruction) ->
         gleam@result:then(case erlang:element(3, Starter) of
@@ -136,8 +136,8 @@ add_child_to_starter(Starter, Child_spec, Child) ->
     end,
     {starter, erlang:element(3, Child), {some, Starter@3}}.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 164).
--spec start_and_add_child(starter(HAV), child_spec(any(), HAV, HAY)) -> children(HAY).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 164).
+-spec start_and_add_child(starter(JZF), child_spec(any(), JZF, JZI)) -> children(JZI).
 start_and_add_child(State, Child_spec) ->
     case start_child(Child_spec, erlang:element(2, State)) of
         {ok, Child} ->
@@ -147,8 +147,8 @@ start_and_add_child(State, Child_spec) ->
             {failed, Reason}
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 178).
--spec add(children(HBD), child_spec(any(), HBD, HBG)) -> children(HBG).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 178).
+-spec add(children(JZN), child_spec(any(), JZN, JZQ)) -> children(JZQ).
 add(Children, Child_spec) ->
     case Children of
         {failed, Fail} ->
@@ -158,32 +158,32 @@ add(Children, Child_spec) ->
             start_and_add_child(State, Child_spec)
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 206).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 206).
 -spec supervisor(
-    fun((HBL) -> {ok, gleam@erlang@process:subject(HBM)} |
+    fun((JZV) -> {ok, gleam@erlang@process:subject(JZW)} |
         {error, gleam@otp@actor:start_error()})
-) -> child_spec(HBM, HBL, HBL).
+) -> child_spec(JZW, JZV, JZV).
 supervisor(Start) ->
     {child_spec, Start, fun(Argument, _) -> Argument end}.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 228).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 228).
 -spec worker(
-    fun((HBT) -> {ok, gleam@erlang@process:subject(HBU)} |
+    fun((KAD) -> {ok, gleam@erlang@process:subject(KAE)} |
         {error, gleam@otp@actor:start_error()})
-) -> child_spec(HBU, HBT, HBT).
+) -> child_spec(KAE, KAD, KAD).
 worker(Start) ->
     {child_spec, Start, fun(Argument, _) -> Argument end}.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 241).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 241).
 -spec returning(
-    child_spec(HCB, HCC, any()),
-    fun((HCC, gleam@erlang@process:subject(HCB)) -> HCI)
-) -> child_spec(HCB, HCC, HCI).
+    child_spec(KAL, KAM, any()),
+    fun((KAM, gleam@erlang@process:subject(KAL)) -> KAS)
+) -> child_spec(KAL, KAM, KAS).
 returning(Child, Updater) ->
     {child_spec, erlang:element(2, Child), Updater}.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 248).
--spec init(spec(any(), HCN)) -> gleam@otp@actor:init_result(state(HCN), message()).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 248).
+-spec init(spec(any(), KAX)) -> gleam@otp@actor:init_result(state(KAX), message()).
 init(Spec) ->
     Retry = gleam@erlang@process:new_subject(),
     gleam_erlang_ffi:trap_exits(true),
@@ -232,8 +232,8 @@ init(Spec) ->
                 end}
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 305).
--spec handle_exit(gleam@erlang@process:pid_(), state(HCT)) -> gleam@otp@actor:next(message(), state(HCT)).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 305).
+-spec handle_exit(gleam@erlang@process:pid_(), state(KBD)) -> gleam@otp@actor:next(message(), state(KBD)).
 handle_exit(Pid, State) ->
     Outcome = begin
         _assert_subject = erlang:element(3, erlang:element(3, State)),
@@ -297,8 +297,8 @@ handle_exit(Pid, State) ->
                     <<"Child processes restarted too many times within allowed period"/utf8>>}}
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 345).
--spec loop(message(), state(HCY)) -> gleam@otp@actor:next(message(), state(HCY)).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 345).
+-spec loop(message(), state(KBI)) -> gleam@otp@actor:next(message(), state(KBI)).
 loop(Message, State) ->
     case Message of
         {exit, Exit_message} ->
@@ -308,7 +308,7 @@ loop(Message, State) ->
             handle_exit(Pid, State)
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 377).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 377).
 -spec start_spec(spec(any(), any())) -> {ok,
         gleam@erlang@process:subject(message())} |
     {error, gleam@otp@actor:start_error()}.
@@ -317,19 +317,19 @@ start_spec(Spec) ->
         {spec, fun() -> init(Spec) end, 60000, fun loop/2}
     ).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 408).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 408).
 -spec start(fun((children(nil)) -> children(any()))) -> {ok,
         gleam@erlang@process:subject(message())} |
     {error, gleam@otp@actor:start_error()}.
 start(Init) ->
     start_spec({spec, nil, 1, 5, Init}).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 438).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 438).
 -spec application_stopped() -> application_stop().
 application_stopped() ->
     gleam_otp_external:application_stopped().
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/supervisor.gleam", 457).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/supervisor.gleam", 457).
 -spec to_erlang_start_result(
     {ok, gleam@erlang@process:subject(any())} |
         {error, gleam@otp@actor:start_error()}

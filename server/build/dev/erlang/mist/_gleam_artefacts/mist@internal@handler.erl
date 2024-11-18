@@ -12,14 +12,14 @@
         gleam@erlang@process:subject(mist@internal@http2@handler:message())} |
     {http2, mist@internal@http2@handler:state()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/handler.gleam", 29).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/handler.gleam", 29).
 -spec new_state(
     gleam@erlang@process:subject(mist@internal@http2@handler:message())
 ) -> state().
 new_state(Subj) ->
     {http1, mist@internal@http@handler:initial_state(), Subj}.
 
--file("/home/alex/gleams/mist/src/mist/internal/handler.gleam", 33).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/handler.gleam", 33).
 -spec init(any()) -> {state(),
     gleam@option:option(gleam@erlang@process:selector(mist@internal@http2@handler:message()))}.
 init(_) ->
@@ -34,7 +34,7 @@ init(_) ->
     end,
     {new_state(Subj), {some, Selector}}.
 
--file("/home/alex/gleams/mist/src/mist/internal/handler.gleam", 42).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/handler.gleam", 42).
 -spec with_func(
     fun((gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist@internal@http:response_data()))
 ) -> fun((glisten:message(mist@internal@http2@handler:message()), state(), glisten:connection(mist@internal@http2@handler:message())) -> gleam@otp@actor:next(glisten:message(mist@internal@http2@handler:message()), state())).

@@ -6,12 +6,13 @@
 
 -type direction() :: forward | backward.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/ranger/src/ranger.gleam", 68).
 -spec create(
-    fun((FJS) -> boolean()),
-    fun((FJT) -> FJT),
-    fun((FJS, FJT) -> FJS),
-    fun((FJS, FJS) -> gleam@order:order())
-) -> fun((FJS, FJS, FJT) -> {ok, gleam@iterator:iterator(FJS)} | {error, nil}).
+    fun((FSY) -> boolean()),
+    fun((FSZ) -> FSZ),
+    fun((FSY, FSZ) -> FSY),
+    fun((FSY, FSY) -> gleam@order:order())
+) -> fun((FSY, FSY, FSZ) -> {ok, gleam@iterator:iterator(FSY)} | {error, nil}).
 create(Validate, Negate_step, Add, Compare) ->
     Adjust_step = fun(A, B, Step) ->
         Negated_step = Negate_step(Step),
@@ -77,11 +78,12 @@ create(Validate, Negate_step, Add, Compare) ->
         )
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/ranger/src/ranger.gleam", 144).
 -spec create_infinite(
-    fun((FJX) -> boolean()),
-    fun((FJX, FJY) -> FJX),
-    fun((FJX, FJX) -> gleam@order:order())
-) -> fun((FJX, FJY) -> {ok, gleam@iterator:iterator(FJX)} | {error, nil}).
+    fun((FTD) -> boolean()),
+    fun((FTD, FTE) -> FTD),
+    fun((FTD, FTD) -> gleam@order:order())
+) -> fun((FTD, FTE) -> {ok, gleam@iterator:iterator(FTD)} | {error, nil}).
 create_infinite(Validate, Add, Compare) ->
     Is_step_zero = fun(A, S) -> case Compare(A, Add(A, S)) of
             eq ->

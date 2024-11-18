@@ -6,12 +6,12 @@
 
 -type charlist() :: any().
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/charlist.gleam", 14).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/charlist.gleam", 14).
 -spec to_string(charlist()) -> binary().
 to_string(A) ->
     unicode:characters_to_binary(A).
 
--file("/Users/louis/src/gleam/erlang/src/gleam/erlang/charlist.gleam", 22).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_erlang/src/gleam/erlang/charlist.gleam", 22).
 -spec from_string(binary()) -> charlist().
 from_string(A) ->
     unicode:characters_to_list(A).

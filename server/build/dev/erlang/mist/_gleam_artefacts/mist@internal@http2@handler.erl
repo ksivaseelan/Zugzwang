@@ -22,17 +22,17 @@
         mist@internal@http2:http2_settings(),
         gleam@dict:dict(mist@internal@http2@frame:stream_identifier(mist@internal@http2@frame:frame()), mist@internal@http2@stream:state())}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/handler.gleam", 44).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/handler.gleam", 44).
 -spec send_hpack_context(state(), mist@internal@http2:hpack_context()) -> state().
 send_hpack_context(State, Context) ->
     erlang:setelement(7, State, Context).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/handler.gleam", 48).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/handler.gleam", 48).
 -spec receive_hpack_context(state(), mist@internal@http2:hpack_context()) -> state().
 receive_hpack_context(State, Context) ->
     erlang:setelement(5, State, Context).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/handler.gleam", 52).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/handler.gleam", 52).
 -spec append_data(state(), bitstring()) -> state().
 append_data(State, Data) ->
     erlang:setelement(
@@ -41,7 +41,7 @@ append_data(State, Data) ->
         mist@internal@buffer:append(erlang:element(3, State), Data)
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/handler.gleam", 56).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/handler.gleam", 56).
 -spec upgrade(
     bitstring(),
     mist@internal@http:connection(),
@@ -79,7 +79,7 @@ upgrade(Data, Conn, Self) ->
     logging:log(error, <<"HTTP/2 currently not supported"/utf8>>),
     {error, {abnormal, <<"HTTP/2 currently not supported"/utf8>>}}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/handler.gleam", 118).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/handler.gleam", 118).
 -spec handle_frame(
     mist@internal@http2@frame:frame(),
     state(),
@@ -340,7 +340,7 @@ handle_frame(Frame, State, Conn, Handler) ->
             {ok, State}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/handler.gleam", 91).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/handler.gleam", 91).
 -spec call(
     state(),
     mist@internal@http:connection(),

@@ -21,12 +21,12 @@
     {last, list(DTE)} |
     no_more.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 37).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 37).
 -spec stop() -> action(any()).
 stop() ->
     stop.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 42).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 42).
 -spec do_unfold(DTH, fun((DTH) -> step(DTI, DTH))) -> fun(() -> action(DTI)).
 do_unfold(Initial, F) ->
     fun() -> case F(Initial) of
@@ -37,24 +37,24 @@ do_unfold(Initial, F) ->
                 stop
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 75).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 75).
 -spec unfold(DTM, fun((DTM) -> step(DTN, DTM))) -> iterator(DTN).
 unfold(Initial, F) ->
     _pipe = Initial,
     _pipe@1 = do_unfold(_pipe, F),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 94).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 94).
 -spec repeatedly(fun(() -> DTR)) -> iterator(DTR).
 repeatedly(F) ->
     unfold(nil, fun(_) -> {next, F(), nil} end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 109).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 109).
 -spec repeat(DTT) -> iterator(DTT).
 repeat(X) ->
     repeatedly(fun() -> X end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 123).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 123).
 -spec from_list(list(DTV)) -> iterator(DTV).
 from_list(List) ->
     Yield = fun(Acc) -> case Acc of
@@ -66,7 +66,7 @@ from_list(List) ->
         end end,
     unfold(List, Yield).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 134).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 134).
 -spec do_transform(
     fun(() -> action(DTY)),
     DUA,
@@ -87,13 +87,13 @@ do_transform(Continuation, State, F) ->
                 end
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 169).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 169).
 -spec transform(iterator(DUF), DUH, fun((DUH, DUF) -> step(DUI, DUH))) -> iterator(DUI).
 transform(Iterator, Initial, F) ->
     _pipe = do_transform(erlang:element(2, Iterator), Initial, F),
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 178).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 178).
 -spec do_fold(fun(() -> action(DUM)), fun((DUO, DUM) -> DUO), DUO) -> DUO.
 do_fold(Continuation, F, Accumulator) ->
     case Continuation() of
@@ -104,25 +104,25 @@ do_fold(Continuation, F, Accumulator) ->
             Accumulator
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 206).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 206).
 -spec fold(iterator(DUP), DUR, fun((DUR, DUP) -> DUR)) -> DUR.
 fold(Iterator, Initial, F) ->
     _pipe = erlang:element(2, Iterator),
     do_fold(_pipe, F, Initial).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 220).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 220).
 -spec run(iterator(any())) -> nil.
 run(Iterator) ->
     fold(Iterator, nil, fun(_, _) -> nil end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 238).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 238).
 -spec to_list(iterator(DUU)) -> list(DUU).
 to_list(Iterator) ->
     _pipe = Iterator,
     _pipe@1 = fold(_pipe, [], fun(Acc, E) -> [E | Acc] end),
     lists:reverse(_pipe@1).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 266).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 266).
 -spec step(iterator(DUX)) -> step(DUX, iterator(DUX)).
 step(Iterator) ->
     case (erlang:element(2, Iterator))() of
@@ -133,7 +133,7 @@ step(Iterator) ->
             {next, E, {iterator, A}}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 273).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 273).
 -spec do_take(fun(() -> action(DVC)), integer()) -> fun(() -> action(DVC)).
 do_take(Continuation, Desired) ->
     fun() -> case Desired > 0 of
@@ -150,14 +150,14 @@ do_take(Continuation, Desired) ->
                 end
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 306).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 306).
 -spec take(iterator(DVF), integer()) -> iterator(DVF).
 take(Iterator, Desired) ->
     _pipe = erlang:element(2, Iterator),
     _pipe@1 = do_take(_pipe, Desired),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 312).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 312).
 -spec do_drop(fun(() -> action(DVI)), integer()) -> action(DVI).
 do_drop(Continuation, Desired) ->
     case Continuation() of
@@ -174,13 +174,13 @@ do_drop(Continuation, Desired) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 348).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 348).
 -spec drop(iterator(DVL), integer()) -> iterator(DVL).
 drop(Iterator, Desired) ->
     _pipe = fun() -> do_drop(erlang:element(2, Iterator), Desired) end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 353).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 353).
 -spec do_map(fun(() -> action(DVO)), fun((DVO) -> DVQ)) -> fun(() -> action(DVQ)).
 do_map(Continuation, F) ->
     fun() -> case Continuation() of
@@ -191,14 +191,14 @@ do_map(Continuation, F) ->
                 {continue, F(E), do_map(Continuation@1, F)}
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 379).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 379).
 -spec map(iterator(DVS), fun((DVS) -> DVU)) -> iterator(DVU).
 map(Iterator, F) ->
     _pipe = erlang:element(2, Iterator),
     _pipe@1 = do_map(_pipe, F),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 385).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 385).
 -spec do_map2(
     fun(() -> action(DVW)),
     fun(() -> action(DVY)),
@@ -219,7 +219,7 @@ do_map2(Continuation1, Continuation2, Fun) ->
                 end
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 426).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 426).
 -spec map2(iterator(DWC), iterator(DWE), fun((DWC, DWE) -> DWG)) -> iterator(DWG).
 map2(Iterator1, Iterator2, Fun) ->
     _pipe = do_map2(
@@ -229,7 +229,7 @@ map2(Iterator1, Iterator2, Fun) ->
     ),
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 435).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 435).
 -spec do_append(fun(() -> action(DWI)), fun(() -> action(DWI))) -> action(DWI).
 do_append(First, Second) ->
     case First() of
@@ -240,7 +240,7 @@ do_append(First, Second) ->
             Second()
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 456).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 456).
 -spec append(iterator(DWM), iterator(DWM)) -> iterator(DWM).
 append(First, Second) ->
     _pipe = fun() ->
@@ -248,7 +248,7 @@ append(First, Second) ->
     end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 461).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 461).
 -spec do_flatten(fun(() -> action(iterator(DWQ)))) -> action(DWQ).
 do_flatten(Flattened) ->
     case Flattened() of
@@ -262,25 +262,25 @@ do_flatten(Flattened) ->
             )
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 484).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 484).
 -spec flatten(iterator(iterator(DWU))) -> iterator(DWU).
 flatten(Iterator) ->
     _pipe = fun() -> do_flatten(erlang:element(2, Iterator)) end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 504).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 504).
 -spec concat(list(iterator(DWY))) -> iterator(DWY).
 concat(Iterators) ->
     flatten(from_list(Iterators)).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 526).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 526).
 -spec flat_map(iterator(DXC), fun((DXC) -> iterator(DXE))) -> iterator(DXE).
 flat_map(Iterator, F) ->
     _pipe = Iterator,
     _pipe@1 = map(_pipe, F),
     flatten(_pipe@1).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 535).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 535).
 -spec do_filter(fun(() -> action(DXH)), fun((DXH) -> boolean())) -> action(DXH).
 do_filter(Continuation, Predicate) ->
     case Continuation() of
@@ -297,13 +297,13 @@ do_filter(Continuation, Predicate) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 568).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 568).
 -spec filter(iterator(DXK), fun((DXK) -> boolean())) -> iterator(DXK).
 filter(Iterator, Predicate) ->
     _pipe = fun() -> do_filter(erlang:element(2, Iterator), Predicate) end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 576).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 576).
 -spec do_filter_map(
     fun(() -> action(DXN)),
     fun((DXN) -> {ok, DXP} | {error, any()})
@@ -323,19 +323,19 @@ do_filter_map(Continuation, F) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 612).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 612).
 -spec filter_map(iterator(DXU), fun((DXU) -> {ok, DXW} | {error, any()})) -> iterator(DXW).
 filter_map(Iterator, F) ->
     _pipe = fun() -> do_filter_map(erlang:element(2, Iterator), F) end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 632).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 632).
 -spec cycle(iterator(DYB)) -> iterator(DYB).
 cycle(Iterator) ->
     _pipe = repeat(Iterator),
     flatten(_pipe).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 678).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 678).
 -spec do_find(fun(() -> action(DYF)), fun((DYF) -> boolean())) -> {ok, DYF} |
     {error, nil}.
 do_find(Continuation, F) ->
@@ -353,13 +353,13 @@ do_find(Continuation, F) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 712).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 712).
 -spec find(iterator(DYJ), fun((DYJ) -> boolean())) -> {ok, DYJ} | {error, nil}.
 find(Haystack, Is_desired) ->
     _pipe = erlang:element(2, Haystack),
     do_find(_pipe, Is_desired).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 720).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 720).
 -spec do_find_map(
     fun(() -> action(DYN)),
     fun((DYN) -> {ok, DYP} | {error, any()})
@@ -379,7 +379,7 @@ do_find_map(Continuation, F) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 757).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 757).
 -spec find_map(iterator(DYV), fun((DYV) -> {ok, DYX} | {error, any()})) -> {ok,
         DYX} |
     {error, nil}.
@@ -387,7 +387,7 @@ find_map(Haystack, Is_desired) ->
     _pipe = erlang:element(2, Haystack),
     do_find_map(_pipe, Is_desired).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 765).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 765).
 -spec do_index(fun(() -> action(DZD)), integer()) -> fun(() -> action({DZD,
     integer()})).
 do_index(Continuation, Next) ->
@@ -399,19 +399,19 @@ do_index(Continuation, Next) ->
                 {continue, {E, Next}, do_index(Continuation@1, Next + 1)}
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 787).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 787).
 -spec index(iterator(DZG)) -> iterator({DZG, integer()}).
 index(Iterator) ->
     _pipe = erlang:element(2, Iterator),
     _pipe@1 = do_index(_pipe, 0),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 802).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 802).
 -spec iterate(DZJ, fun((DZJ) -> DZJ)) -> iterator(DZJ).
 iterate(Initial, F) ->
     unfold(Initial, fun(Element) -> {next, Element, F(Element)} end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 809).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 809).
 -spec do_take_while(fun(() -> action(DZL)), fun((DZL) -> boolean())) -> fun(() -> action(DZL)).
 do_take_while(Continuation, Predicate) ->
     fun() -> case Continuation() of
@@ -428,14 +428,14 @@ do_take_while(Continuation, Predicate) ->
                 end
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 836).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 836).
 -spec take_while(iterator(DZO), fun((DZO) -> boolean())) -> iterator(DZO).
 take_while(Iterator, Predicate) ->
     _pipe = erlang:element(2, Iterator),
     _pipe@1 = do_take_while(_pipe, Predicate),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 845).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 845).
 -spec do_drop_while(fun(() -> action(DZR)), fun((DZR) -> boolean())) -> action(DZR).
 do_drop_while(Continuation, Predicate) ->
     case Continuation() of
@@ -452,13 +452,13 @@ do_drop_while(Continuation, Predicate) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 871).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 871).
 -spec drop_while(iterator(DZU), fun((DZU) -> boolean())) -> iterator(DZU).
 drop_while(Iterator, Predicate) ->
     _pipe = fun() -> do_drop_while(erlang:element(2, Iterator), Predicate) end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 879).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 879).
 -spec do_scan(fun(() -> action(DZX)), fun((DZZ, DZX) -> DZZ), DZZ) -> fun(() -> action(DZZ)).
 do_scan(Continuation, F, Accumulator) ->
     fun() -> case Continuation() of
@@ -470,14 +470,14 @@ do_scan(Continuation, F, Accumulator) ->
                 {continue, Accumulated, do_scan(Next, F, Accumulated)}
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 909).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 909).
 -spec scan(iterator(EAB), EAD, fun((EAD, EAB) -> EAD)) -> iterator(EAD).
 scan(Iterator, Initial, F) ->
     _pipe = erlang:element(2, Iterator),
     _pipe@1 = do_scan(_pipe, F, Initial),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 919).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 919).
 -spec do_zip(fun(() -> action(EAF)), fun(() -> action(EAH))) -> fun(() -> action({EAF,
     EAH})).
 do_zip(Left, Right) ->
@@ -497,13 +497,13 @@ do_zip(Left, Right) ->
                 end
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 948).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 948).
 -spec zip(iterator(EAK), iterator(EAM)) -> iterator({EAK, EAM}).
 zip(Left, Right) ->
     _pipe = do_zip(erlang:element(2, Left), erlang:element(2, Right)),
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 959).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 959).
 -spec next_chunk(fun(() -> action(EAP)), fun((EAP) -> EAR), EAR, list(EAP)) -> chunk(EAP, EAR).
 next_chunk(Continuation, F, Previous_key, Current_chunk) ->
     case Continuation() of
@@ -521,7 +521,7 @@ next_chunk(Continuation, F, Previous_key, Current_chunk) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 977).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 977).
 -spec do_chunk(fun(() -> action(EAV)), fun((EAV) -> EAX), EAX, EAV) -> action(list(EAV)).
 do_chunk(Continuation, F, Previous_key, Previous_element) ->
     case next_chunk(Continuation, F, Previous_key, [Previous_element]) of
@@ -532,7 +532,7 @@ do_chunk(Continuation, F, Previous_key, Previous_element) ->
             {continue, Chunk@1, fun() -> do_chunk(Next, F, Key, El) end}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1002).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1002).
 -spec chunk(iterator(EBA), fun((EBA) -> any())) -> iterator(list(EBA)).
 chunk(Iterator, F) ->
     _pipe = fun() -> case (erlang:element(2, Iterator))() of
@@ -544,7 +544,7 @@ chunk(Iterator, F) ->
         end end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1022).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1022).
 -spec next_sized_chunk(fun(() -> action(EBF)), integer(), list(EBF)) -> sized_chunk(EBF).
 next_sized_chunk(Continuation, Left, Current_chunk) ->
     case Continuation() of
@@ -568,7 +568,7 @@ next_sized_chunk(Continuation, Left, Current_chunk) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1043).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1043).
 -spec do_sized_chunk(fun(() -> action(EBJ)), integer()) -> fun(() -> action(list(EBJ))).
 do_sized_chunk(Continuation, Count) ->
     fun() -> case next_sized_chunk(Continuation, Count, []) of
@@ -582,14 +582,14 @@ do_sized_chunk(Continuation, Count) ->
                 {continue, Chunk@1, do_sized_chunk(Next_element, Count)}
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1080).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1080).
 -spec sized_chunk(iterator(EBN), integer()) -> iterator(list(EBN)).
 sized_chunk(Iterator, Count) ->
     _pipe = erlang:element(2, Iterator),
     _pipe@1 = do_sized_chunk(_pipe, Count),
     {iterator, _pipe@1}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1089).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1089).
 -spec do_intersperse(fun(() -> action(EBR)), EBR) -> action(EBR).
 do_intersperse(Continuation, Separator) ->
     case Continuation() of
@@ -601,7 +601,7 @@ do_intersperse(Continuation, Separator) ->
             {continue, Separator, fun() -> {continue, E, Next_interspersed} end}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1128).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1128).
 -spec intersperse(iterator(EBU), EBU) -> iterator(EBU).
 intersperse(Iterator, Elem) ->
     _pipe = fun() -> case (erlang:element(2, Iterator))() of
@@ -613,7 +613,7 @@ intersperse(Iterator, Elem) ->
         end end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1141).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1141).
 -spec do_any(fun(() -> action(EBX)), fun((EBX) -> boolean())) -> boolean().
 do_any(Continuation, Predicate) ->
     case Continuation() of
@@ -630,13 +630,13 @@ do_any(Continuation, Predicate) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1182).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1182).
 -spec any(iterator(EBZ), fun((EBZ) -> boolean())) -> boolean().
 any(Iterator, Predicate) ->
     _pipe = erlang:element(2, Iterator),
     do_any(_pipe, Predicate).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1190).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1190).
 -spec do_all(fun(() -> action(ECB)), fun((ECB) -> boolean())) -> boolean().
 do_all(Continuation, Predicate) ->
     case Continuation() of
@@ -653,13 +653,13 @@ do_all(Continuation, Predicate) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1231).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1231).
 -spec all(iterator(ECD), fun((ECD) -> boolean())) -> boolean().
 all(Iterator, Predicate) ->
     _pipe = erlang:element(2, Iterator),
     do_all(_pipe, Predicate).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1239).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1239).
 -spec update_group_with(ECF) -> fun((gleam@option:option(list(ECF))) -> list(ECF)).
 update_group_with(El) ->
     fun(Maybe_group) -> case Maybe_group of
@@ -670,20 +670,20 @@ update_group_with(El) ->
                 [El]
         end end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1248).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1248).
 -spec group_updater(fun((ECJ) -> ECK)) -> fun((gleam@dict:dict(ECK, list(ECJ)), ECJ) -> gleam@dict:dict(ECK, list(ECJ))).
 group_updater(F) ->
     fun(Groups, Elem) -> _pipe = Groups,
         gleam@dict:upsert(_pipe, F(Elem), update_group_with(Elem)) end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1270).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1270).
 -spec group(iterator(ECR), fun((ECR) -> ECT)) -> gleam@dict:dict(ECT, list(ECR)).
 group(Iterator, Key) ->
     _pipe = Iterator,
     _pipe@1 = fold(_pipe, gleam@dict:new(), group_updater(Key)),
     gleam@dict:map_values(_pipe@1, fun(_, Group) -> lists:reverse(Group) end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1300).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1300).
 -spec reduce(iterator(ECX), fun((ECX, ECX) -> ECX)) -> {ok, ECX} | {error, nil}.
 reduce(Iterator, F) ->
     case (erlang:element(2, Iterator))() of
@@ -695,24 +695,24 @@ reduce(Iterator, F) ->
             {ok, _pipe}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1330).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1330).
 -spec last(iterator(EDB)) -> {ok, EDB} | {error, nil}.
 last(Iterator) ->
     _pipe = Iterator,
     reduce(_pipe, fun(_, Elem) -> Elem end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1344).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1344).
 -spec empty() -> iterator(any()).
 empty() ->
     {iterator, fun stop/0}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1357).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1357).
 -spec once(fun(() -> EDH)) -> iterator(EDH).
 once(F) ->
     _pipe = fun() -> {continue, F(), fun stop/0} end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 657).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 657).
 -spec range(integer(), integer()) -> iterator(integer()).
 range(Start, Stop) ->
     case gleam@int:compare(Start, Stop) of
@@ -738,12 +738,12 @@ range(Start, Stop) ->
                     end end)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1371).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1371).
 -spec single(EDJ) -> iterator(EDJ).
 single(Elem) ->
     once(fun() -> Elem end).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1375).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1375).
 -spec do_interleave(fun(() -> action(EDL)), fun(() -> action(EDL))) -> action(EDL).
 do_interleave(Current, Next) ->
     case Current() of
@@ -754,7 +754,7 @@ do_interleave(Current, Next) ->
             {continue, E, fun() -> do_interleave(Next, Next_other) end}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1405).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1405).
 -spec interleave(iterator(EDP), iterator(EDP)) -> iterator(EDP).
 interleave(Left, Right) ->
     _pipe = fun() ->
@@ -762,7 +762,7 @@ interleave(Left, Right) ->
     end,
     {iterator, _pipe}.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1413).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1413).
 -spec do_fold_until(
     fun(() -> action(EDT)),
     fun((EDV, EDT) -> gleam@list:continue_or_stop(EDV)),
@@ -783,7 +783,7 @@ do_fold_until(Continuation, F, Accumulator) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1452).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1452).
 -spec fold_until(
     iterator(EDX),
     EDZ,
@@ -793,7 +793,7 @@ fold_until(Iterator, Initial, F) ->
     _pipe = erlang:element(2, Iterator),
     do_fold_until(_pipe, F, Initial).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1461).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1461).
 -spec do_try_fold(
     fun(() -> action(EEB)),
     fun((EED, EEB) -> {ok, EED} | {error, EEE}),
@@ -814,7 +814,7 @@ do_try_fold(Continuation, F, Accumulator) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1496).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1496).
 -spec try_fold(iterator(EEJ), EEL, fun((EEL, EEJ) -> {ok, EEL} | {error, EEM})) -> {ok,
         EEL} |
     {error, EEM}.
@@ -822,7 +822,7 @@ try_fold(Iterator, Initial, F) ->
     _pipe = erlang:element(2, Iterator),
     do_try_fold(_pipe, F, Initial).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1519).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1519).
 -spec first(iterator(EER)) -> {ok, EER} | {error, nil}.
 first(Iterator) ->
     case (erlang:element(2, Iterator))() of
@@ -833,14 +833,14 @@ first(Iterator) ->
             {ok, E}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1549).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1549).
 -spec at(iterator(EEV), integer()) -> {ok, EEV} | {error, nil}.
 at(Iterator, Index) ->
     _pipe = Iterator,
     _pipe@1 = drop(_pipe, Index),
     first(_pipe@1).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1555).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1555).
 -spec do_length(fun(() -> action(any())), integer()) -> integer().
 do_length(Continuation, Length) ->
     case Continuation() of
@@ -851,20 +851,20 @@ do_length(Continuation, Length) ->
             do_length(Next, Length + 1)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1579).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1579).
 -spec length(iterator(any())) -> integer().
 length(Iterator) ->
     _pipe = erlang:element(2, Iterator),
     do_length(_pipe, 0).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1601).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1601).
 -spec each(iterator(EFD), fun((EFD) -> any())) -> nil.
 each(Iterator, F) ->
     _pipe = Iterator,
     _pipe@1 = map(_pipe, F),
     run(_pipe@1).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/iterator.gleam", 1626).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/iterator.gleam", 1626).
 -spec yield(EFG, fun(() -> iterator(EFG))) -> iterator(EFG).
 yield(Element, Next) ->
     {iterator,

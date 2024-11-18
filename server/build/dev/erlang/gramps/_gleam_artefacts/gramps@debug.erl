@@ -3,6 +3,7 @@
 
 -export([literal_bits/2]).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gramps/src/gramps/debug.gleam", 3).
 -spec literal_bits(bitstring(), list(integer())) -> list(integer()).
 literal_bits(Source, Values) ->
     case Source of

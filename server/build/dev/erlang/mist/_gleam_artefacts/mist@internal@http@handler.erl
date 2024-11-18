@@ -6,12 +6,12 @@
 
 -type state() :: {state, gleam@option:option(gleam@erlang@process:timer())}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 27).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 27).
 -spec initial_state() -> state().
 initial_state() ->
     {state, none}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 68).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 68).
 -spec log_and_error(
     gleam@erlang:crash(),
     glisten@socket:socket(),
@@ -130,7 +130,7 @@ log_and_error(Error, Socket, Transport, Req, Version) ->
             {abnormal, gleam@string:inspect(Msg)}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 102).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 102).
 -spec close_or_set_timer(
     gleam@http@response:response(gleam@bytes_builder:bytes_builder()),
     mist@internal@http:connection(),
@@ -154,7 +154,7 @@ close_or_set_timer(Resp, Conn, Sender) ->
             {ok, {state, {some, Timer}}}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 160).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 160).
 -spec handle_file_body(
     gleam@http@response:response(mist@internal@http:response_data()),
     mist@internal@http:response_data(),
@@ -243,7 +243,7 @@ handle_file_body(Resp, Body, Conn, Http_version) ->
     end,
     Return.
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 220).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 220).
 -spec handle_bytes_builder_body(
     gleam@http@response:response(mist@internal@http:response_data()),
     gleam@bytes_builder:bytes_builder(),
@@ -280,12 +280,12 @@ handle_bytes_builder_body(Resp, Body, Conn, Req, Version) ->
     ),
     gleam@result:replace(_pipe@4, Resp@2).
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 247).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 247).
 -spec int_to_hex(integer()) -> binary().
 int_to_hex(Int) ->
     erlang:integer_to_list(Int, 16).
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 122).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 122).
 -spec handle_chunked_body(
     gleam@http@response:response(mist@internal@http:response_data()),
     gleam@iterator:iterator(gleam@bytes_builder:bytes_builder()),
@@ -350,7 +350,7 @@ handle_chunked_body(Resp, Body, Conn, Version) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/http/handler.gleam", 31).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http/handler.gleam", 31).
 -spec call(
     gleam@http@request:request(mist@internal@http:connection()),
     fun((gleam@http@request:request(mist@internal@http:connection())) -> gleam@http@response:response(mist@internal@http:response_data())),

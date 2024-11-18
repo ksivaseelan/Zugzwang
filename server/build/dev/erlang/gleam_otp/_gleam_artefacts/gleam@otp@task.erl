@@ -4,32 +4,32 @@
 -export([async/1, try_await/2, await/2, pid/1, try_await_forever/1, await_forever/1, try_await2/3, try_await3/4, try_await4/5, try_await_all/2]).
 -export_type([task/1, await_error/0, message2/2, message3/3, message4/4, message/1]).
 
--opaque task(HML) :: {task,
+-opaque task(KKV) :: {task,
         gleam@erlang@process:pid_(),
         gleam@erlang@process:pid_(),
-        gleam@erlang@process:subject(HML)}.
+        gleam@erlang@process:subject(KKV)}.
 
 -type await_error() :: timeout | {exit, gleam@dynamic:dynamic_()}.
 
--type message2(HMM, HMN) :: {m2_from_subject1, HMM} |
-    {m2_from_subject2, HMN} |
+-type message2(KKW, KKX) :: {m2_from_subject1, KKW} |
+    {m2_from_subject2, KKX} |
     m2_timeout.
 
--type message3(HMO, HMP, HMQ) :: {m3_from_subject1, HMO} |
-    {m3_from_subject2, HMP} |
-    {m3_from_subject3, HMQ} |
+-type message3(KKY, KKZ, KLA) :: {m3_from_subject1, KKY} |
+    {m3_from_subject2, KKZ} |
+    {m3_from_subject3, KLA} |
     m3_timeout.
 
--type message4(HMR, HMS, HMT, HMU) :: {m4_from_subject1, HMR} |
-    {m4_from_subject2, HMS} |
-    {m4_from_subject3, HMT} |
-    {m4_from_subject4, HMU} |
+-type message4(KLB, KLC, KLD, KLE) :: {m4_from_subject1, KLB} |
+    {m4_from_subject2, KLC} |
+    {m4_from_subject3, KLD} |
+    {m4_from_subject4, KLE} |
     m4_timeout.
 
--type message(HMV) :: {message, integer(), HMV} | message_timeout.
+-type message(KLF) :: {message, integer(), KLF} | message_timeout.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 55).
--spec async(fun(() -> HMW)) -> task(HMW).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 55).
+-spec async(fun(() -> KLG)) -> task(KLG).
 async(Work) ->
     Owner = erlang:self(),
     Subject = gleam@erlang@process:new_subject(),
@@ -39,7 +39,7 @@ async(Work) ->
     ),
     {task, Owner, Pid, Subject}.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 70).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 70).
 -spec assert_owner(task(any())) -> nil.
 assert_owner(Task) ->
     Self = erlang:self(),
@@ -54,8 +54,8 @@ assert_owner(Task) ->
             )
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 88).
--spec try_await(task(HNA), integer()) -> {ok, HNA} | {error, await_error()}.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 88).
+-spec try_await(task(KLK), integer()) -> {ok, KLK} | {error, await_error()}.
 try_await(Task, Timeout) ->
     assert_owner(Task),
     Selector = begin
@@ -74,8 +74,8 @@ try_await(Task, Timeout) ->
             {error, timeout}
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 107).
--spec await(task(HNE), integer()) -> HNE.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 107).
+-spec await(task(KLO), integer()) -> KLO.
 await(Task, Timeout) ->
     _assert_subject = try_await(Task, Timeout),
     {ok, Value} = case _assert_subject of
@@ -90,13 +90,13 @@ await(Task, Timeout) ->
     end,
     Value.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 114).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 114).
 -spec pid(task(any())) -> gleam@erlang@process:pid_().
 pid(Task) ->
     erlang:element(3, Task).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 119).
--spec try_await_forever(task(HNI)) -> {ok, HNI} | {error, await_error()}.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 119).
+-spec try_await_forever(task(KLS)) -> {ok, KLS} | {error, await_error()}.
 try_await_forever(Task) ->
     assert_owner(Task),
     Selector = begin
@@ -112,8 +112,8 @@ try_await_forever(Task) ->
             {ok, X}
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 137).
--spec await_forever(task(HNM)) -> HNM.
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 137).
+-spec await_forever(task(KLW)) -> KLW.
 await_forever(Task) ->
     assert_owner(Task),
     Selector = begin
@@ -126,13 +126,13 @@ await_forever(Task) ->
     end,
     gleam_erlang_ffi:select(Selector).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 174).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 174).
 -spec try_await2_loop(
-    gleam@erlang@process:selector(message2(HNW, HNX)),
-    gleam@option:option({ok, HNW} | {error, await_error()}),
-    gleam@option:option({ok, HNX} | {error, await_error()}),
+    gleam@erlang@process:selector(message2(KMG, KMH)),
+    gleam@option:option({ok, KMG} | {error, await_error()}),
+    gleam@option:option({ok, KMH} | {error, await_error()}),
     gleam@erlang@process:timer()
-) -> {{ok, HNW} | {error, await_error()}, {ok, HNX} | {error, await_error()}}.
+) -> {{ok, KMG} | {error, await_error()}, {ok, KMH} | {error, await_error()}}.
 try_await2_loop(Selector, T1, T2, Timer) ->
     case {T1, T2} of
         {{some, T1@1}, {some, T2@1}} ->
@@ -155,10 +155,10 @@ try_await2_loop(Selector, T1, T2, Timer) ->
             end
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 156).
--spec try_await2(task(HNO), task(HNQ), integer()) -> {{ok, HNO} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 156).
+-spec try_await2(task(KLY), task(KMA), integer()) -> {{ok, KLY} |
         {error, await_error()},
-    {ok, HNQ} | {error, await_error()}}.
+    {ok, KMA} | {error, await_error()}}.
 try_await2(Task1, Task2, Timeout) ->
     assert_owner(Task1),
     assert_owner(Task2),
@@ -186,16 +186,16 @@ try_await2(Task1, Task2, Timeout) ->
     ),
     try_await2_loop(_pipe@3, none, none, Timer).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 242).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 242).
 -spec try_await3_loop(
-    gleam@erlang@process:selector(message3(HOX, HOY, HOZ)),
-    gleam@option:option({ok, HOX} | {error, await_error()}),
-    gleam@option:option({ok, HOY} | {error, await_error()}),
-    gleam@option:option({ok, HOZ} | {error, await_error()}),
+    gleam@erlang@process:selector(message3(KNH, KNI, KNJ)),
+    gleam@option:option({ok, KNH} | {error, await_error()}),
+    gleam@option:option({ok, KNI} | {error, await_error()}),
+    gleam@option:option({ok, KNJ} | {error, await_error()}),
     gleam@erlang@process:timer()
-) -> {{ok, HOX} | {error, await_error()},
-    {ok, HOY} | {error, await_error()},
-    {ok, HOZ} | {error, await_error()}}.
+) -> {{ok, KNH} | {error, await_error()},
+    {ok, KNI} | {error, await_error()},
+    {ok, KNJ} | {error, await_error()}}.
 try_await3_loop(Selector, T1, T2, T3, Timer) ->
     case {T1, T2, T3} of
         {{some, T1@1}, {some, T2@1}, {some, T3@1}} ->
@@ -223,11 +223,11 @@ try_await3_loop(Selector, T1, T2, T3, Timer) ->
             end
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 221).
--spec try_await3(task(HOL), task(HON), task(HOP), integer()) -> {{ok, HOL} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 221).
+-spec try_await3(task(KMV), task(KMX), task(KMZ), integer()) -> {{ok, KMV} |
         {error, await_error()},
-    {ok, HON} | {error, await_error()},
-    {ok, HOP} | {error, await_error()}}.
+    {ok, KMX} | {error, await_error()},
+    {ok, KMZ} | {error, await_error()}}.
 try_await3(Task1, Task2, Task3, Timeout) ->
     assert_owner(Task1),
     assert_owner(Task2),
@@ -261,18 +261,18 @@ try_await3(Task1, Task2, Task3, Timeout) ->
     ),
     try_await3_loop(_pipe@4, none, none, none, Timer).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 324).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 324).
 -spec try_await4_loop(
-    gleam@erlang@process:selector(message4(HQJ, HQK, HQL, HQM)),
-    gleam@option:option({ok, HQJ} | {error, await_error()}),
-    gleam@option:option({ok, HQK} | {error, await_error()}),
-    gleam@option:option({ok, HQL} | {error, await_error()}),
-    gleam@option:option({ok, HQM} | {error, await_error()}),
+    gleam@erlang@process:selector(message4(KOT, KOU, KOV, KOW)),
+    gleam@option:option({ok, KOT} | {error, await_error()}),
+    gleam@option:option({ok, KOU} | {error, await_error()}),
+    gleam@option:option({ok, KOV} | {error, await_error()}),
+    gleam@option:option({ok, KOW} | {error, await_error()}),
     gleam@erlang@process:timer()
-) -> {{ok, HQJ} | {error, await_error()},
-    {ok, HQK} | {error, await_error()},
-    {ok, HQL} | {error, await_error()},
-    {ok, HQM} | {error, await_error()}}.
+) -> {{ok, KOT} | {error, await_error()},
+    {ok, KOU} | {error, await_error()},
+    {ok, KOV} | {error, await_error()},
+    {ok, KOW} | {error, await_error()}}.
 try_await4_loop(Selector, T1, T2, T3, T4, Timer) ->
     case {T1, T2, T3, T4} of
         {{some, T1@1}, {some, T2@1}, {some, T3@1}, {some, T4@1}} ->
@@ -305,13 +305,13 @@ try_await4_loop(Selector, T1, T2, T3, T4, Timer) ->
             end
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 296).
--spec try_await4(task(HPT), task(HPV), task(HPX), task(HPZ), integer()) -> {{ok,
-            HPT} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 296).
+-spec try_await4(task(KOD), task(KOF), task(KOH), task(KOJ), integer()) -> {{ok,
+            KOD} |
         {error, await_error()},
-    {ok, HPV} | {error, await_error()},
-    {ok, HPX} | {error, await_error()},
-    {ok, HPZ} | {error, await_error()}}.
+    {ok, KOF} | {error, await_error()},
+    {ok, KOH} | {error, await_error()},
+    {ok, KOJ} | {error, await_error()}}.
 try_await4(Task1, Task2, Task3, Task4, Timeout) ->
     assert_owner(Task1),
     assert_owner(Task2),
@@ -350,13 +350,13 @@ try_await4(Task1, Task2, Task3, Task4, Timeout) ->
     ),
     try_await4_loop(_pipe@5, none, none, none, none, Timer).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 453).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 453).
 -spec dict_to_list_loop(
-    gleam@dict:dict(integer(), HSG),
-    HSG,
+    gleam@dict:dict(integer(), KQQ),
+    KQQ,
     integer(),
-    list(HSG)
-) -> list(HSG).
+    list(KQQ)
+) -> list(KQQ).
 dict_to_list_loop(Dict, Default, Index, List) ->
     case Index < 0 of
         true ->
@@ -373,18 +373,18 @@ dict_to_list_loop(Dict, Default, Index, List) ->
             dict_to_list_loop(Dict, Default, Index - 1, [Value@1 | List])
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 449).
--spec dict_to_list(gleam@dict:dict(integer(), HSC), integer(), HSC) -> list(HSC).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 449).
+-spec dict_to_list(gleam@dict:dict(integer(), KQM), integer(), KQM) -> list(KQM).
 dict_to_list(Dict, Sized, Default) ->
     dict_to_list_loop(Dict, Default, Sized - 1, []).
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 413).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 413).
 -spec try_await_all_loop(
-    gleam@dict:dict(integer(), {ok, HRS} | {error, await_error()}),
+    gleam@dict:dict(integer(), {ok, KQC} | {error, await_error()}),
     integer(),
     gleam@erlang@process:timer(),
-    gleam@erlang@process:selector(message(HRS))
-) -> list({ok, HRS} | {error, await_error()}).
+    gleam@erlang@process:selector(message(KQC))
+) -> list({ok, KQC} | {error, await_error()}).
 try_await_all_loop(Values, Tasks_count, Timer, Selector) ->
     case maps:size(Values) =:= Tasks_count of
         true ->
@@ -402,8 +402,8 @@ try_await_all_loop(Values, Tasks_count, Timer, Selector) ->
             end
     end.
 
--file("/Users/louis/src/gleam/otp/src/gleam/otp/task.gleam", 386).
--spec try_await_all(list(task(HRM)), integer()) -> list({ok, HRM} |
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_otp/src/gleam/otp/task.gleam", 386).
+-spec try_await_all(list(task(KPW)), integer()) -> list({ok, KPW} |
     {error, await_error()}).
 try_await_all(Tasks, Timeout) ->
     {Selector@2, Tasks_count@1} = begin

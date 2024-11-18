@@ -3,7 +3,7 @@
 
 -export([status_to_bit_array/1, encode_headers/1, response_builder/3, to_bytes_builder/2]).
 
--file("/home/alex/gleams/mist/src/mist/internal/encoder.gleam", 37).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/encoder.gleam", 37).
 -spec status_to_bit_array(integer()) -> bitstring().
 status_to_bit_array(Status) ->
     case Status of
@@ -173,7 +173,7 @@ status_to_bit_array(Status) ->
             <<"Unknown HTTP Status"/utf8>>
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/encoder.gleam", 98).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/encoder.gleam", 98).
 -spec encode_headers(list({binary(), binary()})) -> gleam@bytes_builder:bytes_builder().
 encode_headers(Headers) ->
     gleam@list:fold(
@@ -189,7 +189,7 @@ encode_headers(Headers) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/encoder.gleam", 17).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/encoder.gleam", 17).
 -spec response_builder(integer(), list({binary(), binary()}), binary()) -> gleam@bytes_builder:bytes_builder().
 response_builder(Status, Headers, Version) ->
     Status_string = begin
@@ -209,7 +209,7 @@ response_builder(Status, Headers, Version) ->
     _pipe@8 = gleam_stdlib:iodata_append(_pipe@7, encode_headers(Headers)),
     gleam@bytes_builder:append(_pipe@8, <<"\r\n"/utf8>>).
 
--file("/home/alex/gleams/mist/src/mist/internal/encoder.gleam", 8).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/encoder.gleam", 8).
 -spec to_bytes_builder(
     gleam@http@response:response(gleam@bytes_builder:bytes_builder()),
     binary()

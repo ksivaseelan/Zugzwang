@@ -4,25 +4,25 @@
 -export([initialize_connection/6]).
 -export_type([valid_message/1, websocket_message/1, websocket_connection/0, handler_message/1, websocket_state/1]).
 
--type valid_message(ORZ) :: {socket_message, bitstring()} |
+-type valid_message(PRK) :: {socket_message, bitstring()} |
     socket_closed_message |
-    {user_message, ORZ}.
+    {user_message, PRK}.
 
--type websocket_message(OSA) :: {valid, valid_message(OSA)} | invalid.
+-type websocket_message(PRL) :: {valid, valid_message(PRL)} | invalid.
 
 -type websocket_connection() :: {websocket_connection,
         glisten@socket:socket(),
         glisten@transport:transport(),
         gleam@option:option(gramps@websocket@compression:context())}.
 
--type handler_message(OSB) :: {internal, gramps@websocket:frame()} | {user, OSB}.
+-type handler_message(PRM) :: {internal, gramps@websocket:frame()} | {user, PRM}.
 
--type websocket_state(OSC) :: {websocket_state,
+-type websocket_state(PRN) :: {websocket_state,
         bitstring(),
-        OSC,
+        PRN,
         gleam@option:option(gramps@websocket@compression:compression())}.
 
--file("/home/alex/gleams/mist/src/mist/internal/websocket.gleam", 56).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/websocket.gleam", 56).
 -spec message_selector() -> gleam@erlang@process:selector(websocket_message(any())).
 message_selector() ->
     _pipe = gleam_erlang_ffi:new_selector(),
@@ -69,7 +69,7 @@ message_selector() ->
         fun(_) -> {valid, socket_closed_message} end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/websocket.gleam", 264).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/websocket.gleam", 264).
 -spec get_messages(
     bitstring(),
     list(gramps@websocket:parsed_frame()),
@@ -90,7 +90,7 @@ get_messages(Data, Frames, Context) ->
             {lists:reverse(Frames), Data}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/websocket.gleam", 354).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/websocket.gleam", 354).
 -spec set_active(glisten@transport:transport(), glisten@socket:socket()) -> nil.
 set_active(Transport, Socket) ->
     _assert_subject = glisten@transport:set_opts(
@@ -110,8 +110,8 @@ set_active(Transport, Socket) ->
     end,
     nil.
 
--file("/home/alex/gleams/mist/src/mist/internal/websocket.gleam", 361).
--spec map_user_selector(gleam@option:option(gleam@erlang@process:selector(OTK))) -> gleam@option:option(gleam@erlang@process:selector(websocket_message(OTK))).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/websocket.gleam", 361).
+-spec map_user_selector(gleam@option:option(gleam@erlang@process:selector(PSV))) -> gleam@option:option(gleam@erlang@process:selector(websocket_message(PSV))).
 map_user_selector(Selector) ->
     gleam@option:map(
         Selector,
@@ -123,14 +123,14 @@ map_user_selector(Selector) ->
         end
     ).
 
--file("/home/alex/gleams/mist/src/mist/internal/websocket.gleam", 277).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/websocket.gleam", 277).
 -spec apply_frames(
     list(gramps@websocket:frame()),
-    fun((OTA, websocket_connection(), handler_message(OTB)) -> gleam@otp@actor:next(OTB, OTA)),
+    fun((PSL, websocket_connection(), handler_message(PSM)) -> gleam@otp@actor:next(PSM, PSL)),
     websocket_connection(),
-    gleam@otp@actor:next(websocket_message(OTB), OTA),
-    fun((OTA) -> nil)
-) -> gleam@otp@actor:next(websocket_message(OTB), OTA).
+    gleam@otp@actor:next(websocket_message(PSM), PSL),
+    fun((PSL) -> nil)
+) -> gleam@otp@actor:next(websocket_message(PSM), PSL).
 apply_frames(Frames, Handler, Connection, Next, On_close) ->
     case {Frames, Next} of
         {_, {stop, Reason}} ->
@@ -222,16 +222,16 @@ apply_frames(Frames, Handler, Connection, Next, On_close) ->
             end
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/websocket.gleam", 82).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/websocket.gleam", 82).
 -spec initialize_connection(
-    fun((websocket_connection()) -> {OSL,
-        gleam@option:option(gleam@erlang@process:selector(OSM))}),
-    fun((OSL) -> nil),
-    fun((OSL, websocket_connection(), handler_message(OSM)) -> gleam@otp@actor:next(OSM, OSL)),
+    fun((websocket_connection()) -> {PRW,
+        gleam@option:option(gleam@erlang@process:selector(PRX))}),
+    fun((PRW) -> nil),
+    fun((PRW, websocket_connection(), handler_message(PRX)) -> gleam@otp@actor:next(PRX, PRW)),
     glisten@socket:socket(),
     glisten@transport:transport(),
     list(binary())
-) -> {ok, gleam@erlang@process:subject(websocket_message(OSM))} | {error, nil}.
+) -> {ok, gleam@erlang@process:subject(websocket_message(PRX))} | {error, nil}.
 initialize_connection(On_init, On_close, Handler, Socket, Transport, Extensions) ->
     _pipe@11 = gleam@otp@actor:start_spec(
         {spec,

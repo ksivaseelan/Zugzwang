@@ -11,7 +11,7 @@
     {acceptor_crashed, gleam@dynamic:dynamic_()} |
     {system_error, glisten@socket:socket_reason()}.
 
--type message(IPT) :: {packet, bitstring()} | {user, IPT}.
+-type message(MML) :: {packet, bitstring()} | {user, MML}.
 
 -type ip_address() :: {ip_v4, integer(), integer(), integer(), integer()} |
     {ip_v6,
@@ -31,27 +31,27 @@
 
 -type connection_info() :: {connection_info, integer(), ip_address()}.
 
--type connection(IPU) :: {connection,
+-type connection(MMM) :: {connection,
         glisten@socket:socket(),
         glisten@transport:transport(),
-        gleam@erlang@process:subject(glisten@internal@handler:message(IPU))}.
+        gleam@erlang@process:subject(glisten@internal@handler:message(MMM))}.
 
--opaque handler(IPV, IPW) :: {handler,
+-opaque handler(MMN, MMO) :: {handler,
         glisten@socket@options:interface(),
-        fun((connection(IPV)) -> {IPW,
-            gleam@option:option(gleam@erlang@process:selector(IPV))}),
-        fun((message(IPV), IPW, connection(IPV)) -> gleam@otp@actor:next(message(IPV), IPW)),
-        gleam@option:option(fun((IPW) -> nil)),
+        fun((connection(MMN)) -> {MMO,
+            gleam@option:option(gleam@erlang@process:selector(MMN))}),
+        fun((message(MMN), MMO, connection(MMN)) -> gleam@otp@actor:next(message(MMN), MMO)),
+        gleam@option:option(fun((MMO) -> nil)),
         integer(),
         boolean(),
         boolean()}.
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 81).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 81).
 -spec get_supervisor(server()) -> gleam@erlang@process:subject(gleam@otp@supervisor:message()).
 get_supervisor(Server) ->
     erlang:element(3, Server).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 96).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 96).
 -spec convert_ip_address(glisten@socket@options:ip_address()) -> ip_address().
 convert_ip_address(Ip) ->
     case Ip of
@@ -62,7 +62,7 @@ convert_ip_address(Ip) ->
             {ip_v6, A@1, B@1, C@1, D@1, E, F, G, H}
     end.
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 70).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 70).
 -spec get_server_info(server(), integer()) -> {ok, connection_info()} |
     {error, gleam@erlang@process:call_error(glisten@internal@listener:state())}.
 get_server_info(Server, Timeout) ->
@@ -80,7 +80,7 @@ get_server_info(Server, Timeout) ->
         end
     ).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 105).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 105).
 -spec ip_address_to_string(ip_address()) -> binary().
 ip_address_to_string(Address) ->
     case Address of
@@ -98,7 +98,7 @@ ip_address_to_string(Address) ->
             gleam@string:join(_pipe@3, <<"::"/utf8>>)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 122).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 122).
 -spec get_client_info(connection(any())) -> {ok, connection_info()} |
     {error, nil}.
 get_client_info(Conn) ->
@@ -115,7 +115,7 @@ get_client_info(Conn) ->
         end
     ).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 130).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 130).
 -spec send(connection(any()), gleam@bytes_builder:bytes_builder()) -> {ok, nil} |
     {error, glisten@socket:socket_reason()}.
 send(Conn, Msg) ->
@@ -125,12 +125,12 @@ send(Conn, Msg) ->
         Msg
     ).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 191).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 191).
 -spec convert_on_init(
-    fun((connection(IRB)) -> {IRD,
-        gleam@option:option(gleam@erlang@process:selector(IRB))})
-) -> fun((glisten@internal@handler:connection(IRB)) -> {IRD,
-    gleam@option:option(gleam@erlang@process:selector(IRB))}).
+    fun((connection(MNT)) -> {MNV,
+        gleam@option:option(gleam@erlang@process:selector(MNT))})
+) -> fun((glisten@internal@handler:connection(MNT)) -> {MNV,
+    gleam@option:option(gleam@erlang@process:selector(MNT))}).
 convert_on_init(On_init) ->
     fun(Conn) ->
         Connection = {connection,
@@ -140,17 +140,17 @@ convert_on_init(On_init) ->
         On_init(Connection)
     end.
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 210).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 210).
 -spec handler(
-    fun((connection(IRJ)) -> {IRL,
-        gleam@option:option(gleam@erlang@process:selector(IRJ))}),
-    fun((message(IRJ), IRL, connection(IRJ)) -> gleam@otp@actor:next(message(IRJ), IRL))
-) -> handler(IRJ, IRL).
+    fun((connection(MOB)) -> {MOD,
+        gleam@option:option(gleam@erlang@process:selector(MOB))}),
+    fun((message(MOB), MOD, connection(MOB)) -> gleam@otp@actor:next(message(MOB), MOD))
+) -> handler(MOB, MOD).
 handler(On_init, Loop) ->
     {handler, loopback, On_init, Loop, none, 10, false, false}.
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 156).
--spec map_user_selector(gleam@erlang@process:selector(message(IQQ))) -> gleam@erlang@process:selector(glisten@internal@handler:loop_message(IQQ)).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 156).
+-spec map_user_selector(gleam@erlang@process:selector(message(MNI))) -> gleam@erlang@process:selector(glisten@internal@handler:loop_message(MNI)).
 map_user_selector(Selector) ->
     gleam_erlang_ffi:map_selector(Selector, fun(Value) -> case Value of
                 {packet, Msg} ->
@@ -160,10 +160,10 @@ map_user_selector(Selector) ->
                     {custom, Msg@1}
             end end).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 167).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 167).
 -spec convert_loop(
-    fun((message(IQV), IQW, connection(IQV)) -> gleam@otp@actor:next(message(IQV), IQW))
-) -> fun((glisten@internal@handler:loop_message(IQV), IQW, glisten@internal@handler:connection(IQV)) -> gleam@otp@actor:next(glisten@internal@handler:loop_message(IQV), IQW)).
+    fun((message(MNN), MNO, connection(MNN)) -> gleam@otp@actor:next(message(MNN), MNO))
+) -> fun((glisten@internal@handler:loop_message(MNN), MNO, glisten@internal@handler:connection(MNN)) -> gleam@otp@actor:next(glisten@internal@handler:loop_message(MNN), MNO)).
 convert_loop(Loop) ->
     fun(Msg, Data, Conn) ->
         Conn@1 = {connection,
@@ -198,27 +198,27 @@ convert_loop(Loop) ->
         end
     end.
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 227).
--spec with_close(handler(IRS, IRT), fun((IRT) -> nil)) -> handler(IRS, IRT).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 227).
+-spec with_close(handler(MOK, MOL), fun((MOL) -> nil)) -> handler(MOK, MOL).
 with_close(Handler, On_close) ->
     erlang:setelement(5, Handler, {some, On_close}).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 235).
--spec with_pool_size(handler(IRY, IRZ), integer()) -> handler(IRY, IRZ).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 235).
+-spec with_pool_size(handler(MOQ, MOR), integer()) -> handler(MOQ, MOR).
 with_pool_size(Handler, Size) ->
     erlang:setelement(6, Handler, Size).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 245).
--spec with_http2(handler(ISE, ISF)) -> handler(ISE, ISF).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 245).
+-spec with_http2(handler(MOW, MOX)) -> handler(MOW, MOX).
 with_http2(Handler) ->
     erlang:setelement(7, Handler, true).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 273).
--spec with_ipv6(handler(ISQ, ISR)) -> handler(ISQ, ISR).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 273).
+-spec with_ipv6(handler(MPI, MPJ)) -> handler(MPI, MPJ).
 with_ipv6(Handler) ->
     erlang:setelement(8, Handler, true).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 303).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 303).
 -spec start_server(handler(any(), any()), integer()) -> {ok, server()} |
     {error, start_error()}.
 start_server(Handler, Port) ->
@@ -267,7 +267,7 @@ start_server(Handler, Port) ->
             gleam@result:replace_error(_pipe@5, acceptor_timeout) end
     ).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 280).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 280).
 -spec serve(handler(any(), any()), integer()) -> {ok,
         gleam@erlang@process:subject(gleam@otp@supervisor:message())} |
     {error, start_error()}.
@@ -275,7 +275,7 @@ serve(Handler, Port) ->
     _pipe = start_server(Handler, Port),
     gleam@result:map(_pipe, fun get_supervisor/1).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 345).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 345).
 -spec start_ssl_server(handler(any(), any()), integer(), binary(), binary()) -> {ok,
         server()} |
     {error, start_error()}.
@@ -346,7 +346,7 @@ start_ssl_server(Handler, Port, Certfile, Keyfile) ->
             gleam@result:replace_error(_pipe@5, acceptor_timeout) end
     ).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 290).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 290).
 -spec serve_ssl(handler(any(), any()), integer(), binary(), binary()) -> {ok,
         gleam@erlang@process:subject(gleam@otp@supervisor:message())} |
     {error, start_error()}.
@@ -354,8 +354,8 @@ serve_ssl(Handler, Port, Certfile, Keyfile) ->
     _pipe = start_ssl_server(Handler, Port, Certfile, Keyfile),
     gleam@result:map(_pipe, fun get_supervisor/1).
 
--file("/home/alex/gleams/glisten/src/glisten.gleam", 255).
--spec bind(handler(ISK, ISL), binary()) -> handler(ISK, ISL).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten.gleam", 255).
+-spec bind(handler(MPC, MPD), binary()) -> handler(MPC, MPD).
 bind(Handler, Interface) ->
     Address@1 = case {Interface,
         glisten_ffi:parse_address(unicode:characters_to_list(Interface))} of

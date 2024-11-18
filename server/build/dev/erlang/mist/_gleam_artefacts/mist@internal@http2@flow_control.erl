@@ -3,7 +3,7 @@
 
 -export([compute_receive_window/2, update_send_window/2]).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/flow_control.gleam", 3).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/flow_control.gleam", 3).
 -spec compute_receive_window(integer(), integer()) -> {integer(), integer()}.
 compute_receive_window(Receive_window_size, Data_size) ->
     New_receive_window_size = Receive_window_size - Data_size,
@@ -23,7 +23,7 @@ compute_receive_window(Receive_window_size, Data_size) ->
             {Updated_receive_window_size, Increment}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/flow_control.gleam", 27).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/flow_control.gleam", 27).
 -spec update_send_window(integer(), integer()) -> {ok, integer()} |
     {error, binary()}.
 update_send_window(Current_send_window, Increment) ->

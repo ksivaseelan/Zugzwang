@@ -2,7 +2,9 @@
 -compile([no_auto_import, nowarn_unused_vars, nowarn_unused_function, nowarn_nomatch]).
 
 -export([main/0]).
--export_type([my_message/0, payload/0, client_message/0]).
+-export_type([state/0, my_message/0, payload/0, client_message/0]).
+
+-type state() :: {game_state, gleam@erlang@process:pid_()} | no_game.
 
 -type my_message() :: {broadcast, binary()}.
 
@@ -10,7 +12,7 @@
 
 -type client_message() :: {client_message, binary(), payload()}.
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 114).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 152).
 -spec client_message_from_json(binary()) -> {ok, client_message()} |
     {error, gleam@json:decode_error()}.
 client_message_from_json(Json_string) ->
@@ -25,12 +27,12 @@ client_message_from_json(Json_string) ->
     ),
     gleam@json:decode(Json_string, Client_message_decoder).
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 58).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 65).
 -spec handle_ws_message(
-    AYV,
+    state(),
     mist@internal@websocket:websocket_connection(),
     mist:websocket_message(my_message())
-) -> gleam@otp@actor:next(any(), AYV).
+) -> gleam@otp@actor:next(any(), state()).
 handle_ws_message(State, Conn, Message) ->
     case Message of
         {text, <<"ping"/utf8>>} ->
@@ -44,7 +46,97 @@ handle_ws_message(State, Conn, Message) ->
                                 value => _assert_fail,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 62})
+                                line => 69})
+            end,
+            gleam@otp@actor:continue(State);
+
+        {text, <<"Create"/utf8>>} ->
+            gleam@io:println(<<"Creating game"/utf8>>),
+            _assert_subject@1 = gleam_binbo:play(),
+            {ok, Pid} = case _assert_subject@1 of
+                {ok, _} -> _assert_subject@1;
+                _assert_fail@1 ->
+                    erlang:error(#{gleam_error => let_assert,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                value => _assert_fail@1,
+                                module => <<"learning_mist"/utf8>>,
+                                function => <<"handle_ws_message"/utf8>>,
+                                line => 75})
+            end,
+            binbo:print_board(Pid),
+            _assert_subject@2 = mist:send_text_frame(
+                Conn,
+                begin
+                    _pipe = Pid,
+                    gleam@string:inspect(_pipe)
+                end
+            ),
+            {ok, _} = case _assert_subject@2 of
+                {ok, _} -> _assert_subject@2;
+                _assert_fail@2 ->
+                    erlang:error(#{gleam_error => let_assert,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                value => _assert_fail@2,
+                                module => <<"learning_mist"/utf8>>,
+                                function => <<"handle_ws_message"/utf8>>,
+                                line => 77})
+            end,
+            gleam@otp@actor:continue({game_state, Pid});
+
+        {text, <<"Make Move: "/utf8, Move/binary>>} ->
+            _ = case State of
+                {game_state, Pid@1} ->
+                    gleam@io:println(<<"Making move"/utf8, Move/binary>>),
+                    case binbo:move(Pid@1, Move) of
+                        {ok, _} ->
+                            binbo:print_board(Pid@1),
+                            _assert_subject@3 = mist:send_text_frame(
+                                Conn,
+                                <<"Move made: "/utf8, Move/binary>>
+                            ),
+                            {ok, _} = case _assert_subject@3 of
+                                {ok, _} -> _assert_subject@3;
+                                _assert_fail@3 ->
+                                    erlang:error(#{gleam_error => let_assert,
+                                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                                value => _assert_fail@3,
+                                                module => <<"learning_mist"/utf8>>,
+                                                function => <<"handle_ws_message"/utf8>>,
+                                                line => 88})
+                            end;
+
+                        _ ->
+                            _assert_subject@4 = mist:send_text_frame(
+                                Conn,
+                                <<"Invalid move "/utf8>>
+                            ),
+                            {ok, _} = case _assert_subject@4 of
+                                {ok, _} -> _assert_subject@4;
+                                _assert_fail@4 ->
+                                    erlang:error(#{gleam_error => let_assert,
+                                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                                value => _assert_fail@4,
+                                                module => <<"learning_mist"/utf8>>,
+                                                function => <<"handle_ws_message"/utf8>>,
+                                                line => 92})
+                            end
+                    end;
+
+                _ ->
+                    _assert_subject@5 = mist:send_text_frame(
+                        Conn,
+                        <<"Invalid: Game must be created first"/utf8>>
+                    ),
+                    {ok, _} = case _assert_subject@5 of
+                        {ok, _} -> _assert_subject@5;
+                        _assert_fail@5 ->
+                            erlang:error(#{gleam_error => let_assert,
+                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
+                                        value => _assert_fail@5,
+                                        module => <<"learning_mist"/utf8>>,
+                                        function => <<"handle_ws_message"/utf8>>,
+                                        line => 97})
+                    end
             end,
             gleam@otp@actor:continue(State);
 
@@ -54,19 +146,19 @@ handle_ws_message(State, Conn, Message) ->
                     gleam@io:println(
                         <<"Message received with method:"/utf8,
                             (begin
-                                _pipe = Method,
-                                gleam@string:inspect(_pipe)
+                                _pipe@1 = Method,
+                                gleam@string:inspect(_pipe@1)
                             end)/binary>>
                     ),
                     case Method of
                         <<"move"/utf8>> ->
                             case Payload of
-                                {move, Move} ->
+                                {move, Move@1} ->
                                     gleam@io:println(
                                         <<"Move received:"/utf8,
                                             (begin
-                                                _pipe@1 = Move,
-                                                gleam@string:inspect(_pipe@1)
+                                                _pipe@2 = Move@1,
+                                                gleam@string:inspect(_pipe@2)
                                             end)/binary>>
                                     );
 
@@ -74,8 +166,8 @@ handle_ws_message(State, Conn, Message) ->
                                     gleam@io:println(
                                         <<"Unknown payload:"/utf8,
                                             (begin
-                                                _pipe@2 = Payload,
-                                                gleam@string:inspect(_pipe@2)
+                                                _pipe@3 = Payload,
+                                                gleam@string:inspect(_pipe@3)
                                             end)/binary>>
                                     )
                             end;
@@ -84,8 +176,8 @@ handle_ws_message(State, Conn, Message) ->
                             gleam@io:println(
                                 <<"Unknown method:"/utf8,
                                     (begin
-                                        _pipe@3 = Method,
-                                        gleam@string:inspect(_pipe@3)
+                                        _pipe@4 = Method,
+                                        gleam@string:inspect(_pipe@4)
                                     end)/binary>>
                             )
                     end;
@@ -104,16 +196,16 @@ handle_ws_message(State, Conn, Message) ->
             gleam@otp@actor:continue(State);
 
         {custom, {broadcast, Text}} ->
-            _assert_subject@1 = mist:send_text_frame(Conn, Text),
-            {ok, _} = case _assert_subject@1 of
-                {ok, _} -> _assert_subject@1;
-                _assert_fail@1 ->
+            _assert_subject@6 = mist:send_text_frame(Conn, Text),
+            {ok, _} = case _assert_subject@6 of
+                {ok, _} -> _assert_subject@6;
+                _assert_fail@6 ->
                     erlang:error(#{gleam_error => let_assert,
                                 message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
-                                value => _assert_fail@1,
+                                value => _assert_fail@6,
                                 module => <<"learning_mist"/utf8>>,
                                 function => <<"handle_ws_message"/utf8>>,
-                                line => 100})
+                                line => 138})
             end,
             gleam@otp@actor:continue(State);
 
@@ -124,11 +216,11 @@ handle_ws_message(State, Conn, Message) ->
             {stop, normal}
     end.
 
--file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 15).
+-file("/home/kogul/projects/gleam/chess/server/src/learning_mist.gleam", 22).
 -spec main() -> nil.
 main() ->
     Selector = gleam_erlang_ffi:new_selector(),
-    State = nil,
+    State = no_game,
     Not_found = begin
         _pipe = gleam@http@response:new(404),
         gleam@http@response:set_body(_pipe, {bytes, gleam@bytes_builder:new()})
@@ -158,6 +250,6 @@ main() ->
                         value => _assert_fail,
                         module => <<"learning_mist"/utf8>>,
                         function => <<"main"/utf8>>,
-                        line => 24})
+                        line => 31})
     end,
     gleam_erlang_ffi:sleep_forever().

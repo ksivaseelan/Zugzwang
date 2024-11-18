@@ -13,15 +13,15 @@
         gleam@option:option(glisten@socket:socket()),
         glisten@transport:transport()}.
 
--type pool(IJV, IJW) :: {pool,
-        fun((glisten@internal@handler:loop_message(IJV), IJW, glisten@internal@handler:connection(IJV)) -> gleam@otp@actor:next(glisten@internal@handler:loop_message(IJV), IJW)),
+-type pool(MGF, MGG) :: {pool,
+        fun((glisten@internal@handler:loop_message(MGF), MGG, glisten@internal@handler:connection(MGF)) -> gleam@otp@actor:next(glisten@internal@handler:loop_message(MGF), MGG)),
         integer(),
-        fun((glisten@internal@handler:connection(IJV)) -> {IJW,
-            gleam@option:option(gleam@erlang@process:selector(IJV))}),
-        gleam@option:option(fun((IJW) -> nil)),
+        fun((glisten@internal@handler:connection(MGF)) -> {MGG,
+            gleam@option:option(gleam@erlang@process:selector(MGF))}),
+        gleam@option:option(fun((MGG) -> nil)),
         glisten@transport:transport()}.
 
--file("/home/alex/gleams/glisten/src/glisten/internal/acceptor.gleam", 38).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/internal/acceptor.gleam", 38).
 -spec start(
     pool(any(), any()),
     gleam@erlang@process:subject(glisten@internal@listener:message())
@@ -149,7 +149,7 @@ start(Pool, Listener) ->
             end}
     ).
 
--file("/home/alex/gleams/glisten/src/glisten/internal/acceptor.gleam", 123).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/glisten/src/glisten/internal/acceptor.gleam", 123).
 -spec start_pool(
     pool(any(), any()),
     glisten@transport:transport(),

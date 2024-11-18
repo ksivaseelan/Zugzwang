@@ -4,8 +4,8 @@
 -export([stream_identifier/1, get_stream_identifier/1, decode/1, encode/1, settings_ack/0]).
 -export_type([stream_identifier/1, header_priority/0, data/0, push_state/0, setting/0, frame/0, connection_error/0]).
 
--opaque stream_identifier(NSL) :: {stream_identifier, integer()} |
-    {gleam_phantom, NSL}.
+-opaque stream_identifier(OQS) :: {stream_identifier, integer()} |
+    {gleam_phantom, OQS}.
 
 -type header_priority() :: {header_priority,
         boolean(),
@@ -61,18 +61,18 @@
     http11_required |
     {unsupported, integer()}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 11).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 11).
 -spec stream_identifier(integer()) -> stream_identifier(frame()).
 stream_identifier(Value) ->
     {stream_identifier, Value}.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 15).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 15).
 -spec get_stream_identifier(stream_identifier(any())) -> integer().
 get_stream_identifier(Identifier) ->
     {stream_identifier, Value} = Identifier,
     Value.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 148).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 148).
 -spec parse_data(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -114,7 +114,7 @@ parse_data(Identifier, Flags, Length, Payload) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 185).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 185).
 -spec parse_header(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -190,7 +190,7 @@ parse_header(Identifier, Flags, Length, Payload) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 251).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 251).
 -spec parse_priority(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -211,7 +211,7 @@ parse_priority(Identifier, Flags, Length, Payload) ->
             {error, frame_size_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 316).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 316).
 -spec parse_push_promise(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -240,7 +240,7 @@ parse_push_promise(Identifier, Flags, Length, Payload) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 349).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 349).
 -spec parse_ping(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -256,7 +256,7 @@ parse_ping(Identifier, Flags, Length, Payload) ->
             {error, frame_size_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 390).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 390).
 -spec parse_window_update(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -272,7 +272,7 @@ parse_window_update(Identifier, Flags, Length, Payload) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 410).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 410).
 -spec parse_continuation(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -291,7 +291,7 @@ parse_continuation(Identifier, Flags, Length, Payload) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 594).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 594).
 -spec get_error(integer()) -> connection_error().
 get_error(Value) ->
     case Value of
@@ -341,7 +341,7 @@ get_error(Value) ->
             {unsupported, N}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 279).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 279).
 -spec parse_termination(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -357,7 +357,7 @@ parse_termination(Identifier, Flags, Length, Payload) ->
             {error, frame_size_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 364).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 364).
 -spec parse_go_away(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -374,7 +374,7 @@ parse_go_away(Identifier, Flags, Length, Payload) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 630).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 630).
 -spec get_setting(integer(), integer()) -> {ok, setting()} |
     {error, connection_error()}.
 get_setting(Identifier, Value) ->
@@ -426,7 +426,7 @@ get_setting(Identifier, Value) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 614).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 614).
 -spec get_settings(bitstring(), list(setting())) -> {ok, list(setting())} |
     {error, connection_error()}.
 get_settings(Data, Acc) ->
@@ -447,7 +447,7 @@ get_settings(Data, Acc) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 297).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 297).
 -spec parse_settings(integer(), bitstring(), integer(), bitstring()) -> {ok,
         frame()} |
     {error, connection_error()}.
@@ -466,7 +466,7 @@ parse_settings(Identifier, Flags, Length, Payload) ->
             {error, frame_size_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 105).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 105).
 -spec decode(bitstring()) -> {ok, {frame(), bitstring()}} |
     {error, connection_error()}.
 decode(Frame) ->
@@ -527,7 +527,7 @@ decode(Frame) ->
             {error, protocol_error}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 659).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 659).
 -spec from_bool(boolean()) -> integer().
 from_bool(Bool) ->
     case Bool of
@@ -538,7 +538,7 @@ from_bool(Bool) ->
             0
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 666).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 666).
 -spec encode_priority(gleam@option:option(header_priority())) -> bitstring().
 encode_priority(Priority) ->
     case Priority of
@@ -554,7 +554,7 @@ encode_priority(Priority) ->
             <<>>
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 676).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 676).
 -spec encode_data(data()) -> {integer(), bitstring()}.
 encode_data(Data) ->
     case Data of
@@ -565,7 +565,7 @@ encode_data(Data) ->
             {0, Data@2}
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 683).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 683).
 -spec encode_error(connection_error()) -> integer().
 encode_error(Error) ->
     case Error of
@@ -615,7 +615,7 @@ encode_error(Error) ->
             69
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 704).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 704).
 -spec encode_settings(list(setting())) -> bitstring().
 encode_settings(Settings) ->
     gleam@list:fold(Settings, <<>>, fun(Acc, Setting) -> case Setting of
@@ -641,7 +641,7 @@ encode_settings(Settings) ->
                     gleam@bit_array:append(Acc, <<6:16, Value@4:32>>)
             end end).
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 437).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 437).
 -spec encode(frame()) -> bitstring().
 encode(Frame) ->
     case Frame of
@@ -757,7 +757,7 @@ encode(Frame) ->
                 Data@8/bitstring>>
     end.
 
--file("/home/alex/gleams/mist/src/mist/internal/http2/frame.gleam", 723).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/mist/src/mist/internal/http2/frame.gleam", 723).
 -spec settings_ack() -> frame().
 settings_ack() ->
     {settings, true, []}.

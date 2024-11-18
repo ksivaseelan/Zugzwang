@@ -6,17 +6,17 @@
 
 -type direction() :: leading | trailing | both.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 23).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 23).
 -spec is_empty(binary()) -> boolean().
 is_empty(Str) ->
     Str =:= <<""/utf8>>.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 49).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 49).
 -spec length(binary()) -> integer().
 length(String) ->
     string:length(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 73).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 73).
 -spec do_reverse(binary()) -> binary().
 do_reverse(String) ->
     _pipe = String,
@@ -24,12 +24,12 @@ do_reverse(String) ->
     _pipe@2 = gleam@string_builder:reverse(_pipe@1),
     gleam@string_builder:to_string(_pipe@2).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 69).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 69).
 -spec reverse(binary()) -> binary().
 reverse(String) ->
     do_reverse(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 94).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 94).
 -spec replace(binary(), binary(), binary()) -> binary().
 replace(String, Pattern, Substitute) ->
     _pipe = String,
@@ -37,17 +37,17 @@ replace(String, Pattern, Substitute) ->
     _pipe@2 = gleam_stdlib:string_replace(_pipe@1, Pattern, Substitute),
     gleam@string_builder:to_string(_pipe@2).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 117).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 117).
 -spec lowercase(binary()) -> binary().
 lowercase(String) ->
     string:lowercase(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 137).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 137).
 -spec uppercase(binary()) -> binary().
 uppercase(String) ->
     string:uppercase(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 161).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 161).
 -spec compare(binary(), binary()) -> gleam@order:order().
 compare(A, B) ->
     case A =:= B of
@@ -64,7 +64,7 @@ compare(A, B) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 206).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 206).
 -spec slice(binary(), integer(), integer()) -> binary().
 slice(String, Idx, Len) ->
     case Len < 0 of
@@ -88,12 +88,12 @@ slice(String, Idx, Len) ->
             end
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 239).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 239).
 -spec crop(binary(), binary()) -> binary().
 crop(String, Substring) ->
     gleam_stdlib:crop_string(String, Substring).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 250).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 250).
 -spec drop_left(binary(), integer()) -> binary().
 drop_left(String, Num_graphemes) ->
     case Num_graphemes < 0 of
@@ -104,7 +104,7 @@ drop_left(String, Num_graphemes) ->
             slice(String, Num_graphemes, length(String) - Num_graphemes)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 266).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 266).
 -spec drop_right(binary(), integer()) -> binary().
 drop_right(String, Num_graphemes) ->
     case Num_graphemes < 0 of
@@ -115,22 +115,22 @@ drop_right(String, Num_graphemes) ->
             slice(String, 0, length(String) - Num_graphemes)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 294).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 294).
 -spec contains(binary(), binary()) -> boolean().
 contains(Haystack, Needle) ->
     gleam_stdlib:contains_string(Haystack, Needle).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 305).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 305).
 -spec starts_with(binary(), binary()) -> boolean().
 starts_with(String, Prefix) ->
     gleam_stdlib:string_starts_with(String, Prefix).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 322).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 322).
 -spec ends_with(binary(), binary()) -> boolean().
 ends_with(String, Suffix) ->
     gleam_stdlib:string_ends_with(String, Suffix).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 374).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 374).
 -spec do_split_once(binary(), binary()) -> {ok, {binary(), binary()}} |
     {error, nil}.
 do_split_once(String, Substring) ->
@@ -142,13 +142,13 @@ do_split_once(String, Substring) ->
             {error, nil}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 366).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 366).
 -spec split_once(binary(), binary()) -> {ok, {binary(), binary()}} |
     {error, nil}.
 split_once(String, Substring) ->
     do_split_once(String, Substring).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 400).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 400).
 -spec append(binary(), binary()) -> binary().
 append(First, Second) ->
     _pipe = First,
@@ -156,14 +156,14 @@ append(First, Second) ->
     _pipe@2 = gleam@string_builder:append(_pipe@1, Second),
     gleam@string_builder:to_string(_pipe@2).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 420).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 420).
 -spec concat(list(binary())) -> binary().
 concat(Strings) ->
     _pipe = Strings,
     _pipe@1 = gleam@string_builder:from_strings(_pipe),
     gleam@string_builder:to_string(_pipe@1).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 441).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 441).
 -spec do_repeat(binary(), integer(), binary()) -> binary().
 do_repeat(String, Times, Acc) ->
     case Times =< 0 of
@@ -174,24 +174,24 @@ do_repeat(String, Times, Acc) ->
             do_repeat(String, Times - 1, <<Acc/binary, String/binary>>)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 437).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 437).
 -spec repeat(binary(), integer()) -> binary().
 repeat(String, Times) ->
     do_repeat(String, Times, <<""/utf8>>).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 464).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 464).
 -spec do_join(list(binary()), binary()) -> binary().
 do_join(Strings, Separator) ->
     _pipe = Strings,
     _pipe@1 = gleam@list:intersperse(_pipe, Separator),
     concat(_pipe@1).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 459).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 459).
 -spec join(list(binary()), binary()) -> binary().
 join(Strings, Separator) ->
     do_join(Strings, Separator).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 536).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 536).
 -spec padding(integer(), binary()) -> binary().
 padding(Size, Pad_string) ->
     Pad_string_length = length(Pad_string),
@@ -206,7 +206,7 @@ padding(Size, Pad_string) ->
     <<(repeat(Pad_string, Num_pads))/binary,
         (slice(Pad_string, 0, Extra))/binary>>.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 489).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 489).
 -spec pad_left(binary(), integer(), binary()) -> binary().
 pad_left(String, Desired_length, Pad_string) ->
     Current_length = length(String),
@@ -219,7 +219,7 @@ pad_left(String, Desired_length, Pad_string) ->
             <<(padding(To_pad_length, Pad_string))/binary, String/binary>>
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 522).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 522).
 -spec pad_right(binary(), integer(), binary()) -> binary().
 pad_right(String, Desired_length, Pad_string) ->
     Current_length = length(String),
@@ -232,42 +232,42 @@ pad_right(String, Desired_length, Pad_string) ->
             <<String/binary, (padding(To_pad_length, Pad_string))/binary>>
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 558).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 558).
 -spec do_trim(binary()) -> binary().
 do_trim(String) ->
     string:trim(String, both).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 553).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 553).
 -spec trim(binary()) -> binary().
 trim(String) ->
     do_trim(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 585).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 585).
 -spec do_trim_left(binary()) -> binary().
 do_trim_left(String) ->
     string:trim(String, leading).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 580).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 580).
 -spec trim_left(binary()) -> binary().
 trim_left(String) ->
     do_trim_left(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 603).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 603).
 -spec do_trim_right(binary()) -> binary().
 do_trim_right(String) ->
     string:trim(String, trailing).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 598).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 598).
 -spec trim_right(binary()) -> binary().
 trim_right(String) ->
     do_trim_right(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 626).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 626).
 -spec pop_grapheme(binary()) -> {ok, {binary(), binary()}} | {error, nil}.
 pop_grapheme(String) ->
     gleam_stdlib:string_pop_grapheme(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 648).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 648).
 -spec do_to_graphemes(binary(), list(binary())) -> list(binary()).
 do_to_graphemes(String, Acc) ->
     case pop_grapheme(String) of
@@ -278,13 +278,13 @@ do_to_graphemes(String, Acc) ->
             Acc
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 643).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 643).
 -spec to_graphemes(binary()) -> list(binary()).
 to_graphemes(String) ->
     _pipe = do_to_graphemes(String, []),
     lists:reverse(_pipe).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 339).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 339).
 -spec split(binary(), binary()) -> list(binary()).
 split(X, Substring) ->
     case Substring of
@@ -298,7 +298,7 @@ split(X, Substring) ->
             gleam@list:map(_pipe@2, fun gleam@string_builder:to_string/1)
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 696).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 696).
 -spec do_to_utf_codepoints_impl(bitstring(), list(integer())) -> list(integer()).
 do_to_utf_codepoints_impl(Bit_array, Acc) ->
     case Bit_array of
@@ -309,23 +309,23 @@ do_to_utf_codepoints_impl(Bit_array, Acc) ->
             Acc
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 690).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 690).
 -spec do_to_utf_codepoints(binary()) -> list(integer()).
 do_to_utf_codepoints(String) ->
     _pipe = do_to_utf_codepoints_impl(<<String/binary>>, []),
     lists:reverse(_pipe).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 685).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 685).
 -spec to_utf_codepoints(binary()) -> list(integer()).
 to_utf_codepoints(String) ->
     do_to_utf_codepoints(String).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 736).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 736).
 -spec from_utf_codepoints(list(integer())) -> binary().
 from_utf_codepoints(Utf_codepoints) ->
     gleam_stdlib:utf_codepoint_list_to_string(Utf_codepoints).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 742).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 742).
 -spec utf_codepoint(integer()) -> {ok, integer()} | {error, nil}.
 utf_codepoint(Value) ->
     case Value of
@@ -345,12 +345,12 @@ utf_codepoint(Value) ->
             {ok, gleam_stdlib:identity(I@2)}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 761).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 761).
 -spec utf_codepoint_to_int(integer()) -> integer().
 utf_codepoint_to_int(Cp) ->
     gleam_stdlib:identity(Cp).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 784).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 784).
 -spec to_option(binary()) -> gleam@option:option(binary()).
 to_option(String) ->
     case String of
@@ -361,7 +361,7 @@ to_option(String) ->
             {some, String}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 807).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 807).
 -spec first(binary()) -> {ok, binary()} | {error, nil}.
 first(String) ->
     case pop_grapheme(String) of
@@ -372,7 +372,7 @@ first(String) ->
             {error, E}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 830).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 830).
 -spec last(binary()) -> {ok, binary()} | {error, nil}.
 last(String) ->
     case pop_grapheme(String) of
@@ -386,7 +386,7 @@ last(String) ->
             {error, E}
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 848).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 848).
 -spec capitalise(binary()) -> binary().
 capitalise(String) ->
     case pop_grapheme(String) of
@@ -397,13 +397,13 @@ capitalise(String) ->
             <<""/utf8>>
     end.
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 857).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 857).
 -spec inspect(any()) -> binary().
 inspect(Term) ->
     _pipe = gleam_stdlib:inspect(Term),
     gleam@string_builder:to_string(_pipe).
 
--file("/Users/louis/src/gleam/stdlib/src/gleam/string.gleam", 880).
+-file("/home/kogul/projects/gleam/chess/server/build/packages/gleam_stdlib/src/gleam/string.gleam", 880).
 -spec byte_size(binary()) -> integer().
 byte_size(String) ->
     erlang:byte_size(String).

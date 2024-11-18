@@ -29,6 +29,7 @@
     nov |
     dec.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 504).
 -spec time_of_day_to_string(time_of_day()) -> binary().
 time_of_day_to_string(Value) ->
     <<<<<<<<<<<<(gleam@int:to_string(erlang:element(2, Value)))/binary,
@@ -50,6 +51,7 @@ time_of_day_to_string(Value) ->
             gleam@string:pad_left(_pipe@2, 3, <<"0"/utf8>>)
         end)/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 517).
 -spec time_of_day_to_short_string(time_of_day()) -> binary().
 time_of_day_to_short_string(Value) ->
     <<<<(gleam@int:to_string(erlang:element(2, Value)))/binary, ":"/utf8>>/binary,
@@ -58,6 +60,7 @@ time_of_day_to_short_string(Value) ->
             gleam@string:pad_left(_pipe, 2, <<"0"/utf8>>)
         end)/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 838).
 -spec to_unix(time()) -> integer().
 to_unix(Value) ->
     case Value of
@@ -65,10 +68,12 @@ to_unix(Value) ->
             T div 1000000
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 845).
 -spec from_unix(integer()) -> time().
 from_unix(Value) ->
     {time, Value * 1000000, 0, none, none}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 850).
 -spec to_unix_milli(time()) -> integer().
 to_unix_milli(Value) ->
     case Value of
@@ -76,10 +81,12 @@ to_unix_milli(Value) ->
             T div 1000
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 857).
 -spec from_unix_milli(integer()) -> time().
 from_unix_milli(Value) ->
     {time, Value * 1000, 0, none, none}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 862).
 -spec to_unix_micro(time()) -> integer().
 to_unix_micro(Value) ->
     case Value of
@@ -87,10 +94,12 @@ to_unix_micro(Value) ->
             T
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 869).
 -spec from_unix_micro(integer()) -> time().
 from_unix_micro(Value) ->
     {time, Value, 0, none, none}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 873).
 -spec compare(time(), time()) -> gleam@order:order().
 compare(A, B) ->
     {time, Wta, _, _, Mta} = A,
@@ -113,6 +122,7 @@ compare(A, B) ->
             gt
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 889).
 -spec difference(time(), time()) -> birl@duration:duration().
 difference(A, B) ->
     {time, Wta, _, _, Mta} = A,
@@ -126,6 +136,7 @@ difference(A, B) ->
     end,
     {duration, Ta@1 - Tb@1}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 986).
 -spec add(time(), birl@duration:duration()) -> time().
 add(Value, Duration) ->
     {time, Wt, O, Timezone, Mt} = Value,
@@ -138,6 +149,7 @@ add(Value, Duration) ->
             {time, Wt + Duration@1, O, Timezone, none}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1008).
 -spec subtract(time(), birl@duration:duration()) -> time().
 subtract(Value, Duration) ->
     {time, Wt, O, Timezone, Mt} = Value,
@@ -150,6 +162,7 @@ subtract(Value, Duration) ->
             {time, Wt - Duration@1, O, Timezone, none}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1049).
 -spec weekday_to_string(weekday()) -> binary().
 weekday_to_string(Value) ->
     case Value of
@@ -175,6 +188,7 @@ weekday_to_string(Value) ->
             <<"Sunday"/utf8>>
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1061).
 -spec weekday_to_short_string(weekday()) -> binary().
 weekday_to_short_string(Value) ->
     case Value of
@@ -200,6 +214,7 @@ weekday_to_short_string(Value) ->
             <<"Sun"/utf8>>
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1140).
 -spec range(time(), gleam@option:option(time()), birl@duration:duration()) -> gleam@iterator:iterator(time()).
 range(A, B, S) ->
     _assert_subject = case B of
@@ -225,7 +240,7 @@ range(A, B, S) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"range"/utf8>>,
@@ -233,6 +248,7 @@ range(A, B, S) ->
     end,
     Range.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1167).
 -spec set_timezone(time(), binary()) -> {ok, time()} | {error, nil}.
 set_timezone(Value, New_timezone) ->
     case gleam@list:key_find(
@@ -604,11 +620,13 @@ set_timezone(Value, New_timezone) ->
             {error, nil}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1181).
 -spec get_timezone(time()) -> gleam@option:option(binary()).
 get_timezone(Value) ->
     {time, _, _, Timezone, _} = Value,
     Timezone.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1324).
 -spec parse_offset(binary()) -> {ok, integer()} | {error, nil}.
 parse_offset(Offset) ->
     gleam@bool:guard(
@@ -620,7 +638,7 @@ parse_offset(Offset) ->
                 {ok, _} -> _assert_subject;
                 _assert_fail ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail,
                                 module => <<"birl"/utf8>>,
                                 function => <<"parse_offset"/utf8>>,
@@ -696,7 +714,7 @@ parse_offset(Offset) ->
                                         _assert_fail@1 ->
                                             erlang:error(
                                                     #{gleam_error => let_assert,
-                                                        message => <<"Assertion pattern match failed"/utf8>>,
+                                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                         value => _assert_fail@1,
                                                         module => <<"birl"/utf8>>,
                                                         function => <<"parse_offset"/utf8>>,
@@ -762,6 +780,7 @@ parse_offset(Offset) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1191).
 -spec set_offset(time(), binary()) -> {ok, time()} | {error, nil}.
 set_offset(Value, New_offset) ->
     gleam@result:then(
@@ -773,6 +792,7 @@ set_offset(Value, New_offset) ->
             end end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1375).
 -spec generate_offset(integer()) -> {ok, binary()} | {error, nil}.
 generate_offset(Offset) ->
     gleam@bool:guard(
@@ -875,6 +895,7 @@ generate_offset(Offset) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1200).
 -spec get_offset(time()) -> binary().
 get_offset(Value) ->
     {time, _, Offset, _, _} = Value,
@@ -883,7 +904,7 @@ get_offset(Value) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"get_offset"/utf8>>,
@@ -891,6 +912,7 @@ get_offset(Value) ->
     end,
     Offset@1.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1491).
 -spec is_invalid_date(binary()) -> boolean().
 is_invalid_date(Date) ->
     _pipe = Date,
@@ -907,6 +929,7 @@ is_invalid_date(Date) ->
                     true
             end end).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1504).
 -spec is_invalid_time(binary()) -> boolean().
 is_invalid_time(Time) ->
     _pipe = Time,
@@ -920,6 +943,7 @@ is_invalid_time(Time) ->
                     true
             end end).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1516).
 -spec parse_section(binary(), binary(), integer()) -> list({ok, integer()} |
     {error, nil}).
 parse_section(Section, Pattern_string, Default) ->
@@ -928,7 +952,7 @@ parse_section(Section, Pattern_string, Default) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"parse_section"/utf8>>,
@@ -950,6 +974,7 @@ parse_section(Section, Pattern_string, Default) ->
             [{error, nil}]
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1436).
 -spec parse_date_section(binary()) -> {ok, list(integer())} | {error, nil}.
 parse_date_section(Date) ->
     gleam@bool:guard(
@@ -965,7 +990,7 @@ parse_date_section(Date) ->
                         {ok, _} -> _assert_subject;
                         _assert_fail ->
                             erlang:error(#{gleam_error => let_assert,
-                                        message => <<"Assertion pattern match failed"/utf8>>,
+                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                         value => _assert_fail,
                                         module => <<"birl"/utf8>>,
                                         function => <<"parse_date_section"/utf8>>,
@@ -1004,6 +1029,7 @@ parse_date_section(Date) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1480).
 -spec parse_time_section(binary()) -> {ok, list(integer())} | {error, nil}.
 parse_time_section(Time) ->
     gleam@bool:guard(
@@ -1019,6 +1045,7 @@ parse_time_section(Time) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 397).
 -spec parse_time_of_day(binary()) -> {ok, {time_of_day(), binary()}} |
     {error, nil}.
 parse_time_of_day(Value) ->
@@ -1027,7 +1054,7 @@ parse_time_of_day(Value) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"parse_time_of_day"/utf8>>,
@@ -1117,7 +1144,7 @@ parse_time_of_day(Value) ->
                                         _assert_fail@1 ->
                                             erlang:error(
                                                     #{gleam_error => let_assert,
-                                                        message => <<"Assertion pattern match failed"/utf8>>,
+                                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                         value => _assert_fail@1,
                                                         module => <<"birl"/utf8>>,
                                                         function => <<"parse_time_of_day"/utf8>>,
@@ -1152,6 +1179,7 @@ parse_time_of_day(Value) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 459).
 -spec parse_naive_time_of_day(binary()) -> {ok, {time_of_day(), binary()}} |
     {error, nil}.
 parse_naive_time_of_day(Value) ->
@@ -1215,7 +1243,7 @@ parse_naive_time_of_day(Value) ->
                                 [_, _, _] -> Time_of_day;
                                 _assert_fail ->
                                     erlang:error(#{gleam_error => let_assert,
-                                                message => <<"Assertion pattern match failed"/utf8>>,
+                                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                 value => _assert_fail,
                                                 module => <<"birl"/utf8>>,
                                                 function => <<"parse_naive_time_of_day"/utf8>>,
@@ -1237,6 +1265,7 @@ parse_naive_time_of_day(Value) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1547).
 -spec weekday_from_int(integer()) -> {ok, weekday()} | {error, nil}.
 weekday_from_int(Weekday) ->
     case Weekday of
@@ -1265,6 +1294,7 @@ weekday_from_int(Weekday) ->
             {error, nil}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1574).
 -spec month_from_int(integer()) -> {ok, month()} | {error, nil}.
 month_from_int(Month) ->
     case Month of
@@ -1308,12 +1338,14 @@ month_from_int(Month) ->
             {error, nil}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 84).
 -spec utc_now() -> time().
 utc_now() ->
     Now = birl_ffi:now(),
     Monotonic_now = birl_ffi:monotonic_now(),
     {time, Now, 0, {some, <<"Etc/UTC"/utf8>>}, {some, Monotonic_now}}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 95).
 -spec now_with_offset(binary()) -> {ok, time()} | {error, nil}.
 now_with_offset(Offset) ->
     gleam@result:then(
@@ -1326,6 +1358,7 @@ now_with_offset(Offset) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 103).
 -spec now_with_timezone(binary()) -> {ok, time()} | {error, nil}.
 now_with_timezone(Timezone) ->
     case gleam@list:key_find(
@@ -1696,10 +1729,12 @@ now_with_timezone(Timezone) ->
             {error, nil}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 121).
 -spec monotonic_now() -> integer().
 monotonic_now() ->
     birl_ffi:monotonic_now().
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1314).
 -spec to_parts(time()) -> {{integer(), integer(), integer()},
     {integer(), integer(), integer(), integer()},
     binary()}.
@@ -1712,7 +1747,7 @@ to_parts(Value) ->
                 {ok, _} -> _assert_subject;
                 _assert_fail ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail,
                                 module => <<"birl"/utf8>>,
                                 function => <<"to_parts"/utf8>>,
@@ -1721,6 +1756,7 @@ to_parts(Value) ->
             {Date, Time, Offset}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 126).
 -spec to_date_string(time()) -> binary().
 to_date_string(Value) ->
     {{Year, Month, Day}, _, Offset} = to_parts(Value),
@@ -1738,6 +1774,7 @@ to_date_string(Value) ->
             end)/binary>>/binary,
         Offset/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 146).
 -spec to_naive_date_string(time()) -> binary().
 to_naive_date_string(Value) ->
     {{Year, Month, Day}, _, _} = to_parts(Value),
@@ -1754,6 +1791,7 @@ to_naive_date_string(Value) ->
             gleam@string:pad_left(_pipe@3, 2, <<"0"/utf8>>)
         end)/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 165).
 -spec to_time_string(time()) -> binary().
 to_time_string(Value) ->
     {_, {Hour, Minute, Second, Milli_second}, Offset} = to_parts(Value),
@@ -1786,6 +1824,7 @@ to_time_string(Value) ->
             end)/binary>>/binary,
         Offset/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 195).
 -spec to_naive_time_string(time()) -> binary().
 to_naive_time_string(Value) ->
     {_, {Hour, Minute, Second, Milli_second}, _} = to_parts(Value),
@@ -1813,6 +1852,7 @@ to_naive_time_string(Value) ->
             gleam@string:pad_left(_pipe@7, 3, <<"0"/utf8>>)
         end)/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 223).
 -spec to_iso8601(time()) -> binary().
 to_iso8601(Value) ->
     {{Year, Month, Day}, {Hour, Minute, Second, Milli_second}, Offset} = to_parts(
@@ -1872,6 +1912,7 @@ to_iso8601(Value) ->
             end)/binary>>/binary,
         Offset/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 525).
 -spec to_naive(time()) -> binary().
 to_naive(Value) ->
     {{Year, Month, Day}, {Hour, Minute, Second, Milli_second}, _} = to_parts(
@@ -1930,6 +1971,7 @@ to_naive(Value) ->
             gleam@string:pad_left(_pipe@11, 3, <<"0"/utf8>>)
         end)/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1097).
 -spec month(time()) -> month().
 month(Value) ->
     {{_, Month, _}, _, _} = to_parts(Value),
@@ -1938,7 +1980,7 @@ month(Value) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"month"/utf8>>,
@@ -1946,6 +1988,7 @@ month(Value) ->
     end,
     Month@1.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1103).
 -spec string_month(time()) -> binary().
 string_month(Value) ->
     case month(Value) of
@@ -1986,6 +2029,7 @@ string_month(Value) ->
             <<"December"/utf8>>
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1120).
 -spec short_string_month(time()) -> binary().
 short_string_month(Value) ->
     case month(Value) of
@@ -2026,22 +2070,26 @@ short_string_month(Value) ->
             <<"Dec"/utf8>>
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1219).
 -spec get_day(time()) -> day().
 get_day(Value) ->
     {{Year, Month, Day}, _, _} = to_parts(Value),
     {day, Year, Month, Day}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1238).
 -spec get_time_of_day(time()) -> time_of_day().
 get_time_of_day(Value) ->
     {_, {Hour, Minute, Second, Milli_second}, _} = to_parts(Value),
     {time_of_day, Hour, Minute, Second, Milli_second}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1245).
 -spec to_erlang_datetime(time()) -> {{integer(), integer(), integer()},
     {integer(), integer(), integer()}}.
 to_erlang_datetime(Value) ->
     {Date, {Hour, Minute, Second, _}, _} = to_parts(Value),
     {Date, {Hour, Minute, Second}}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1252).
 -spec to_erlang_universal_datetime(time()) -> {{integer(), integer(), integer()},
     {integer(), integer(), integer()}}.
 to_erlang_universal_datetime(Value) ->
@@ -2050,7 +2098,7 @@ to_erlang_universal_datetime(Value) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"to_erlang_universal_datetime"/utf8>>,
@@ -2059,6 +2107,7 @@ to_erlang_universal_datetime(Value) ->
     {Date, {Hour, Minute, Second, _}, _} = to_parts(Value@1),
     {Date, {Hour, Minute, Second}}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1303).
 -spec from_parts(
     {integer(), integer(), integer()},
     {integer(), integer(), integer(), integer()},
@@ -2074,6 +2123,7 @@ from_parts(Date, Time, Offset) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 294).
 -spec parse(binary()) -> {ok, time()} | {error, nil}.
 parse(Value) ->
     _assert_subject = gleam@regex:from_string(<<"(.*)([+|\\-].*)"/utf8>>),
@@ -2081,7 +2131,7 @@ parse(Value) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"parse"/utf8>>,
@@ -2224,7 +2274,7 @@ parse(Value) ->
                                                 _assert_fail@1 ->
                                                     erlang:error(
                                                             #{gleam_error => let_assert,
-                                                                message => <<"Assertion pattern match failed"/utf8>>,
+                                                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                                 value => _assert_fail@1,
                                                                 module => <<"birl"/utf8>>,
                                                                 function => <<"parse"/utf8>>,
@@ -2241,7 +2291,7 @@ parse(Value) ->
                                                         _assert_fail@2 ->
                                                             erlang:error(
                                                                     #{gleam_error => let_assert,
-                                                                        message => <<"Assertion pattern match failed"/utf8>>,
+                                                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                                         value => _assert_fail@2,
                                                                         module => <<"birl"/utf8>>,
                                                                         function => <<"parse"/utf8>>,
@@ -2271,6 +2321,7 @@ parse(Value) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 569).
 -spec from_naive(binary()) -> {ok, time()} | {error, nil}.
 from_naive(Value) ->
     Value@1 = gleam@string:trim(Value),
@@ -2351,7 +2402,7 @@ from_naive(Value) ->
                                         _assert_fail ->
                                             erlang:error(
                                                     #{gleam_error => let_assert,
-                                                        message => <<"Assertion pattern match failed"/utf8>>,
+                                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                         value => _assert_fail,
                                                         module => <<"birl"/utf8>>,
                                                         function => <<"from_naive"/utf8>>,
@@ -2366,7 +2417,7 @@ from_naive(Value) ->
                                                 _assert_fail@1 ->
                                                     erlang:error(
                                                             #{gleam_error => let_assert,
-                                                                message => <<"Assertion pattern match failed"/utf8>>,
+                                                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                                                 value => _assert_fail@1,
                                                                 module => <<"birl"/utf8>>,
                                                                 function => <<"from_naive"/utf8>>,
@@ -2394,6 +2445,7 @@ from_naive(Value) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1206).
 -spec set_day(time(), day()) -> time().
 set_day(Value, Day) ->
     {_, Time, Offset} = to_parts(Value),
@@ -2403,7 +2455,7 @@ set_day(Value, Day) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"set_day"/utf8>>,
@@ -2415,6 +2467,7 @@ set_day(Value, Day) ->
         erlang:element(4, Value),
         erlang:element(5, Value)}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1224).
 -spec set_time_of_day(time(), time_of_day()) -> time().
 set_time_of_day(Value, Time) ->
     {Date, _, Offset} = to_parts(Value),
@@ -2428,7 +2481,7 @@ set_time_of_day(Value, Time) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"set_time_of_day"/utf8>>,
@@ -2440,6 +2493,7 @@ set_time_of_day(Value, Time) ->
         erlang:element(4, Value),
         erlang:element(5, Value)}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1030).
 -spec weekday(time()) -> weekday().
 weekday(Value) ->
     case Value of
@@ -2449,7 +2503,7 @@ weekday(Value) ->
                 {ok, _} -> _assert_subject;
                 _assert_fail ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail,
                                 module => <<"birl"/utf8>>,
                                 function => <<"weekday"/utf8>>,
@@ -2458,16 +2512,19 @@ weekday(Value) ->
             Weekday
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1039).
 -spec string_weekday(time()) -> binary().
 string_weekday(Value) ->
     _pipe = weekday(Value),
     weekday_to_string(_pipe).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1044).
 -spec short_string_weekday(time()) -> binary().
 short_string_weekday(Value) ->
     _pipe = weekday(Value),
     weekday_to_short_string(_pipe).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 629).
 -spec to_http(time()) -> binary().
 to_http(Value) ->
     _assert_subject = set_offset(Value, <<"Z"/utf8>>),
@@ -2475,7 +2532,7 @@ to_http(Value) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"to_http"/utf8>>,
@@ -2520,6 +2577,7 @@ to_http(Value) ->
             end)/binary>>/binary,
         " GMT"/utf8>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 668).
 -spec to_http_with_offset(time()) -> binary().
 to_http_with_offset(Value) ->
     {{Year, _, Day}, {Hour, Minute, Second, _}, Offset} = to_parts(Value),
@@ -2573,6 +2631,7 @@ to_http_with_offset(Value) ->
             " "/utf8>>/binary,
         Offset@1/binary>>.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 63).
 -spec now() -> time().
 now() ->
     Now = birl_ffi:now(),
@@ -2952,6 +3011,7 @@ now() ->
         end,
         {some, Monotonic_now}}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1262).
 -spec from_erlang_local_datetime(
     {{integer(), integer(), integer()}, {integer(), integer(), integer()}}
 ) -> time().
@@ -2980,7 +3040,7 @@ from_erlang_local_datetime(Erlang_datetime) ->
         {time, _, _, none, none} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"from_erlang_local_datetime"/utf8>>,
@@ -3360,6 +3420,7 @@ from_erlang_local_datetime(Erlang_datetime) ->
         end,
         none}.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1291).
 -spec from_erlang_universal_datetime(
     {{integer(), integer(), integer()}, {integer(), integer(), integer()}}
 ) -> time().
@@ -3388,7 +3449,7 @@ from_erlang_universal_datetime(Erlang_datetime) ->
         {ok, _} -> _assert_subject;
         _assert_fail ->
             erlang:error(#{gleam_error => let_assert,
-                        message => <<"Assertion pattern match failed"/utf8>>,
+                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                         value => _assert_fail,
                         module => <<"birl"/utf8>>,
                         function => <<"from_erlang_universal_datetime"/utf8>>,
@@ -3396,6 +3457,7 @@ from_erlang_universal_datetime(Erlang_datetime) ->
     end,
     New_value.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 912).
 -spec parse_relative(time(), binary()) -> {ok, time()} | {error, nil}.
 parse_relative(Origin, Legible_difference) ->
     case gleam@string:split(Legible_difference, <<" "/utf8>>) of
@@ -3766,6 +3828,7 @@ parse_relative(Origin, Legible_difference) ->
             {error, nil}
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 955).
 -spec legible_difference(time(), time()) -> binary().
 legible_difference(A, B) ->
     case begin
@@ -3793,7 +3856,7 @@ legible_difference(A, B) ->
                 {ok, _} -> _assert_subject;
                 _assert_fail ->
                     erlang:error(#{gleam_error => let_assert,
-                                message => <<"Assertion pattern match failed"/utf8>>,
+                                message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                 value => _assert_fail,
                                 module => <<"birl"/utf8>>,
                                 function => <<"legible_difference"/utf8>>,
@@ -3826,6 +3889,7 @@ legible_difference(A, B) ->
             end
     end.
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1073).
 -spec parse_weekday(binary()) -> {ok, weekday()} | {error, nil}.
 parse_weekday(Value) ->
     Lowercase = gleam@string:lowercase(Value),
@@ -3847,6 +3911,7 @@ parse_weekday(Value) ->
     _pipe = Weekday,
     gleam@result:map(_pipe, fun(Weekday@1) -> erlang:element(1, Weekday@1) end).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 724).
 -spec from_http(binary()) -> {ok, time()} | {error, nil}.
 from_http(Value) ->
     Value@1 = gleam@string:trim(Value),
@@ -3880,7 +3945,7 @@ from_http(Value) ->
                         {ok, _} -> _assert_subject;
                         _assert_fail ->
                             erlang:error(#{gleam_error => let_assert,
-                                        message => <<"Assertion pattern match failed"/utf8>>,
+                                        message => <<"Pattern match failed, no pattern matched the value."/utf8>>,
                                         value => _assert_fail,
                                         module => <<"birl"/utf8>>,
                                         function => <<"from_http"/utf8>>,
@@ -4129,6 +4194,7 @@ from_http(Value) ->
         end
     ).
 
+-file("/home/kogul/projects/gleam/chess/server/build/packages/birl/src/birl.gleam", 1085).
 -spec parse_month(binary()) -> {ok, month()} | {error, nil}.
 parse_month(Value) ->
     Lowercase = gleam@string:lowercase(Value),

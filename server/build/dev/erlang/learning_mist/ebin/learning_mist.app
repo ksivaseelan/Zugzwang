@@ -1,6 +1,7 @@
 {application, learning_mist, [
     {vsn, "1.0.0"},
-    {applications, [gleam_erlang,
+    {applications, [binbo,
+                    gleam_erlang,
                     gleam_http,
                     gleam_json,
                     gleam_otp,
@@ -8,6 +9,6 @@
                     gleeunit,
                     mist]},
     {description, ""},
-    {modules, []},
+    {modules, [learning_mist]},
     {registered, []}
 ]}.
