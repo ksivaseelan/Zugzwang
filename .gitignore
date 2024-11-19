@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 server/build
+client/build
+client/node_modules
