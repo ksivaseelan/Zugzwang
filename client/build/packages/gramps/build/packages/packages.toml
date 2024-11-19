@@ -1,6 +1,0 @@
-[packages]
-gleam_erlang = "0.27.0"
-gleeunit = "1.2.0"
-gleam_http = "3.7.0"
-gleam_stdlib = "0.40.0"
-gleam_crypto = "1.4.0"
