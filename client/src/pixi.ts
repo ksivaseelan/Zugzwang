@@ -4,11 +4,6 @@ import { Application, Assets, Sprite, FederatedPointerEvent } from "pixi.js";
 interface DataSprite extends Sprite {
   data: { startX: number; startY: number };
 }
-// Interface for the move message sent over WebSocket
-interface moveMessage {
-  method: string;
-  payload: { move: string };
-}
 
 export async function main() {
   const app = new Application();
@@ -27,6 +22,27 @@ export async function main() {
     console.log("Message from server:", event.data);
     // Handle incoming messages from the server
     // Example: Update game state based on server data
+    const message = event.data;
+    if (message.startsWith("Move Success:")) {
+      console.log("Successful move");
+      if (dragTarget) {
+        // Update startX and startY for the NEXT move ONLY AFTER a successful move
+        const endX = Math.floor(dragTarget.x / squareSize);
+        const endY = Math.floor(dragTarget.y / squareSize);
+        // // Snap the piece to the center of the grid position
+        dragTarget.x = (endX + 0.5) * squareSize;
+        dragTarget.y = (endY + 0.5) * squareSize;
+      }
+    } else if (message.startsWith("Move Error:")) {
+      console.log("Invalid move");
+      if (dragTarget) {
+        // Snap back to the position at the START OF THE CURRENT MOVE (not the initial game position)
+        dragTarget.x = (dragTarget.data.startX + 0.5) * squareSize;
+        dragTarget.y = (dragTarget.data.startY + 0.5) * squareSize;
+      }
+    }
+
+    dragTarget = null;
   };
 
   socket.onclose = async () => {
@@ -106,6 +122,8 @@ export async function main() {
 
   let isDragging = false;
 
+  await sendCreate(socket);
+
   function onDragMove(event: FederatedPointerEvent) {
     if (dragTarget && isDragging) {
       dragTarget.parent.toLocal(event.global, undefined, dragTarget.position);
@@ -148,19 +166,14 @@ export async function main() {
       const moveNotation = `${startCol}${startRow}${endCol}${endRow}`;
       console.log(moveNotation);
 
-      const moveMessage = {
-        method: "move",
-        payload: {
-          move: moveNotation,
-        },
-      };
+      const moveMessage = "Move: " + moveNotation;
       sendMoves(moveMessage, socket);
 
-      // Snap the piece to the center of the grid position
-      dragTarget.x = (endX + 0.5) * squareSize;
-      dragTarget.y = (endY + 0.5) * squareSize;
+      // // Snap the piece to the center of the grid position
+      // dragTarget.x = (endX + 0.5) * squareSize;
+      // dragTarget.y = (endY + 0.5) * squareSize;
 
-      dragTarget = null;
+      // dragTarget = null;
     }
   }
 }
@@ -174,6 +187,10 @@ export async function main() {
 //     sprite.x = elapsed;
 //   });
 
-async function sendMoves(moveMessage: moveMessage, socket: WebSocket) {
-  socket.send(JSON.stringify(moveMessage));
+async function sendMoves(moveMessage: string, socket: WebSocket) {
+  socket.send(moveMessage);
+}
+
+async function sendCreate(socket: WebSocket) {
+  socket.send("Create");
 }

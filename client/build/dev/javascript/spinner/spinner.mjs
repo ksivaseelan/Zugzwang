@@ -114,12 +114,7 @@ export const clock_frames = /* @__PURE__ */ toList([
   "🕚",
 ]);
 
-export const half_circle_frames = /* @__PURE__ */ toList([
-  "◐",
-  "◓",
-  "◑",
-  "◒",
-]);
+export const half_circle_frames = /* @__PURE__ */ toList(["◐", "◓", "◑", "◒"]);
 
 export const moon_frames = /* @__PURE__ */ toList([
   "🌑",
@@ -160,12 +155,7 @@ export function new$(text) {
   return new Builder(snake_frames, text, $ansi.magenta);
 }
 
-export const triangle_frames = /* @__PURE__ */ toList([
-  "◢",
-  "◣",
-  "◤",
-  "◥",
-]);
+export const triangle_frames = /* @__PURE__ */ toList(["◢", "◣", "◤", "◥"]);
 
 export const walking_frames = /* @__PURE__ */ toList([
   "⢄",

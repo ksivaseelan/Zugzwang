@@ -24,10 +24,7 @@ pub fn new_game(pid: Pid) -> Result(new_game, err)
 pub fn print_board(pid: Pid) -> Nil
 
 @external(erlang, "binbo", "move")
-pub fn move(
-  pid: Pid,
-  move: String,
-) -> Result(move, err)
+pub fn move(pid: Pid, move: String) -> Result(move, err)
 
 // possible promotion piece are q, r, b, n
 // use atom.create_from_string to create the atom
@@ -37,7 +34,6 @@ pub fn move_promo(
   move: String,
   promotion_piece: Atom,
 ) -> Result(move, err)
-
 
 @external(erlang, "binbo", "index_move")
 pub fn index_move(
@@ -91,7 +87,8 @@ pub fn make_move(pid: Pid, from_square: Int, to_square: Int) {
 }
 
 pub fn main() {
-//  let assert Ok(pid) = play()
-//  let assert Ok(_) = move(pid, "e2e4")
-//  print_board(pid)
+  todo
+  //  let assert Ok(pid) = play()
+  //  let assert Ok(_) = move(pid, "e2e4")
+  //  print_board(pid)
 }

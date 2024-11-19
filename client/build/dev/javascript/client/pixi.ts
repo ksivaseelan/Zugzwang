@@ -4,11 +4,6 @@ import { Application, Assets, Sprite, FederatedPointerEvent } from "pixi.js";
 interface DataSprite extends Sprite {
   data: { startX: number; startY: number };
 }
-// Interface for the move message sent over WebSocket
-interface moveMessage {
-  method: string;
-  payload: { move: string };
-}
 
 export async function main() {
   const app = new Application();
@@ -106,6 +101,8 @@ export async function main() {
 
   let isDragging = false;
 
+  await sendCreate(socket);
+
   function onDragMove(event: FederatedPointerEvent) {
     if (dragTarget && isDragging) {
       dragTarget.parent.toLocal(event.global, undefined, dragTarget.position);
@@ -148,12 +145,7 @@ export async function main() {
       const moveNotation = `${startCol}${startRow}${endCol}${endRow}`;
       console.log(moveNotation);
 
-      const moveMessage = {
-        method: "move",
-        payload: {
-          move: moveNotation,
-        },
-      };
+      const moveMessage = "Move: " + moveNotation;
       sendMoves(moveMessage, socket);
 
       // Snap the piece to the center of the grid position
@@ -174,6 +166,10 @@ export async function main() {
 //     sprite.x = elapsed;
 //   });
 
-async function sendMoves(moveMessage: moveMessage, socket: WebSocket) {
-  socket.send(JSON.stringify(moveMessage));
+async function sendMoves(moveMessage: string, socket: WebSocket) {
+  socket.send(moveMessage);
+}
+
+async function sendCreate(socket: WebSocket) {
+  socket.send("Create");
 }
