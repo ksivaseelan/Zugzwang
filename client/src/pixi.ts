@@ -5,6 +5,9 @@ interface DataSprite extends Sprite {
   data: { startX: number; startY: number };
 }
 
+let gameId: string | null = null;
+let gameInitialized = false;
+
 export async function main() {
   const app = new Application();
   await app.init({ width: 784, height: 784 });
@@ -23,7 +26,16 @@ export async function main() {
     // Handle incoming messages from the server
     // Example: Update game state based on server data
     const message = event.data;
-    if (message.startsWith("Move Success:")) {
+    if (message.startsWith("Create Success:")) {
+      const match = message.match(/"([A-F0-9-]+)"/); // Extract game ID using regex
+      if (match && match[1]) {
+        gameId = match[1];
+        gameInitialized = true;
+        console.log("Game created with ID:", gameId);
+      } else {
+        console.error("Failed to parse game ID from server message");
+      }
+    } else if (message.startsWith("Move Success:")) {
       console.log("Successful move");
       if (dragTarget) {
         // Update startX and startY for the NEXT move ONLY AFTER a successful move
@@ -131,25 +143,27 @@ export async function main() {
   }
 
   function onDragStart(this: DataSprite) {
-    isDragging = true;
-    // Store a reference to the data
-    // * The reason for this is because of multitouch *
-    // * We want to track the movement of this particular touch *
-    this.alpha = 0.5;
-    dragTarget = this as DataSprite;
-    dragTarget.data = {
-      startX: Math.floor(this.x / squareSize),
-      startY: Math.floor(this.y / squareSize),
-    };
-    console.log(
-      `From: X: ${dragTarget.data.startX} Y: ${dragTarget.data.startY}`
-    );
-    app.stage.on("pointermove", onDragMove);
+    if (gameInitialized) {
+      isDragging = true;
+      // Store a reference to the data
+      // * The reason for this is because of multitouch *
+      // * We want to track the movement of this particular touch *
+      this.alpha = 0.5;
+      dragTarget = this as DataSprite;
+      dragTarget.data = {
+        startX: Math.floor(this.x / squareSize),
+        startY: Math.floor(this.y / squareSize),
+      };
+      console.log(
+        `From: X: ${dragTarget.data.startX} Y: ${dragTarget.data.startY}`
+      );
+      app.stage.on("pointermove", onDragMove);
+    }
   }
 
   function onDragEnd() {
     isDragging = false;
-    if (dragTarget) {
+    if (dragTarget && gameId && gameInitialized) {
       app.stage.off("pointermove", onDragMove);
       // reset tranparency of dragging piece
       dragTarget.alpha = 1;
@@ -166,7 +180,7 @@ export async function main() {
       const moveNotation = `${startCol}${startRow}${endCol}${endRow}`;
       console.log(moveNotation);
 
-      const moveMessage = "Move: " + moveNotation;
+      const moveMessage = `Move: ${gameId}:${moveNotation}`;
       sendMoves(moveMessage, socket);
 
       // // Snap the piece to the center of the grid position
