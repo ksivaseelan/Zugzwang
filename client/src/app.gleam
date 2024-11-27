@@ -2,16 +2,20 @@ import gleam/dynamic
 import gleam/int
 import gleam/io
 import gleam/json
+import gleam/option.{type Option, None, Some}
 import gleam/result
 import gleam/string
 import gleam/uri.{type Uri}
 import lustre
-import lustre/attribute.{class, href, type_}
+import lustre/attribute.{checked, class, href, name, type_, value}
 import lustre/effect.{type Effect}
 import lustre/element.{type Element, text}
 import lustre/element/html
 import lustre/event.{on_click}
 import lustre_http
+import lustre_websocket.{
+  InvalidUrl, OnBinaryMessage, OnClose, OnOpen, OnTextMessage,
+} as ws
 import modem
 
 pub fn main() {
@@ -50,7 +54,7 @@ fn on_url_change(_uri: Uri) -> Msg {
 }
 
 pub type Model {
-  Model(game: String, color: String, route: Route)
+  Model(game: String, color: String, route: Route, ws: Option(ws.WebSocket))
 }
 
 type Color {
@@ -59,6 +63,7 @@ type Color {
 }
 
 type Msg {
+  WsWrapper(ws.WebSocketEvent)
   UserSelectedPieces(Color)
   UserStartedGame
   ApiReturnedGame(Result(GameCreateResponse, lustre_http.HttpError))
@@ -66,7 +71,10 @@ type Msg {
 }
 
 fn init(_) -> #(Model, Effect(Msg)) {
-  #(Model("", "", route: get_route()), modem.init(on_url_change))
+  #(
+    Model("", "", route: get_route(), ws: None),
+    effect.batch([ws.init("/path", WsWrapper), modem.init(on_url_change)]),
+  )
 }
 
 type GameCreateResponse {
@@ -75,6 +83,14 @@ type GameCreateResponse {
 
 fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
+    WsWrapper(InvalidUrl) -> panic
+    WsWrapper(OnOpen(socket)) -> #(
+      Model(..model, ws: Some(socket)),
+      ws.send(socket, "client-init"),
+    )
+    WsWrapper(OnTextMessage(msg)) -> todo
+    WsWrapper(OnBinaryMessage(msg)) -> todo as "either-or"
+    WsWrapper(OnClose(reason)) -> #(Model(..model, ws: None), effect.none())
     UserSelectedPieces(Black) -> #(
       Model(..model, color: "black"),
       effect.none(),
@@ -113,54 +129,32 @@ fn view(model: Model) -> Element(Msg) {
   case model.route {
     Home ->
       html.body(
-        [class("bg-gray-100 min-h-screen flex items-center justify-center p-4")],
+        [
+          class(
+            "bg-gradient-to-br from-purple-100 to-blue-200 min-h-screen flex items-center justify-center p-4",
+          ),
+        ],
         [
           html.div(
-            [class("bg-white rounded-lg shadow-md p-6 w-full max-w-md")],
+            [class("bg-white rounded-lg shadow-xl p-6 w-full max-w-md")],
             [
-              html.h1([class("text-2xl font-bold text-center mb-6")], [
-                text("Choose your pieces"),
+              html.div([class("p-6 space-y-6 text-center")], [
+                html.h1([class("text-3xl font-bold text-purple-700")], [
+                  text("Create a chess game"),
+                ]),
+                html.p([class("text-purple-500 mt-2")], [
+                  text("Choose your colour and invite a friend to play!"),
+                ]),
+                color_choice_form(),
+                html.button(
+                  [
+                    class(
+                      "w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center",
+                    ),
+                  ],
+                  [text("Create New Game")],
+                ),
               ]),
-              html.div(
-                [class("flex flex-col sm:flex-row justify-center gap-4 mb-6")],
-                [
-                  html.button(
-                    [
-                      on_click(UserSelectedPieces(White)),
-                      class(
-                        "flex-1 py-3 px-6 bg-gray-200 hover:bg-gray-300 hover:-translate-y-1 rounded-lg font-semibold text-gray-800 transition duration-300 ease-in-out",
-                      ),
-                      case model.color {
-                        "white" -> class("ring-2 ring-blue-500")
-                        _ -> class("")
-                      },
-                    ],
-                    [text("White Pieces")],
-                  ),
-                  html.button(
-                    [
-                      on_click(UserSelectedPieces(Black)),
-                      class(
-                        "flex-1 py-3 px-6 bg-gray-800 hover:bg-gray-700 hover:-translate-y-1 rounded-lg font-semibold text-white transition duration-300 ease-in-out",
-                      ),
-                      case model.color {
-                        "black" -> class("ring-2 ring-blue-500")
-                        _ -> class("")
-                      },
-                    ],
-                    [text("Black Pieces")],
-                  ),
-                ],
-              ),
-              html.button(
-                [
-                  on_click(UserStartedGame),
-                  class(
-                    "w-full py-3 px-6 bg-green-500 hover:bg-green-600 hover:-translate-y-1 rounded-lg font-semibold text-white transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-400",
-                  ),
-                ],
-                [text("Start game")],
-              ),
             ],
           ),
         ],
@@ -255,4 +249,60 @@ fn view(model: Model) -> Element(Msg) {
         ],
       )
   }
+}
+
+fn color_choice_form() -> Element(Msg) {
+  html.form([class("space-y-6")], [
+    html.div([class("space-y-2")], [
+      html.label(
+        [
+          class("block text-xl font-medium text-purple-700 text-left"),
+          type_("color-choice"),
+        ],
+        // for is deprecated in favour of type_ for labels
+        [text("Choose your color")],
+      ),
+      html.div([class("flex justify-center space-x-4")], [
+        color_radio_button("white", "White", True),
+        color_radio_button("black", "Black", False),
+        color_radio_button("random", "Random", False),
+      ]),
+    ]),
+  ])
+}
+
+fn color_radio_button(
+  color_value: String,
+  label_text: String,
+  is_checked: Bool,
+) -> Element(Msg) {
+  html.label([class("flex items-center space-x-2 cursor-pointer")], [
+    html.input([
+      type_("radio"),
+      name("color"),
+      value(color_value),
+      class("sr-only peer"),
+      case is_checked {
+        True -> checked(True)
+        False -> checked(False)
+      },
+    ]),
+    html.span(
+      [
+        class(
+          "w-8 h-8 rounded-full border-2 border-gray-300 peer-checked:border-purple-500 peer-checked:ring-2 peer-checked:ring-purple-500 transition-all duration-200 ease-in-out",
+        ),
+        case color_value {
+          "white" -> class("bg-white")
+          "black" -> class("bg-gray-800")
+          "random" -> class("bg-gradient-to-r from-white to-gray-800")
+          _ -> class("")
+        },
+      ],
+      [],
+    ),
+    html.span([class("text-gray-700 peer-checked:text-purple-700")], [
+      text(label_text),
+    ]),
+  ])
 }
