@@ -7,7 +7,7 @@ import gleam/result
 import gleam/string
 import gleam/uri.{type Uri}
 import lustre
-import lustre/attribute.{checked, class, href, name, type_, value}
+import lustre/attribute.{checked, class, href, name, placeholder, type_, value}
 import lustre/effect.{type Effect}
 import lustre/element.{type Element, text}
 import lustre/element/html
@@ -27,13 +27,16 @@ pub fn main() {
 
 pub type Route {
   Home
-  Game(game_id: String)
+  Game
   NotFound
   ErrorPage(lustre_http.HttpError)
 }
 
 @external(javascript, "./ffi.ts", "get_route")
 fn do_get_route() -> String
+
+@external(javascript, "./ffi.ts", "copy_game_id")
+fn copy_game_id(game_id: String) -> Nil
 
 fn get_route() -> Route {
   let uri = case do_get_route() |> uri.parse {
@@ -44,7 +47,6 @@ fn get_route() -> Route {
 
   case uri.path |> uri.path_segments {
     [] -> Home
-    ["game", game_id] -> Game(game_id)
     _ -> NotFound
   }
 }
@@ -54,75 +56,112 @@ fn on_url_change(_uri: Uri) -> Msg {
 }
 
 pub type Model {
-  Model(game: String, color: String, route: Route, ws: Option(ws.WebSocket))
-}
-
-type Color {
-  Black
-  White
+  Model(
+    game: String,
+    color: String,
+    route: Route,
+    ws: Option(ws.WebSocket),
+    loading: Bool,
+    mode: String,
+  )
 }
 
 type Msg {
-  WsWrapper(ws.WebSocketEvent)
-  UserSelectedPieces(Color)
-  UserStartedGame
-  ApiReturnedGame(Result(GameCreateResponse, lustre_http.HttpError))
   OnRouteChange(Route)
+  WsWrapper(ws.WebSocketEvent)
+  ToggleMode
+  UserSelectedColor(value: String)
+  UserStartedGame
+  UserJoinedGame(game_id: String)
+  CopyGameId
+  // ApiReturnedGame(Result(GameCreateResponse, lustre_http.HttpError))
 }
 
 fn init(_) -> #(Model, Effect(Msg)) {
   #(
-    Model("", "", route: get_route(), ws: None),
-    effect.batch([ws.init("/path", WsWrapper), modem.init(on_url_change)]),
+    Model(
+      "",
+      "white",
+      route: get_route(),
+      ws: None,
+      loading: False,
+      mode: "create",
+    ),
+    effect.batch([
+      ws.init("ws://localhost:6969/ws", WsWrapper),
+      modem.init(on_url_change),
+    ]),
   )
 }
 
-type GameCreateResponse {
-  GameCreateResponse(pid: String, room: String, color: String)
-}
+// type GameCreateResponse {
+//   GameCreateResponse(pid: String, room: String, color: String)
+// }
 
 fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
+    OnRouteChange(route) -> #(Model(..model, route: route), effect.none())
     WsWrapper(InvalidUrl) -> panic
     WsWrapper(OnOpen(socket)) -> #(
       Model(..model, ws: Some(socket)),
-      ws.send(socket, "client-init"),
+      ws.send(socket, "ping"),
     )
-    WsWrapper(OnTextMessage(msg)) -> todo
-    WsWrapper(OnBinaryMessage(msg)) -> todo as "either-or"
-    WsWrapper(OnClose(reason)) -> #(Model(..model, ws: None), effect.none())
-    UserSelectedPieces(Black) -> #(
-      Model(..model, color: "black"),
-      effect.none(),
-    )
-    UserSelectedPieces(White) -> #(
-      Model(..model, color: "white"),
-      effect.none(),
-    )
-    UserStartedGame -> #(model, start_game(model))
-    ApiReturnedGame(Ok(game)) -> #(
-      Model(..model, game: game.room, route: Game(game.room)),
-      effect.none(),
-    )
-    ApiReturnedGame(Error(error)) -> #(
-      Model(..model, route: ErrorPage(error)),
-      effect.none(),
-    )
-    OnRouteChange(route) -> #(Model(..model, route: route), effect.none())
-  }
-}
+    WsWrapper(OnTextMessage(msg)) -> {
+      case msg {
+        "Create Success: Game id " <> game_id -> {
+          io.debug("Received create success" <> game_id)
+          #(Model(..model, game: game_id, loading: False), effect.none())
+        }
 
-fn start_game(model: Model) -> Effect(Msg) {
-  let decoder =
-    dynamic.decode3(
-      GameCreateResponse,
-      dynamic.field("pid", dynamic.string),
-      dynamic.field("room", dynamic.string),
-      dynamic.field("color", dynamic.string),
-    )
-  let expect = lustre_http.expect_json(decoder, ApiReturnedGame)
-  let object = json.object([#("color", model.color |> json.string)])
-  lustre_http.post("http://localhost:6969/create", object, expect)
+        _ -> {
+          io.debug("Received message: " <> msg)
+          #(model, effect.none())
+        }
+      }
+    }
+    WsWrapper(OnBinaryMessage(_msg)) -> #(model, effect.none())
+    WsWrapper(OnClose(_reason)) -> #(Model(..model, ws: None), effect.none())
+    ToggleMode -> {
+      let new_mode = case model.mode {
+        "create" -> "join"
+        "join" -> "create"
+        _ -> "create"
+      }
+      #(Model(..model, mode: new_mode), effect.none())
+    }
+    UserSelectedColor(value) -> #(Model(..model, color: value), effect.none())
+    UserStartedGame -> {
+      let color = case model.color {
+        "" -> {
+          io.debug("No color selected")
+        }
+        _ -> {
+          io.debug("Starting game")
+        }
+      }
+
+      #(Model(..model, route: Game, loading: True), case model.ws {
+        None -> effect.none()
+        Some(socket) -> ws.send(socket, "Create as " <> color)
+      })
+    }
+    UserJoinedGame(_game_id) -> {
+      #(model, effect.none())
+    }
+    CopyGameId -> {
+      case model.game {
+        "" -> {
+          io.debug("No game id to copy")
+          Nil
+        }
+        _ -> {
+          io.debug("Copying game id")
+          copy_game_id(model.game)
+        }
+      }
+      #(model, effect.none())
+    }
+  }
 }
 
 fn view(model: Model) -> Element(Msg) {
@@ -140,35 +179,64 @@ fn view(model: Model) -> Element(Msg) {
             [
               html.div([class("p-6 space-y-6 text-center")], [
                 html.h1([class("text-3xl font-bold text-purple-700")], [
-                  text("Create a chess game"),
+                  text("Play chess with friends"),
                 ]),
                 html.p([class("text-purple-500 mt-2")], [
                   text("Choose your colour and invite a friend to play!"),
                 ]),
-                color_choice_form(),
-                html.button(
-                  [
-                    class(
-                      "w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center",
-                    ),
-                  ],
-                  [text("Create New Game")],
-                ),
+                html.div([class("flex justify-center space-x-4 mb-6")], []),
+                toggle_mode_button(model.mode),
+                case model.mode {
+                  "create" -> create_game_view(model)
+                  "join" -> join_game_view(model)
+                  _ -> create_game_view(model)
+                },
               ]),
             ],
           ),
         ],
       )
-    Game(_game_id) ->
+    Game ->
       html.body(
-        [class("bg-gray-100 min-h-screen flex items-center justify-center")],
         [
-          html.h1([class("text-3xl font-bold mb-6 text-center text-gray-800")], [
-            text(model.game <> " Game"),
-          ]),
+          class(
+            "bg-gradient-to-br from-purple-100 to-blue-200 min-h-screen flex items-center justify-center p-4",
+          ),
+        ],
+        [
           html.div(
-            [class("grid grid-cols-8 w-96 h-96 border-4 border-gray-800")],
-            [],
+            [
+              class(
+                "bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center",
+              ),
+            ],
+            [
+              html.div([class("mb-6")], [
+                html.h1([class("text-4xl font-bold text-purple-700")], [
+                  text("Your Game Code"),
+                ]),
+                html.h2([class("text-2xl font-semibold text-purple-600 mt-2")], [
+                  text(model.game),
+                ]),
+              ]),
+              html.p([class("text-purple-500 mb-6")], [
+                text("Share this code with your friend to join the game!"),
+              ]),
+              html.p([class("text-purple-500 mb-6")], [
+                text("Waiting for your friend to join..."),
+              ]),
+              html.div([class("flex justify-center")], [
+                html.button(
+                  [
+                    on_click(CopyGameId),
+                    class(
+                      "bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out",
+                    ),
+                  ],
+                  [text("Copy Game Code")],
+                ),
+              ]),
+            ],
           ),
         ],
       )
@@ -251,21 +319,79 @@ fn view(model: Model) -> Element(Msg) {
   }
 }
 
-fn color_choice_form() -> Element(Msg) {
-  html.form([class("space-y-6")], [
+fn toggle_mode_button(mode: String) -> Element(Msg) {
+  let button_class = case mode {
+    "join" -> "bg-indigo-600 hover:bg-indigo-700"
+    _ -> "bg-pink-600 hover:bg-pink-700"
+  }
+
+  html.button(
+    [
+      on_click(ToggleMode),
+      class(
+        button_class
+        <> " text-white font-bold py-2 px-4 rounded-md transition duration-200 ease-in-out",
+      ),
+    ],
+    [
+      text(case mode {
+        "create" -> "Switch to Join Game"
+        "join" -> "Switch to Create Game"
+        _ -> "Create Game"
+      }),
+    ],
+  )
+}
+
+fn create_game_view(model: Model) -> Element(Msg) {
+  html.div([class("space-y-6")], [
+    color_choice_form(model),
+    html.button(
+      [
+        on_click(UserStartedGame),
+        class(
+          "w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center",
+        ),
+      ],
+      [text("Create New Game")],
+    ),
+  ])
+}
+
+fn join_game_view(_model: Model) -> Element(Msg) {
+  html.div([class("space-y-6")], [
+    html.input([
+      type_("text"),
+      class("w-full p-2 border border-gray-300 rounded-md"),
+      placeholder("Enter Game ID"),
+    ]),
+    html.button(
+      [
+        // on_click(UserJoinedGame),
+        class(
+          "w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center",
+        ),
+      ],
+      [text("Join Game")],
+    ),
+  ])
+}
+
+fn color_choice_form(model: Model) -> Element(Msg) {
+  html.form([class("space-y-4")], [
     html.div([class("space-y-2")], [
       html.label(
         [
-          class("block text-xl font-medium text-purple-700 text-left"),
+          class("block text-xl font-medium text-purple-700 text-center"),
           type_("color-choice"),
         ],
         // for is deprecated in favour of type_ for labels
         [text("Choose your color")],
       ),
       html.div([class("flex justify-center space-x-4")], [
-        color_radio_button("white", "White", True),
-        color_radio_button("black", "Black", False),
-        color_radio_button("random", "Random", False),
+        color_radio_button("white", "White", model.color == "white"),
+        color_radio_button("black", "Black", model.color == "black"),
+        color_radio_button("random", "Random", model.color == "random"),
       ]),
     ]),
   ])
@@ -286,6 +412,7 @@ fn color_radio_button(
         True -> checked(True)
         False -> checked(False)
       },
+      on_click(UserSelectedColor(color_value)),
     ]),
     html.span(
       [

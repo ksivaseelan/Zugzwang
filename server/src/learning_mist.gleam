@@ -59,7 +59,8 @@ fn handle_ws_message(state, conn, message) {
 
       actor.continue(state)
     }
-    mist.Text("Create") -> {
+    mist.Text("Create as " <> _color) -> {
+      io.debug("Create received")
       let assert Ok(pid) = gleam_binbo.play()
       io.debug("New pid:" <> pid |> string.inspect)
       gleam_binbo.print_board(pid)
@@ -70,7 +71,7 @@ fn handle_ws_message(state, conn, message) {
       let assert Ok(_) =
         mist.send_text_frame(
           conn,
-          "Create Success: Game created with " <> game_id |> string.inspect,
+          "Create Success: Game id " <> game_id
         )
       actor.continue(new_state)
     }
