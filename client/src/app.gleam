@@ -7,7 +7,9 @@ import gleam/result
 import gleam/string
 import gleam/uri.{type Uri}
 import lustre
-import lustre/attribute.{checked, class, href, name, placeholder, type_, value}
+import lustre/attribute.{
+  checked, class, href, id, name, placeholder, type_, value,
+}
 import lustre/effect.{type Effect}
 import lustre/element.{type Element, text}
 import lustre/element/html
@@ -74,7 +76,6 @@ type Msg {
   UserStartedGame
   UserJoinedGame(game_id: String)
   CopyGameId
-  // ApiReturnedGame(Result(GameCreateResponse, lustre_http.HttpError))
 }
 
 fn init(_) -> #(Model, Effect(Msg)) {
@@ -93,10 +94,6 @@ fn init(_) -> #(Model, Effect(Msg)) {
     ]),
   )
 }
-
-// type GameCreateResponse {
-//   GameCreateResponse(pid: String, room: String, color: String)
-// }
 
 fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
   case msg {
@@ -127,6 +124,7 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
         "join" -> "create"
         _ -> "create"
       }
+      io.debug(new_mode)
       #(Model(..model, mode: new_mode), effect.none())
     }
     UserSelectedColor(value) -> #(Model(..model, color: value), effect.none())
@@ -165,215 +163,186 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
 }
 
 fn view(model: Model) -> Element(Msg) {
-  case model.route {
-    Home ->
-      html.body(
+  html.div(
+    [
+      class(
+        "bg-gradient-to-br from-base-300 to-base-200 min-h-screen flex items-center justify-center p-4",
+      ),
+    ],
+    [
+      html.div(
+        [class("card bg-base-100 rounded-lg shadow-xl p-6 w-full max-w-md")],
         [
-          class(
-            "bg-gradient-to-br from-purple-100 to-blue-200 min-h-screen flex items-center justify-center p-4",
-          ),
-        ],
-        [
-          html.div(
-            [class("bg-white rounded-lg shadow-xl p-6 w-full max-w-md")],
-            [
-              html.div([class("p-6 space-y-6 text-center")], [
-                html.h1([class("text-3xl font-bold text-purple-700")], [
+          case model.route {
+            Home ->
+              html.div([class("p-6 space-y-6 text-center ")], [
+                html.h1([class("text-3xl font-bold text-primary")], [
                   text("Play chess with friends"),
                 ]),
-                html.p([class("text-purple-500 mt-2")], [
-                  text("Choose your colour and invite a friend to play!"),
-                ]),
-                html.div([class("flex justify-center space-x-4 mb-6")], []),
-                toggle_mode_button(model.mode),
                 case model.mode {
                   "create" -> create_game_view(model)
                   "join" -> join_game_view(model)
                   _ -> create_game_view(model)
                 },
-              ]),
-            ],
-          ),
-        ],
-      )
-    Game ->
-      html.body(
-        [
-          class(
-            "bg-gradient-to-br from-purple-100 to-blue-200 min-h-screen flex items-center justify-center p-4",
-          ),
-        ],
-        [
-          html.div(
-            [
-              class(
-                "bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center",
-              ),
-            ],
-            [
-              html.div([class("mb-6")], [
-                html.h1([class("text-4xl font-bold text-purple-700")], [
+                toggle_mode_button(),
+              ])
+
+            Game ->
+              html.div([class("p-6 space-y-6 text-center ")], [
+                html.h1([class("text-3xl font-bold text-primary")], [
                   text("Your Game Code"),
                 ]),
-                html.h2([class("text-2xl font-semibold text-purple-600 mt-2")], [
+                html.h2([class("text-2xl font-semibold text-primary mt-2")], [
                   text(model.game),
                 ]),
-              ]),
-              html.p([class("text-purple-500 mb-6")], [
-                text("Share this code with your friend to join the game!"),
-              ]),
-              html.p([class("text-purple-500 mb-6")], [
-                text("Waiting for your friend to join..."),
-              ]),
-              html.div([class("flex justify-center")], [
+                html.p([class("text-primary mb-6")], [
+                  text("Share this code with your friend to join the game!"),
+                ]),
+                html.p([class("text-primary mb-6")], [
+                  text("Waiting for your friend to join..."),
+                ]),
                 html.button(
                   [
                     on_click(CopyGameId),
-                    class(
-                      "bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out",
-                    ),
+                    class("btn btn-primary text-primary-content"),
                   ],
                   [text("Copy Game Code")],
                 ),
-              ]),
-            ],
-          ),
-        ],
-      )
-    NotFound ->
-      html.body(
-        [
-          class(
-            "bg-gray-100 min-h-screen flex items-center justify-center px-4",
-          ),
-        ],
-        [
-          html.div(
-            [
-              class(
-                "max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center",
-              ),
-            ],
-            [
-              html.h1([class("text-6xl font-bold text-gray-800 mb-4")], [
-                text("404"),
-              ]),
-              html.p([class("text-2xl font-semibold text-gray-600 mb-4")], [
-                text("Page Not Found"),
-              ]),
-              html.p([class("text-gray-500 mb-8")], [
-                text("Oops! The page you are looking for doesn't exist."),
-              ]),
-              html.a(
+              ])
+
+            NotFound ->
+              html.body(
                 [
-                  href("/"),
                   class(
-                    "inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300",
+                    "bg-gray-100 min-h-screen flex items-center justify-center px-4",
                   ),
                 ],
-                [text("Go to Home")],
-              ),
-            ],
-          ),
-        ],
-      )
-    ErrorPage(error) ->
-      html.body(
-        [
-          class(
-            "bg-gray-100 min-h-screen flex items-center justify-center px-4",
-          ),
-        ],
-        [
-          html.div(
-            [
-              class(
-                "max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center",
-              ),
-            ],
-            [
-              html.h1([class("text-6xl font-bold text-gray-800 mb-4")], [
-                text("Oh No!"),
-              ]),
-              html.p([class("text-2xl font-semibold text-gray-600 mb-4")], [
-                text("Error"),
-              ]),
-              html.p([class("text-gray-500 mb-8")], [
-                text(
-                  "Looks like you got there was a " <> error |> string.inspect,
-                ),
-              ]),
-              html.a(
                 [
-                  href("/"),
-                  class(
-                    "inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300",
+                  html.div(
+                    [
+                      class(
+                        "max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center",
+                      ),
+                    ],
+                    [
+                      html.h1([class("text-6xl font-bold text-gray-800 mb-4")], [
+                        text("404"),
+                      ]),
+                      html.p(
+                        [class("text-2xl font-semibold text-gray-600 mb-4")],
+                        [text("Page Not Found")],
+                      ),
+                      html.p([class("text-gray-500 mb-8")], [
+                        text(
+                          "Oops! The page you are looking for doesn't exist.",
+                        ),
+                      ]),
+                      html.a(
+                        [
+                          href("/"),
+                          class(
+                            "inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300",
+                          ),
+                        ],
+                        [text("Go to Home")],
+                      ),
+                    ],
                   ),
                 ],
-                [text("Go to Home")],
-              ),
-            ],
-          ),
+              )
+            ErrorPage(error) ->
+              html.body(
+                [
+                  class(
+                    "bg-gray-100 min-h-screen flex items-center justify-center px-4",
+                  ),
+                ],
+                [
+                  html.div(
+                    [
+                      class(
+                        "max-w-md w-full bg-white rounded-lg shadow-md p-8 text-center",
+                      ),
+                    ],
+                    [
+                      html.h1([class("text-6xl font-bold text-gray-800 mb-4")], [
+                        text("Oh No!"),
+                      ]),
+                      html.p(
+                        [class("text-2xl font-semibold text-gray-600 mb-4")],
+                        [text("Error")],
+                      ),
+                      html.p([class("text-gray-500 mb-8")], [
+                        text(
+                          "Looks like you got there was a "
+                          <> error |> string.inspect,
+                        ),
+                      ]),
+                      html.a(
+                        [
+                          href("/"),
+                          class(
+                            "inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300",
+                          ),
+                        ],
+                        [text("Go to Home")],
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          },
         ],
-      )
-  }
-}
-
-fn toggle_mode_button(mode: String) -> Element(Msg) {
-  let button_class = case mode {
-    "join" -> "bg-indigo-600 hover:bg-indigo-700"
-    _ -> "bg-pink-600 hover:bg-pink-700"
-  }
-
-  html.button(
-    [
-      on_click(ToggleMode),
-      class(
-        button_class
-        <> " text-white font-bold py-2 px-4 rounded-md transition duration-200 ease-in-out",
       ),
     ],
+  )
+}
+
+fn toggle_mode_button() -> Element(Msg) {
+  html.label(
+    [class("swap swap-flip text-xl text-secondary"), type_("checkbox")],
     [
-      text(case mode {
-        "create" -> "Switch to Join Game"
-        "join" -> "Switch to Create Game"
-        _ -> "Create Game"
-      }),
+      html.input([type_("checkbox"), on_click(ToggleMode)]),
+      html.div([class("swap-on")], [text("Or Create a Game")]),
+      html.div([class("swap-off")], [text("Or Join a Game")]),
     ],
   )
 }
 
 fn create_game_view(model: Model) -> Element(Msg) {
-  html.div([class("space-y-6")], [
-    color_choice_form(model),
-    html.button(
-      [
-        on_click(UserStartedGame),
-        class(
-          "w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center",
-        ),
-      ],
-      [text("Create New Game")],
-    ),
+  html.div([], [
+    html.div([class("space-y-6")], [
+      color_choice_form(model),
+      html.button(
+        [
+          on_click(UserStartedGame),
+          class("btn btn-primary text-primary-content"),
+        ],
+        [text("Create New Game")],
+      ),
+    ]),
   ])
 }
 
 fn join_game_view(_model: Model) -> Element(Msg) {
-  html.div([class("space-y-6")], [
-    html.input([
-      type_("text"),
-      class("w-full p-2 border border-gray-300 rounded-md"),
-      placeholder("Enter Game ID"),
+  html.form([class("space-y-4")], [
+    html.div([class("space-y-2")], [
+      html.label([class("block text-xl font-medium text-primary")], [
+        text("Enter Game Code"),
+      ]),
+      html.input([
+        type_("text"),
+        class("input input-bordered input-primary w-full max-w-xs"),
+        placeholder("Enter Game Code"),
+      ]),
+      html.button(
+        [
+          // on_click(UserJoinedGame),
+          class("btn btn-primary text-primary-content"),
+        ],
+        [text("Join Game")],
+      ),
     ]),
-    html.button(
-      [
-        // on_click(UserJoinedGame),
-        class(
-          "w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center",
-        ),
-      ],
-      [text("Join Game")],
-    ),
   ])
 }
 
@@ -381,11 +350,7 @@ fn color_choice_form(model: Model) -> Element(Msg) {
   html.form([class("space-y-4")], [
     html.div([class("space-y-2")], [
       html.label(
-        [
-          class("block text-xl font-medium text-purple-700 text-center"),
-          type_("color-choice"),
-        ],
-        // for is deprecated in favour of type_ for labels
+        [class("block text-xl font-medium text-primary"), type_("color-choice")],
         [text("Choose your color")],
       ),
       html.div([class("flex justify-center space-x-4")], [
@@ -417,7 +382,7 @@ fn color_radio_button(
     html.span(
       [
         class(
-          "w-8 h-8 rounded-full border-2 border-gray-300 peer-checked:border-purple-500 peer-checked:ring-2 peer-checked:ring-purple-500 transition-all duration-200 ease-in-out",
+          "w-8 h-8 rounded-full border-2 border-neutral peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary transition-all duration-200 ease-in-out",
         ),
         case color_value {
           "white" -> class("bg-white")
@@ -428,7 +393,7 @@ fn color_radio_button(
       ],
       [],
     ),
-    html.span([class("text-gray-700 peer-checked:text-purple-700")], [
+    html.span([class("text-neutral-content peer-checked:text-primary")], [
       text(label_text),
     ]),
   ])
