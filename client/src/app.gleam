@@ -29,7 +29,7 @@ pub fn main() {
 
 pub type Route {
   Home
-  Game
+  Code
   NotFound
   ErrorPage(lustre_http.HttpError)
 }
@@ -73,7 +73,7 @@ type Msg {
   WsWrapper(ws.WebSocketEvent)
   ToggleMode
   UserSelectedColor(value: String)
-  UserStartedGame
+  UserCreatedGame
   UserJoinedGame(game_id: String)
   CopyGameId
 }
@@ -128,17 +128,27 @@ fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       #(Model(..model, mode: new_mode), effect.none())
     }
     UserSelectedColor(value) -> #(Model(..model, color: value), effect.none())
-    UserStartedGame -> {
+    UserCreatedGame -> {
       let color = case model.color {
-        "" -> {
-          io.debug("No color selected")
+        "white" -> {
+          "white"
+        }
+        "black" -> {
+          "black"
+        }
+        "random" -> {
+          case int.random(2) {
+            0 -> "white"
+            1 -> "black"
+            _ -> "white"
+          }
         }
         _ -> {
           io.debug("Starting game")
         }
       }
 
-      #(Model(..model, route: Game, loading: True), case model.ws {
+      #(Model(..model, route: Code, loading: True), case model.ws {
         None -> effect.none()
         Some(socket) -> ws.send(socket, "Create as " <> color)
       })
@@ -187,7 +197,7 @@ fn view(model: Model) -> Element(Msg) {
                 toggle_mode_button(),
               ])
 
-            Game ->
+            Code ->
               html.div([class("p-6 space-y-6 text-center ")], [
                 html.h1([class("text-3xl font-bold text-primary")], [
                   text("Your Game Code"),
@@ -315,7 +325,7 @@ fn create_game_view(model: Model) -> Element(Msg) {
       color_choice_form(model),
       html.button(
         [
-          on_click(UserStartedGame),
+          on_click(UserCreatedGame),
           class("btn btn-primary text-primary-content"),
         ],
         [text("Create New Game")],

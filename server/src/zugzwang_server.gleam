@@ -56,7 +56,7 @@ fn handle_ws_message(state, conn, message) {
     mist.Text("ping") -> {
       io.println("ping received")
       let assert Ok(_) = mist.send_text_frame(conn, "pong")
-
+      io.debug("state is " <> state|> string.inspect)
       actor.continue(state)
     }
     mist.Text("Create as " <> _color) -> {
@@ -69,10 +69,7 @@ fn handle_ws_message(state, conn, message) {
       io.debug("New game_id:" <> game_id)
       let new_state = dict.insert(state, game_id, pid)
       let assert Ok(_) =
-        mist.send_text_frame(
-          conn,
-          "Create Success: Game id " <> game_id
-        )
+        mist.send_text_frame(conn, "Create Success: Game id " <> game_id)
       actor.continue(new_state)
     }
     // Move message is "Move: <game_id>:<move>"
