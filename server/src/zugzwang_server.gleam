@@ -1,4 +1,5 @@
-import gleam/bytes_builder
+import game.{type GameMessage, type GameState}
+import gleam/bytes_tree
 import gleam/dict.{type Dict}
 import gleam/dynamic.{type Dynamic, dict, dynamic, field, int, string}
 import gleam/erlang/process.{type Pid}
@@ -11,12 +12,8 @@ import gleam/otp/actor
 import gleam/result
 import gleam/string
 import gleam_binbo
-import mist.{type Connection, type ResponseData}
+import mist.{type Connection, type ResponseData, type WebsocketConnection}
 import youid/uuid
-
-pub type State {
-  GameState(pids: Dict(String, Pid))
-}
 
 pub fn main() {
   // These values are for the Websocket process initialized below
@@ -25,7 +22,7 @@ pub fn main() {
 
   let not_found =
     response.new(404)
-    |> response.set_body(mist.Bytes(bytes_builder.new()))
+    |> response.set_body(mist.Bytes(bytes_tree.new()))
 
   let assert Ok(_) =
     fn(req: Request(Connection)) -> Response(ResponseData) {
@@ -56,18 +53,24 @@ fn handle_ws_message(state, conn, message) {
     mist.Text("ping") -> {
       io.println("ping received")
       let assert Ok(_) = mist.send_text_frame(conn, "pong")
-      io.debug("state is " <> state|> string.inspect)
+      io.debug("state is " <> state |> string.inspect)
       actor.continue(state)
     }
-    mist.Text("Create as " <> _color) -> {
+    mist.Text("Create as " <> color) -> {
       io.debug("Create received")
-      let assert Ok(pid) = gleam_binbo.play()
-      io.debug("New pid:" <> pid |> string.inspect)
-      gleam_binbo.print_board(pid)
 
+      //New game_id
       let game_id = uuid.v4_string()
+      let color = case color {
+        "White" -> game.White
+        "Black" -> game.Black
+        _ -> game.White
+      }
+      let assert Ok(game_actor) =
+        actor.start(game.init(game_id, conn, color), game.handle_message)
+
       io.debug("New game_id:" <> game_id)
-      let new_state = dict.insert(state, game_id, pid)
+      let new_state = dict.insert(state, game_id, game_actor)
       let assert Ok(_) =
         mist.send_text_frame(conn, "Create Success: Game id " <> game_id)
       actor.continue(new_state)
@@ -78,18 +81,9 @@ fn handle_ws_message(state, conn, message) {
       let _ = case string.split(game_and_move, ":") {
         [game_id, move] -> {
           case dict.get(state, game_id) {
-            Ok(pid) -> {
-              case gleam_binbo.move(pid, move) {
-                Ok(_) -> {
-                  gleam_binbo.print_board(pid)
-                  let assert Ok(_) =
-                    mist.send_text_frame(conn, "Move Success: " <> move)
-                }
-                _ -> {
-                  let assert Ok(_) =
-                    mist.send_text_frame(conn, "Move Error: Not a legal move")
-                }
-              }
+            Ok(game_actor) -> {
+              actor.send(game_actor, game.Move(move, conn))
+              mist.send_text_frame(conn, "Move: " <> move)
             }
             _ -> {
               let assert Ok(_) =
@@ -102,7 +96,7 @@ fn handle_ws_message(state, conn, message) {
         }
         _ -> {
           let assert Ok(_) =
-            mist.send_text_frame(conn, "Game Error: Invalid move message")
+            mist.send_text_frame(conn, "Move Error: Not a valid move message")
         }
       }
       actor.continue(state)
